@@ -1,0 +1,26 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Surat;
+use App\Models\Mahasiswa;
+use App\Models\KaryaIlmiah;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use PHPUnit\Framework\Constraint\Count;
+
+class HomeController extends Controller
+{
+    public function index()
+    {
+        if(Gate::allows('admin')){
+            return view('home.dashboard.home',[
+                'count' => Mahasiswa::count(),
+                'surat' => Surat::where('status',1)->get(),
+                'karya' => KaryaIlmiah::count()
+            ]);
+        }else{
+            return view('home.mahasiswa.index');
+        }
+    }
+}
