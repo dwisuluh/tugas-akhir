@@ -22,6 +22,7 @@ return new class extends Migration
             $table->text('judul');
             $table->enum('id_surat',['1','2']);
             $table->string('file')->nullable();
+            $table->string('no_surat')->nullable();
             $table->date('tgl_surat')->nullable();
             $table->date('tgl_mulai')->nullable();
             $table->date('tgl_selesai')->nullable();

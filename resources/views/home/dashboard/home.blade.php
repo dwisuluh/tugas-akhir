@@ -42,8 +42,8 @@
                 </div>
                 <div class="ps-3">
                   <h6>{{ $surat->count() }}</h6>
-                  <span class="text-success small pt-1 fw-bold">00%</span> <span
-                    class="text-muted small pt-2 ps-1">increase</span>
+                  {{-- <span class="text-success small pt-1 fw-bold">00%</span> <span
+                    class="text-muted small pt-2 ps-1">increase</span> --}}
 
                 </div>
               </div>
@@ -78,9 +78,8 @@
                 </div>
                 <div class="ps-3">
                   <h6>{{ $karya }}</h6>
-                  <span class="text-success small pt-1 fw-bold">{{ $karya }}</span> <span
-                    class="text-muted small pt-2 ps-1">increase</span>
-
+                  {{-- <span class="text-success small pt-1 fw-bold">{{ $karya }}</span> <span
+                    class="text-muted small pt-2 ps-1">increase</span> --}}
                 </div>
               </div>
             </div>
@@ -115,9 +114,8 @@
                 </div>
                 <div class="ps-3">
                   <h6>{{ $count }}</h6>
-                  <span class="text-danger small pt-1 fw-bold">12%</span> <span
-                    class="text-muted small pt-2 ps-1">decrease</span>
-
+                  {{-- <span class="text-danger small pt-1 fw-bold">12%</span>
+                  <span class="text-muted small pt-2 ps-1">decrease</span> --}}
                 </div>
               </div>
 
@@ -146,13 +144,13 @@
             <div class="card-body">
               <h5 class="card-title">Studi Pendahuluan <span>| Surat Ijin</span></h5>
 
-              <table class="table table-borderless datatable">
+              <table class="table datatable table-striped">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Customer</th>
-                    <th scope="col">Product</th>
-                    <th scope="col">Price</th>
+                    <th scope="col">NIM</th>
+                    <th scope="col">Nama</th>
+                    <th scope="col">Waktu Pengajuan</th>
                     <th scope="col">Status</th>
                   </tr>
                 </thead>
@@ -161,9 +159,19 @@
                     <tr>
                       <th scope="row">{{ $loop->iteration }}</th>
                       <td>{{ $list->nim }}</td>
-                      <td><a href="#" class="text-primary">At praesentium minu</a></td>
-                      <td>$64</td>
-                      <td><span class="badge bg-success">Approved</span></td>
+                      <td>{!! $list->mahasiswa->name !!}</td>
+                      <td>{{ $list->created_at->diffForHumans() }}</td>
+                      <td>
+                        @if ($list->id_surat == 1)
+                          <span class="badge rounded-pill bg-primary">Open</span>
+                        @elseif ($list->id_surat == 2)
+                          <span class="badge rounded-pill bg-warning">On Progress</span>
+                        @elseif ($list->id_surat == 3)
+                          <span class="badge rounded-pill bg-success">Done/span>
+                          @elseif ($list->id_surat == 4)
+                            <span class="badge rounded-pill bg-danger">Rejected</span>
+                        @endif
+                      </td>
                     </tr>
                   @endforeach
                 </tbody>
@@ -194,24 +202,34 @@
             <div class="card-body">
               <h5 class="card-title">Penelitian <span>| Surat Ijin</span></h5>
 
-              <table class="table table-borderless datatable">
+              <table class="table table-striped datatable">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Customer</th>
-                    <th scope="col">Product</th>
-                    <th scope="col">Price</th>
+                    <th scope="col">NIM</th>
+                    <th scope="col">Tujuan</th>
+                    <th scope="col">Pengajuan</th>
                     <th scope="col">Status</th>
                   </tr>
                 </thead>
                 <tbody>
                   @foreach ($surat->where('id_surat', 2) as $list)
                     <tr>
-                      <th scope="row">{{ $loop->iteration }}</th>
+                      <td scope="row">{{ $loop->iteration }}</td>
                       <td>{{ $list->nim }}</td>
-                      <td><a href="#" class="text-primary">At praesentium minu</a></td>
-                      <td>$64</td>
-                      <td><span class="badge bg-success">Approved</span></td>
+                      <td>{!! $list->tujuan !!}</td>
+                      <td>{{ $list->created_at->diffForHumans() }}</td>
+                      <td>
+                        @if ($list->id_surat == 1)
+                          <span class="badge rounded-pill bg-primary">Open</span>
+                        @elseif ($list->id_surat == 2)
+                          <span class="badge rounded-pill bg-warning">On Progress</span>
+                        @elseif ($list->id_surat == 3)
+                          <span class="badge rounded-pill bg-success">Done/span>
+                          @elseif ($list->id_surat == 4)
+                            <span class="badge rounded-pill bg-danger">Rejected</span>
+                        @endif
+                      </td>
                     </tr>
                   @endforeach
                 </tbody>

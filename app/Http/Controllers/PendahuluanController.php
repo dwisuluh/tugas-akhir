@@ -19,7 +19,7 @@ class PendahuluanController extends Controller
         if(Gate::allows('admin')){
             $this->authorize('admin');
             return view('surat.pendahuluan.admin',[
-                'data' => Surat::where('status',1)->get()
+                'data' => Surat::where('id_surat',1)->latest()->get()
             ]);
         }
         $mhsId = Auth::user()->mahasiswa->id;
@@ -88,7 +88,9 @@ class PendahuluanController extends Controller
      */
     public function edit($id)
     {
-        //
+        $this->authorize('admin');
+        $data = Surat::findOrFail($id);
+        return view('surat.pendahuluan.edit',compact('data'));
     }
 
     /**
@@ -98,9 +100,60 @@ class PendahuluanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,$id)
     {
-        //
+        $surat = Surat::findOrFail($id)->first();
+        $rules = [
+            'noSurat' => 'required',
+            'tglSurat' => 'required|date'
+        ];
+        if($request->tujuan != $surat->tujuan)
+        {
+            $rules['tujuan'] = ['required'];
+        }
+        if($request->alamat != $surat->alamat)
+        {
+            $rules['alamat'] = ['required'];
+        }
+        if($request->judul != $surat->judul)
+        {
+            $rules['judul'] = ['required'];
+        }
+        if($surat->status == 2)
+        {
+            $rules['file'] = ['required'];
+        }
+        $request->validate($rules);
+
+        // dd($surat);
+        if($request->status == 3 )
+        {
+            $surat->update([
+                'tujuan'    => $request->tujuan,
+                'alamat'    => $request->alamat,
+                'judul'     => $request->judul,
+                'no_surat'  => $request->noSurat,
+                'tgl_surat' => $request->tglSurat,
+                'status'    => $request->status,
+                'admin'     => Auth::user()->name,
+                'file'      => $request->file
+
+            ]);
+        }
+        if($request->status == 2){
+            $surat->update([
+                'tujuan'    => $request->tujuan,
+                'alamat'    => $request->alamat,
+                'judul'     => $request->judul,
+                'no_surat'  => $request->noSurat,
+                'tgl_surat' => $request->tglSurat,
+                'status'    => $request->status,
+                'admin'     => Auth::user()->name
+
+            ]);
+        }
+        return redirect('pendahuluan')->with('success','Surat berhasil diproses');
+        // dd($request);
     }
 
     /**

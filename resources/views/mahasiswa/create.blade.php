@@ -26,7 +26,7 @@
               <div class="row mb-3">
                 <label for="nim" class="col-sm-2 col-form-label">NIM</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control @error('nim') is-invalid @enderror" name="nim"
+                  <input type="number" class="form-control @error('nim') is-invalid @enderror" name="nim"
                     value="{{ old('nim') }}" required>
                   @error('nim')
                     <span class="invalid-feedback" role="alert">

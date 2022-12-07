@@ -33,7 +33,7 @@
               </div>
             </div>
             <!-- Bordered Table -->
-            <table class="table datatable">
+            <table class="table datatable table-striped">
               <thead>
                 <tr>
                   <th scope="col">#</th>
@@ -48,7 +48,7 @@
               <tbody>
                 @foreach ($surats as $mail)
                   <tr>
-                    <th scope="row">{{ $loop->iteration }}</th>
+                    <td scope="row">{{ $loop->iteration }}</td>
                     <td>{{ $mail->nim }}</td>
                     <td>{!! $mail->tujuan !!}</td>
                     <td>{{ $mail->tgl_surat }}</td>

@@ -39,48 +39,34 @@
                 <thead>
                   <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Customer</th>
-                    <th scope="col">Product</th>
-                    <th scope="col">Price</th>
+                    <th scope="col">Tujuan</th>
+                    <th scope="col">Tanggal Surat</th>
+                    <th scope="col">Tanggal Pengajuan</th>
                     <th scope="col">Status</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th scope="row"><a href="#">#2457</a></th>
-                    <td>Brandon Jacob</td>
-                    <td><a href="#" class="text-primary">At praesentium minu</a></td>
-                    <td>$64</td>
-                    <td><span class="badge bg-success">Approved</span></td>
-                  </tr>
-                  <tr>
-                    <th scope="row"><a href="#">#2147</a></th>
-                    <td>Bridie Kessler</td>
-                    <td><a href="#" class="text-primary">Blanditiis dolor omnis similique</a></td>
-                    <td>$47</td>
-                    <td><span class="badge bg-warning">Pending</span></td>
-                  </tr>
-                  <tr>
-                    <th scope="row"><a href="#">#2049</a></th>
-                    <td>Ashleigh Langosh</td>
-                    <td><a href="#" class="text-primary">At recusandae consectetur</a></td>
-                    <td>$147</td>
-                    <td><span class="badge bg-success">Approved</span></td>
-                  </tr>
-                  <tr>
-                    <th scope="row"><a href="#">#2644</a></th>
-                    <td>Angus Grady</td>
-                    <td><a href="#" class="text-primar">Ut voluptatem id earum et</a></td>
-                    <td>$67</td>
-                    <td><span class="badge bg-danger">Rejected</span></td>
-                  </tr>
-                  <tr>
-                    <th scope="row"><a href="#">#2644</a></th>
-                    <td>Raheem Lehner</td>
-                    <td><a href="#" class="text-primary">Sunt similique distinctio</a></td>
-                    <td>$165</td>
-                    <td><span class="badge bg-success">Approved</span></td>
-                  </tr>
+                  @foreach ($surat->where('id_surat', 1) as $list)
+                    <tr>
+                      <th scope="row">{{ $loop->iteration }}</th>
+                      <td>{!! $list->tujuan !!}</td>
+                      <td><a href="#" class="text-primary"></a>{{ $list->tgl_surat }}</td>
+                      <td>{{ $list->created_at->diffForHumans() }}</td>
+                      <td>
+                        @if ($list->id_surat == 1)
+                          <span class="badge rounded-pill bg-primary">Open</span>
+                        @elseif ($list->id_surat == 2)
+                          <span class="badge rounded-pill bg-warning">On Progress</span>
+                        @elseif ($list->id_surat == 3)
+                          <span class="badge rounded-pill bg-success">Done/span>
+                          @elseif ($list->id_surat == 4)
+                            <span class="badge rounded-pill bg-danger">Rejected</span>
+                        @endif
+                        </span>
+                      </td>
+                    </tr>
+                  @endforeach
+
                 </tbody>
               </table>
 
@@ -113,48 +99,33 @@
                 <thead>
                   <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Customer</th>
-                    <th scope="col">Product</th>
-                    <th scope="col">Price</th>
+                    <th scope="col">Tujuan</th>
+                    <th scope="col">Tanggal Surat</th>
+                    <th scope="col">Tanggal Pengajuan</th>
                     <th scope="col">Status</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th scope="row"><a href="#">#2457</a></th>
-                    <td>Brandon Jacob</td>
-                    <td><a href="#" class="text-primary">At praesentium minu</a></td>
-                    <td>$64</td>
-                    <td><span class="badge bg-success">Approved</span></td>
-                  </tr>
-                  <tr>
-                    <th scope="row"><a href="#">#2147</a></th>
-                    <td>Bridie Kessler</td>
-                    <td><a href="#" class="text-primary">Blanditiis dolor omnis similique</a></td>
-                    <td>$47</td>
-                    <td><span class="badge bg-warning">Pending</span></td>
-                  </tr>
-                  <tr>
-                    <th scope="row"><a href="#">#2049</a></th>
-                    <td>Ashleigh Langosh</td>
-                    <td><a href="#" class="text-primary">At recusandae consectetur</a></td>
-                    <td>$147</td>
-                    <td><span class="badge bg-success">Approved</span></td>
-                  </tr>
-                  <tr>
-                    <th scope="row"><a href="#">#2644</a></th>
-                    <td>Angus Grady</td>
-                    <td><a href="#" class="text-primar">Ut voluptatem id earum et</a></td>
-                    <td>$67</td>
-                    <td><span class="badge bg-danger">Rejected</span></td>
-                  </tr>
-                  <tr>
-                    <th scope="row"><a href="#">#2644</a></th>
-                    <td>Raheem Lehner</td>
-                    <td><a href="#" class="text-primary">Sunt similique distinctio</a></td>
-                    <td>$165</td>
-                    <td><span class="badge bg-success">Approved</span></td>
-                  </tr>
+                  @foreach ($surat->where('id_surat', 2) as $list)
+                    <tr>
+                      <td scope="row">{{ $loop->iteration }}</td>
+                      <td>{!! $list->tujuan !!}</td>
+                      <td><a href="#" class="text-primary"></a>{{ $list->tgl_surat }}</td>
+                      <td>{{ $list->created_at->diffForHumans() }}</td>
+                      <td>
+                        @if ($list->id_surat == 1)
+                          <span class="badge rounded-pill bg-primary">Open</span>
+                        @elseif ($list->id_surat == 2)
+                          <span class="badge rounded-pill bg-warning">On Progress</span>
+                        @elseif ($list->id_surat == 3)
+                          <span class="badge rounded-pill bg-success">Done/span>
+                          @elseif ($list->id_surat == 4)
+                            <span class="badge rounded-pill bg-danger">Rejected</span>
+                        @endif
+                      </td>
+                    </tr>
+                  @endforeach
+
                 </tbody>
               </table>
 
