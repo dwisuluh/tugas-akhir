@@ -35,7 +35,7 @@
             <div class="card-body">
               <h5 class="card-title">Studi Pendahuluan <span>| Surat Ijin</span></h5>
 
-              <table class="table table-borderless datatable">
+              <table class="table table-striped datatable">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
@@ -53,13 +53,13 @@
                       <td><a href="#" class="text-primary"></a>{{ $list->tgl_surat }}</td>
                       <td>{{ $list->created_at->diffForHumans() }}</td>
                       <td>
-                        @if ($list->id_surat == 1)
+                        @if ($list->status == 1)
                           <span class="badge rounded-pill bg-primary">Open</span>
-                        @elseif ($list->id_surat == 2)
+                        @elseif ($list->status == 2)
                           <span class="badge rounded-pill bg-warning">On Progress</span>
-                        @elseif ($list->id_surat == 3)
-                          <span class="badge rounded-pill bg-success">Done/span>
-                          @elseif ($list->id_surat == 4)
+                        @elseif ($list->status == 3)
+                          <span class="badge rounded-pill bg-success">Done</span>
+                          @elseif ($list->status == 4)
                             <span class="badge rounded-pill bg-danger">Rejected</span>
                         @endif
                         </span>
@@ -95,7 +95,7 @@
             <div class="card-body">
               <h5 class="card-title">Penelitian <span>| Surat Ijin</span></h5>
 
-              <table class="table table-borderless datatable">
+              <table class="table table-striped datatable">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
@@ -113,13 +113,13 @@
                       <td><a href="#" class="text-primary"></a>{{ $list->tgl_surat }}</td>
                       <td>{{ $list->created_at->diffForHumans() }}</td>
                       <td>
-                        @if ($list->id_surat == 1)
+                        @if ($list->status == 1)
                           <span class="badge rounded-pill bg-primary">Open</span>
-                        @elseif ($list->id_surat == 2)
+                        @elseif ($list->status == 2)
                           <span class="badge rounded-pill bg-warning">On Progress</span>
-                        @elseif ($list->id_surat == 3)
+                        @elseif ($list->status == 3)
                           <span class="badge rounded-pill bg-success">Done/span>
-                          @elseif ($list->id_surat == 4)
+                          @elseif ($list->status == 4)
                             <span class="badge rounded-pill bg-danger">Rejected</span>
                         @endif
                       </td>

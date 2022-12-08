@@ -54,20 +54,20 @@
                     <td>{{ $mail->tgl_surat }}</td>
                     <td>{{ $mail->created_at->diffForHumans() }}</td>
                     <td>
-                      @if ($mail->id_surat == 1)
+                      @if ($mail->status == 1)
                         <span class="badge rounded-pill bg-primary">Open</span>
-                      @elseif ($mail->id_surat == 2)
+                      @elseif ($mail->status == 2)
                         <span class="badge rounded-pill bg-warning">On Progress</span>
-                      @elseif ($mail->id_surat == 3)
+                      @elseif ($mail->status == 3)
                         <span class="badge rounded-pill bg-success">Done/span>
-                        @elseif ($mai->id_surat == 4)
+                        @elseif ($mai->status == 4)
                           <span class="badge rounded-pill bg-danger">Rejected</span>
                       @endif
                     </td>
                     <td>
                       <a href="{{ route('pendahuluan.show', $mail->id) }}" type="button" class="btn btn-info btn-sm"
                         data-toggle="tooltip" data-placement="top" title="Detail"><i class="bi bi-eye"></i></a>
-                      @if ($mail->id_surat == 1)
+                      @if ($mail->status == 3)
                         <a href="pendahuluan/print/{{ $mail->id }}" target="_blank" type="button"
                           class="btn btn-success btn-sm"><i class="bi bi-printer"></i></a>
                       @endif

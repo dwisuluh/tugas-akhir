@@ -55,7 +55,7 @@
                       @elseif ($mail->status == 2)
                         <span class="badge rounded-pill bg-warning">On Progress</span>
                       @elseif ($mail->status == 3)
-                        <span class="badge rounded-pill bg-success">Done/span>
+                        <span class="badge rounded-pill bg-success">Done</span>
                         @elseif ($mai->status == 4)
                           <span class="badge rounded-pill bg-danger">Rejected</span>
                       @endif
@@ -63,8 +63,8 @@
                     <td>
                       <a href="{{ route('pendahuluan.show', $mail->id) }}" type="button" class="btn btn-info btn-sm"
                         data-toggle="tooltip" data-placement="top" title="Detail"><i class="bi bi-info-circle"></i></a>
-                      <a href="{{ route('pendahuluan.edit', $mail->id) }}" type="button" class="btn btn-primary btn-sm"
-                        data-toggle="tooltip" data-placement="top" title="Proses"><i class="bi bi-pencil-square"></i></a>
+                      <a href="{{ route('pendahuluan.edit', $mail->id) }}" type="button" class="btn btn-primary btn-sm {{ ($mail->status == 4)?'disabled':'' }}"
+                        data-toggle="tooltip" data-placement="top" title="Proses" disabled><i class="bi bi-pencil-square"></i></a>
                       @if ($mail->id_surat == 3)
                         <a href="pendahuluan/print/{{ $mail->id }}" target="_blank" type="button"
                           class="btn btn-success btn-sm"><i class="bi bi-printer"></i></a>

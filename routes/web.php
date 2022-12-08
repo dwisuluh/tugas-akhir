@@ -1,11 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
-use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\PendahuluanController;
 
 /*
@@ -37,3 +38,4 @@ Route::resource('pendahuluan', PendahuluanController::class)->middleware('auth')
 Route::get('/pendahuluan/print/{id}',[PendahuluanController::class,'print']);
 Route::resource('user',UserController::class)->middleware('auth');
 Route::resource('mahasiswa', MahasiswaController::class)->middleware('auth');
+Route::resource('files',FileController::class)->middleware('auth');

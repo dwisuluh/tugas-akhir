@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Files;
 use App\Models\Surat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\File;
 
 class PendahuluanController extends Controller
 {
@@ -16,14 +18,14 @@ class PendahuluanController extends Controller
      */
     public function index()
     {
-        if(Gate::allows('admin')){
+        if (Gate::allows('admin')) {
             $this->authorize('admin');
-            return view('surat.pendahuluan.admin',[
-                'data' => Surat::where('id_surat',1)->latest()->get()
+            return view('surat.pendahuluan.admin', [
+                'data' => Surat::where('id_surat', 1)->latest()->get()
             ]);
         }
         $mhsId = Auth::user()->mahasiswa->id;
-        $surats = Surat::where('mahasiswa_id',$mhsId)->get();
+        $surats = Surat::where('mahasiswa_id', $mhsId)->get();
         return view('surat.pendahuluan.index', compact('surats'));
     }
 
@@ -34,9 +36,9 @@ class PendahuluanController extends Controller
      */
     public function create()
     {
-        if(Gate::allows('mhs')){
+        if (Gate::allows('mhs')) {
             return view('surat.pendahuluan.create');
-        }else{
+        } else {
             abort(403);
         }
     }
@@ -65,8 +67,7 @@ class PendahuluanController extends Controller
             'surat_id' => 1
         ]);
 
-        return redirect('pendahuluan')->with('success','Pengajuan surat studi pendahuluan berhasil diajukan...!!');
-
+        return redirect('pendahuluan')->with('success', 'Pengajuan surat studi pendahuluan berhasil diajukan...!!');
     }
 
     /**
@@ -77,7 +78,8 @@ class PendahuluanController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = Surat::findOrFail($id)->first();
+        return view('surat.pendahuluan.show', compact('data'));
     }
 
     /**
@@ -90,7 +92,7 @@ class PendahuluanController extends Controller
     {
         $this->authorize('admin');
         $data = Surat::findOrFail($id);
-        return view('surat.pendahuluan.edit',compact('data'));
+        return view('surat.pendahuluan.edit', compact('data'));
     }
 
     /**
@@ -100,47 +102,75 @@ class PendahuluanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
         $surat = Surat::findOrFail($id)->first();
-        $rules = [
-            'noSurat' => 'required',
-            'tglSurat' => 'required|date'
-        ];
-        if($request->tujuan != $surat->tujuan)
-        {
+        $rules = [];
+        if ($request->status == 2) {
+            $rules = [
+                'noSurat' => 'required',
+                'tglSurat' => 'required|date'
+            ];
+        }
+        if ($request->tujuan != $surat->tujuan && $request->status == 2) {
             $rules['tujuan'] = ['required'];
         }
-        if($request->alamat != $surat->alamat)
-        {
+        if ($request->alamat != $surat->alamat && $request->status == 2) {
             $rules['alamat'] = ['required'];
         }
-        if($request->judul != $surat->judul)
-        {
+        if ($request->judul != $surat->judul && $request->status == 2) {
             $rules['judul'] = ['required'];
         }
-        if($surat->status == 2)
-        {
-            $rules['file'] = ['required'];
+        if ($request->status == 3) {
+            $rules['file'] = ['required', 'mimes:pdf'];
         }
         $request->validate($rules);
-
+        // dd($id);
         // dd($surat);
-        if($request->status == 3 )
-        {
-            $surat->update([
-                'tujuan'    => $request->tujuan,
-                'alamat'    => $request->alamat,
-                'judul'     => $request->judul,
-                'no_surat'  => $request->noSurat,
-                'tgl_surat' => $request->tglSurat,
-                'status'    => $request->status,
-                'admin'     => Auth::user()->name,
-                'file'      => $request->file
+        if ($request->status == 3) {
+            // $surat->update([
+            //     'tujuan'    => $request->tujuan,
+            //     'alamat'    => $request->alamat,
+            //     'judul'     => $request->judul,
+            //     'no_surat'  => $request->noSurat,
+            //     'tgl_surat' => $request->tglSurat,
+            //     'status'    => $request->status,
+            //     'admin'     => Auth::user()->name,
+            //     'file'      => $request->file
 
+            // ]);
+            // return Route::('files.store',$request);
+            // dd($id);
+            if ($request->hasFile('file')) {
+                $uploadPath = public_path('pendahuluan');
+                if (!File::isDirectory($uploadPath)) {
+                    File::makeDirectory($uploadPath, 0755, true, true);
+                }
+
+                $file = $request->file('file');
+                $explode = explode('.', $file->getClientOriginalName());
+                $originalName = $explode[0];
+                $extension = $file->getClientOriginalExtension();
+                $rename = 'stupen_' . date('YmdHis') . '.' . $extension;
+                $mime = $file->getClientMimeType();
+                $filesize = $file->getSize();
+
+                if ($file->move($uploadPath, $rename)) {
+                    Files::create([
+                        'surat_id'  => $id,
+                        'name' => $originalName,
+                        'file' => $rename,
+                        'extension' => $extension,
+                        'size' => $filesize,
+                        'mime' => $mime,
+                    ]);
+                }
+            }
+            $surat->update([
+                'status'    => $request->status,
             ]);
         }
-        if($request->status == 2){
+        if ($request->status == 2) {
             $surat->update([
                 'tujuan'    => $request->tujuan,
                 'alamat'    => $request->alamat,
@@ -152,7 +182,7 @@ class PendahuluanController extends Controller
 
             ]);
         }
-        return redirect('pendahuluan')->with('success','Surat berhasil diproses');
+        return redirect('pendahuluan')->with('success', 'Surat berhasil diproses');
         // dd($request);
     }
 
@@ -169,7 +199,7 @@ class PendahuluanController extends Controller
 
     public function print($id)
     {
-        return view('surat.pendahuluan.print',[
+        return view('surat.pendahuluan.print', [
             'data' => Surat::findOrFail($id)
         ]);
     }

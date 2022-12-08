@@ -167,7 +167,7 @@
                         @elseif ($list->id_surat == 2)
                           <span class="badge rounded-pill bg-warning">On Progress</span>
                         @elseif ($list->id_surat == 3)
-                          <span class="badge rounded-pill bg-success">Done/span>
+                          <span class="badge rounded-pill bg-success">Done</span>
                           @elseif ($list->id_surat == 4)
                             <span class="badge rounded-pill bg-danger">Rejected</span>
                         @endif
