@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\EmailNotification;
 
 class PendahuluanController extends Controller
 {
@@ -78,7 +80,8 @@ class PendahuluanController extends Controller
      */
     public function show($id)
     {
-        $data = Surat::findOrFail($id)->first();
+        $data = Surat::findOrFail($id);
+        // dd($data);
         return view('surat.pendahuluan.show', compact('data'));
     }
 
@@ -104,8 +107,9 @@ class PendahuluanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $surat = Surat::findOrFail($id)->first();
+        $surat = Surat::findOrFail($id);
         $rules = [];
+        // dd($surat->mahasiswa['email']);
         if ($request->status == 2) {
             $rules = [
                 'noSurat' => 'required',
@@ -169,6 +173,17 @@ class PendahuluanController extends Controller
             $surat->update([
                 'status'    => $request->status,
             ]);
+            $send = [
+                'subject'   => 'Surat Permohonan Ijin Studi Pendahuluan',
+                'greeting'  => 'Hi, ' . $surat->mahasiswa['name'],
+                'body'      => 'Surat Permohonan Ijin Studi Pendahuluan telah selesai. <br>' .
+                    'Silahkan Masuk ke aplikasi dan surat ijin dapat di download melalui tombol print ataupun detail <br>',
+                'actionText'    => 'Link Aplikasi',
+                'action'        => url('/'),
+                'thanks'        => 'Atas perhatian dan kerjasama yang baik diucapkan terima kasih'
+            ];
+            Notification::route('mail', $surat->mahasiswa['email'])->notify(new EmailNotification($send));
+
         }
         if ($request->status == 2) {
             $surat->update([

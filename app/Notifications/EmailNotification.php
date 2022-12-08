@@ -40,9 +40,10 @@ class EmailNotification extends Notification
      */
     public function toMail($notifiable)
     {
+        $email = 'akademik@poltekkes-bsi.ac.id';
         return (new MailMessage)
-            ->from('akademik@poltekkes-bsi.ac.id', 'Admin')
-            ->subject('Username dan Password')
+            ->from($email, 'Admin')
+            ->subject($this->data['subject'])
             ->greeting($this->data['greeting'])
             ->line($this->data['body'])
             ->action($this->data['actionText'], $this->data['action'])

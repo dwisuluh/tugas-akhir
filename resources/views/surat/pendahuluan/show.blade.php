@@ -46,7 +46,7 @@
             </div>
             <div class="row mb-2">
               <div class="col-lg-3 col-md-4 label">Alamat</div>
-              <div class="col-lg-9 col-md-8">{!! $data->judul !!}</div>
+              <div class="col-lg-9 col-md-8">{!! $data->alamat !!}</div>
             </div>
             <div class="row mb-2">
               <div class="col-lg-3 col-md-4 label">Judul</div>
@@ -61,49 +61,19 @@
                 </div>
               </div>
             @endif
-
-            {{-- <div class="row">
-              <div class="col-lg-3 col-md-4 label">Jenis Kelamin</div>
-              <div class="col-lg-9 col-md-8">{{ $mahasiswa->jenis_kelamin == 1 ? 'Laki-laki' : 'Perempuan' }}</div>
-            </div>
-            <div class="row">
-              <div class="col-lg-3 col-md-4 label">Program Studi</div>
-              <div class="col-lg-9 col-md-8">
-                @switch($mahasiswa->program_studi)
-                  @case(1)
-                    {{ 'Rekam Medis dan Informasi Kesehatan' }}
-                  @break
-
-                  @case(2)
-                    {{ 'Teknologi Bank Darah' }}
-                  @break
-
-                  @case(3)
-                    {{ 'Farmasi' }}
-                  @break
-
-                  @default
-                @endswitch
-
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-lg-3 col-md-4 label">Status</div>
-              <div class="col-lg-9 col-md-8">{!! $mahasiswa->status == true
-                  ? 'Aktif'
-                  : 'Belum Aktif <a class="btn btn-primary btn-sm"><i class="bi bi-check-circle"></i></a>' !!}</div>
-            </div>
-
-            <div class="row">
-              <div class="col-lg-3 col-md-4 label">Email</div>
-              <div class="col-lg-9 col-md-8">{{ $mahasiswa->email }}</div>
-            </div> --}}
             <div class="row mt-3">
-              <div class="ms-auto text-end">
-                <a href="{{ url()->previous() }}" type="button" class="btn btn-danger text-end"><i
+              <div class=" ms-auto text-start col-6">
+                <a href="{{ url()->previous() }}" type="button" class="btn btn-danger"><i
                     class="bi bi-arrow-left-circle"></i> Back</a>
               </div>
+              @if ($data->status == 2)
+                @can('admin')
+                  <div class="col-6 text-end">
+                    <a href="pendahuluan/print/{{ $data->id }}" type="button" class="btn btn-success"><i
+                        class="bi bi-printer"></i> Print</a>
+                  </div>
+                @endcan
+              @endif
             </div>
           </div>
         </div>

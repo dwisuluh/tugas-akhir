@@ -36,6 +36,7 @@ class RegisterController extends Controller
         }
         $request->validate($rules);
         $send = [
+            'subject' => 'Akun dan Password',
             'greeting'  => 'Hi, Selamat Datang, ' . $mahasiswa['name'],
             'body'      => 'Terima kasih telah melakukan resgitrasi akun. <br>' .
                 'untuk melakukan login silahkan menggunakan username dan password sebagai berikut: <br>' .
@@ -75,6 +76,7 @@ class RegisterController extends Controller
 
         $userid = User::where('username', $request['nim'])->first();
         $send = [
+            'subject' => 'Reset Password',
             'greeting'  => 'Hi, ' . $userid['name'],
             'body'      => 'Anda telah melakukan reset password. <br>' .
                 'untuk melakukan login silahkan menggunakan username dan password sebagai berikut: <br>' .
