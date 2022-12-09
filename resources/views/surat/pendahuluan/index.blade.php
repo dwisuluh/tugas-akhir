@@ -19,6 +19,12 @@
             {{ session('success') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>
+          @elseif (session()->has('failed'))
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamtion-octagon-fill me-1"></i>
+            {{ session('failed') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
         @endif
         <div class="card">
           <div class="card-body">
@@ -60,7 +66,7 @@
                         <span class="badge rounded-pill bg-warning">On Progress</span>
                       @elseif ($mail->status == 3)
                         <span class="badge rounded-pill bg-success">Done</span>
-                        @elseif ($mai->status == 4)
+                        @elseif ($mail->status == 4)
                           <span class="badge rounded-pill bg-danger">Rejected</span>
                       @endif
                     </td>
@@ -69,7 +75,7 @@
                         data-toggle="tooltip" data-placement="top" title="Detail"><i class="bi bi-eye"></i></a>
                       @if ($mail->status == 3)
                         <a href="pendahuluan/print/{{ $mail->id }}" target="_blank" type="button"
-                          class="btn btn-success btn-sm"><i class="bi bi-printer"></i></a>
+                          class="btn btn-success btn-sm"><i class="bi bi-cloud-download"></i></a>
                       @endif
                       {{-- <a type="button" class="btn btn-primary btn-sm"
                         href="{{ route('mahasiswa.edit', Crypt::encryptString($mahasiswa->id)) }}" data-toggle="tooltip"

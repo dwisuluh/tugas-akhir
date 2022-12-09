@@ -52,6 +52,10 @@
               <div class="col-lg-3 col-md-4 label">Judul</div>
               <div class="col-lg-9 col-md-8">{!! $data->judul !!}</div>
             </div>
+            <div class="row mb-2">
+              <div class="col-lg-3 col-md-4 label">Tanggal Surat</div>
+              <div class="col-lg-9 col-md-8">{{ $data->tgl_indo }}</div>
+            </div>
             @if ($data->status == 3)
               <div class="row mb-2">
                 <div class="col-lg-3 col-md-4 label">File</div>
@@ -62,14 +66,14 @@
               </div>
             @endif
             <div class="row mt-3">
-              <div class=" ms-auto text-start col-6">
+              <div class="text-start col-6">
                 <a href="{{ url()->previous() }}" type="button" class="btn btn-danger"><i
                     class="bi bi-arrow-left-circle"></i> Back</a>
               </div>
-              @if ($data->status == 2)
+              @if ($data->status == 2 )
                 @can('admin')
                   <div class="col-6 text-end">
-                    <a href="pendahuluan/print/{{ $data->id }}" type="button" class="btn btn-success"><i
+                    <a href="{{ route('files.show',$data->id) }}" target="_blank" type="button" class="btn btn-success"><i
                         class="bi bi-printer"></i> Print</a>
                   </div>
                 @endcan

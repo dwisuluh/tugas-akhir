@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use PDF;
+use App\Models\Files;
+use App\Models\Surat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-use App\Models\Files;
 
 class FileController extends Controller
 {
@@ -15,7 +17,7 @@ class FileController extends Controller
      */
     public function index()
     {
-        //
+        return view('surat.pendahuluan.cetak');
     }
 
     /**
@@ -47,7 +49,13 @@ class FileController extends Controller
      */
     public function show($id)
     {
-        //
+        $surat = Surat::findOrFail($id);
+        $pdf = PDF::loadview('surat.pendahuluan.cetak', compact('surat'))->setPaper('A4');
+        // $pdf = PDF::loadHTML('surat.pendahuluan.cetak')->setPaper('a4', 'potrait')->setWarnings(false)->save('myfile.pdf');
+        // $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadview('surat.pendahuluan.cetak');
+    	// return $pdf->download('surat_cetak.pdf');
+    	// return $pdf->render('surat_'.$surat->nim.'.pdf');
+    	return $pdf->stream('surat_'.$surat->nim.'.pdf');
     }
 
     /**

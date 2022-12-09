@@ -34,7 +34,7 @@
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">NIM</th>
-                  <th scope="col">Tujuan Surat</th>
+                  <th scope="col">Nama Mahasiswa</th>
                   <th scope="col">Tanggal Surat</th>
                   <th scope="col">Tanggal Pengajuan</th>
                   <th scope="col">Status</th>
@@ -56,7 +56,7 @@
                         <span class="badge rounded-pill bg-warning">On Progress</span>
                       @elseif ($mail->status == 3)
                         <span class="badge rounded-pill bg-success">Done</span>
-                        @elseif ($mai->status == 4)
+                        @elseif ($mail->status == 4)
                           <span class="badge rounded-pill bg-danger">Rejected</span>
                       @endif
                     </td>

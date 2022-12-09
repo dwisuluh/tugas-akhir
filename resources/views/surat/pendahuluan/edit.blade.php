@@ -134,7 +134,7 @@
                     <label for="tglSurat" class="col-sm-2 col-form-label">Tanggal Surat</label>
                     <div class="col-sm-10">
                       <input type="date" class="form-control @error('tglSurat') is-invalid @enderror"
-                        value="{{ old('tglSurat', $data->tgl_surat) }}" name="tglSurat" required>
+                        value="{{ old('tglSurat', $data->tgl_surat) }}" name="tglSurat" required pattern="(?:19|20)\[0-9\]{2}-(?:(?:0\[1-9\]|1\[0-2\])-(?:0\[1-9\]|1\[0-9\]|2\[0-9\])|(?:(?!02)(?:0\[1-9\]|1\[0-2\])-(?:30))|(?:(?:0\[13578\]|1\[02\])-31))" >
                     </div>
                   </div>
                 @endif

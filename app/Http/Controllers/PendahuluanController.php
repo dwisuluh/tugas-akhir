@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\EmailNotification;
+use Carbon\Carbon;
 
 class PendahuluanController extends Controller
 {
@@ -81,6 +82,8 @@ class PendahuluanController extends Controller
     public function show($id)
     {
         $data = Surat::findOrFail($id);
+        $tgl = Carbon::parse($data->tgl_surat)->format('j F Y');
+        $data['tgl_indo'] = $tgl;
         // dd($data);
         return view('surat.pendahuluan.show', compact('data'));
     }
@@ -183,7 +186,6 @@ class PendahuluanController extends Controller
                 'thanks'        => 'Atas perhatian dan kerjasama yang baik diucapkan terima kasih'
             ];
             Notification::route('mail', $surat->mahasiswa['email'])->notify(new EmailNotification($send));
-
         }
         if ($request->status == 2) {
             $surat->update([
@@ -196,6 +198,24 @@ class PendahuluanController extends Controller
                 'admin'     => Auth::user()->name
 
             ]);
+        }
+        if ($request->status == 4) {
+            $surat->update([
+                'tgl_surat' => $request->tanggal,
+                'status' => $request->status,
+                'admin'  => Auth::user()->name
+            ]);
+            $send = [
+                'subject'   => 'Surat Permohonan Ijin Studi Pendahuluan',
+                'greeting'  => 'Hi, ' . $surat->mahasiswa['name'],
+                'body'      => 'Surat Permohonan Ijin Studi Pendahuluan anda <strong>Ditolak</strong>. <br>' .
+                    'Silahkan Masuk ke aplikasi untuk mengajukan kembali surat ijin Studi Pendahuluan. <br>',
+                'actionText'    => 'Link Aplikasi',
+                'action'        => url('/'),
+                'thanks'        => 'Atas perhatian dan kerjasama yang baik diucapkan terima kasih'
+            ];
+            Notification::route('mail', $surat->mahasiswa['email'])->notify(new EmailNotification($send));
+            return redirect('pendahuluan')->with('failed','Surat Pengajuan dibatalkan');
         }
         return redirect('pendahuluan')->with('success', 'Surat berhasil diproses');
         // dd($request);
