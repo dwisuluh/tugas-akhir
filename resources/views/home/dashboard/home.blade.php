@@ -1,4 +1,13 @@
 @extends('layouts.app')
+@section('head')
+{{-- <meta http-equiv="refresh" content="10" > --}}
+{{-- <script>
+    function autoRefresh() {
+        window.location = window.location.href;
+    }
+    setInterval('autoRefresh()', 5000);
+</script> --}}
+@endsection
 @section('content')
   <div class="pagetitle">
     <h1>Dashboard</h1>
@@ -208,7 +217,7 @@
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">NIM</th>
-                    <th scope="col">Tujuan</th>
+                    <th scope="col">Nama Mahasiswa</th>
                     <th scope="col">Pengajuan</th>
                     <th scope="col">Status</th>
                   </tr>
@@ -218,18 +227,19 @@
                     <tr>
                       <td scope="row">{{ $loop->iteration }}</td>
                       <td>{{ $list->nim }}</td>
-                      <td>{!! $list->tujuan !!}</td>
+                      <td>{!! $list->mahasiswa->name !!}</td>
                       <td>{{ $list->created_at->diffForHumans() }}</td>
-                      <td>
-                        @if ($list->id_surat == 1)
+                      <td><a href="{{ route('surat.edit',$list->id) }}">
+                        @if ($list->status == 1)
                           <span class="badge rounded-pill bg-primary">Open</span>
-                        @elseif ($list->id_surat == 2)
+                        @elseif ($list->status == 2)
                           <span class="badge rounded-pill bg-warning">On Progress</span>
-                        @elseif ($list->id_surat == 3)
-                          <span class="badge rounded-pill bg-success">Done/span>
-                          @elseif ($list->id_surat == 4)
+                        @elseif ($list->status == 3)
+                          <span class="badge rounded-pill bg-success">Done</span>
+                          @elseif ($list->status == 4)
                             <span class="badge rounded-pill bg-danger">Rejected</span>
                         @endif
+                          </a>
                       </td>
                     </tr>
                   @endforeach

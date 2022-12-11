@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  {{-- <meta http-equiv="refresh" content="10" >Í --}}
 
   <!-- CSRF Token -->
   <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -38,12 +39,12 @@
   <script src="{{ asset('/') }}plugins/js/trix.umd.min.js"></script>
 
   <style>
-    trix-toolbar [data-trix-button-group="file-tools"]
-    {
-        display: none
+    trix-toolbar [data-trix-button-group="file-tools"] {
+      display: none
     }
   </style>
 
+  @yield('head')
 
 </head>
 
@@ -85,8 +86,8 @@
   <!-- Template Main JS File -->
   <script src="{{ asset('/') }}plugins/js/main.js"></script>
   <script>
-    document.addEventListener('trix-file-accept', function(e){
-        e.preventDefault();
+    document.addEventListener('trix-file-accept', function(e) {
+      e.preventDefault();
     })
   </script>
 </body>

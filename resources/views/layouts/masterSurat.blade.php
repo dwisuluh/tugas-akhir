@@ -21,14 +21,17 @@
     p.indent {
       text-indent: 50px;
     }
-    .space-text-1{
-        line-height: 1;
+
+    .space-text-1 {
+      line-height: 1;
     }
-    .space-text-15{
-        line-height: 1.5;
+
+    .space-text-15 {
+      line-height: 1.5;
     }
-    .space-text-2{
-        line-height: 2;
+
+    .space-text-2 {
+      line-height: 2;
     }
 
     #halaman {
@@ -62,8 +65,9 @@
     footer {
       margin-top: auto;
     }
-    .text-ttd{
-        margin-left: 12cm;
+
+    .text-ttd {
+      margin-left: 12cm;
     }
 
     .footer {
@@ -75,6 +79,11 @@
       color: white;
       text-align: center; */
     }
+
+    table td,
+    table tf * {
+      vertical-align: top;
+    }
   </style>
 </head>
 
@@ -84,21 +93,21 @@
       <img src="{{ public_path('/plugins/img/kop-surat.png') }}" width="100%" alt="">
     </div>
     <div id="page">
-        @yield('content')
-        <div class="row">
-            <div class="row mt-2">
-              <div class="text-ttd">
-                <p>Yogyakarta, @yield('tanggal')
-                  <br>
-                  Direktur,
-                </p>
-                <br>
-                <br>
-                <br>
-                <p>Dra. Yuli Puspito Rini, M.Si.</p>
-              </div>
-            </div>
+      @yield('content')
+      <div class="row">
+        <div class="row mt-2">
+          <div class="text-ttd">
+            <p>Yogyakarta, @yield('tanggal')
+              <br>
+              Direktur,
+            </p>
+            <br>
+            <br>
+            <br>
+            <p>Dra. Yuli Puspito Rini, M.Si.</p>
           </div>
+        </div>
+      </div>
     </div>
     <footer>
       <div class="row footer">
@@ -106,7 +115,7 @@
           D3 Farmasi (Akreditasi B)<br>
           D3 Rekam Medis dan Informasi Kesehatan (Akreditasi B)<br>
           D3 Teknologi Transfusi Darah (Akreditasi B)
-          </p>
+        </p>
       </div>
 
     </footer>

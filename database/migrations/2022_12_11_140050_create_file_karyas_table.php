@@ -13,15 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('mahasiswas', function (Blueprint $table) {
+        Schema::create('file_karyas', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('user_id')->nullable();
-            $table->string('nim')->unique();
+            $table->foreignUuid('karya_ilmiah_id');
             $table->string('name');
-            $table->enum('jenis_kelamin',['1','2'])->nullable();
-            $table->enum('program_studi',['1','2','3'])->nullable();
-            $table->string('email')->unique()->nullable();
-            $table->boolean('status')->default(false);
+            $table->string('file');
+            $table->string('extension');
+            $table->integer('size');
+            $table->string('mime');
+            $table->enum('jenis_file',['1','2']);
             $table->timestamps();
         });
     }
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mahasiswas');
+        Schema::dropIfExists('file_karyas');
     }
 };

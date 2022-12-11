@@ -2,14 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use PDF;
-use App\Models\Files;
-use App\Models\Surat;
+use App\Models\FileKarya;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\File;
 
-class FileController extends Controller
+class FileKaryaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +14,7 @@ class FileController extends Controller
      */
     public function index()
     {
-        return view('surat.pendahuluan.cetak');
+        //
     }
 
     /**
@@ -39,30 +35,27 @@ class FileController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\FileKarya  $fileKarya
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(FileKarya $fileKarya)
     {
-        $surat = Surat::findOrFail($id);
-        $surat['tgl_ind'] = Carbon::parse($surat->tgl_surat)->translatedFormat('j F Y');
-        $pdf = PDF::loadview('surat.pendahuluan.cetak', compact('surat'))->setPaper('A4');
-    	return $pdf->stream('surat_'.$surat->nim.'.pdf');
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\FileKarya  $fileKarya
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(FileKarya $fileKarya)
     {
         //
     }
@@ -71,10 +64,10 @@ class FileController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\FileKarya  $fileKarya
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, FileKarya $fileKarya)
     {
         //
     }
@@ -82,10 +75,10 @@ class FileController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\FileKarya  $fileKarya
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(FileKarya $fileKarya)
     {
         //
     }

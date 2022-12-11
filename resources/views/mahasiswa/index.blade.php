@@ -25,8 +25,15 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Data Mahasiswa</h5>
-            <p class="text-end"><a href="{{ route('mahasiswa.create') }}" class="btn btn-primary btn-sm text-end">
-                <i class="bi bi-person-plus"></i> Tambah Data </a></p>
+            <p>
+              <span class="text-start">
+                <a href="{{ route('mahasiswa-import') }}" class="btn btn-sm btn-success"><i class="bi bi-cloud-arrow-up"></i>Import</a>
+              </span>
+              <span class="text-end sm-auto">
+                <a href="{{ route('mahasiswa.create') }}" class="btn btn-primary btn-sm sm-auto text-end">
+                  <i class="bi bi-person-plus"></i> Tambah Data </a>
+            </p>
+            </span>
             <!-- Bordered Table -->
             <table class="table datatable">
               <thead>
@@ -48,8 +55,8 @@
                       {{ $mahasiswa->program_studi == 1 ? 'Rekam Medis dan Informasi Kesehatan' : ($mahasiswa->program_studi == 2 ? 'Teknologi Bank Darah' : 'Farmasi') }}
                     </td>
                     <td>
-                      <a href="{{ route('mahasiswa.show',$mahasiswa->id) }}" type="button" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top"
-                          title="Detail"><i class="bi bi-eye"></i></a>
+                      <a href="{{ route('mahasiswa.show', $mahasiswa->id) }}" type="button" class="btn btn-info btn-sm"
+                        data-toggle="tooltip" data-placement="top" title="Detail"><i class="bi bi-eye"></i></a>
                       <a type="button" class="btn btn-primary btn-sm"
                         href="{{ route('mahasiswa.edit', Crypt::encryptString($mahasiswa->id)) }}" data-toggle="tooltip"
                         data-placement="top" title="Edit"><i class="bi bi-pencil"></i></a>

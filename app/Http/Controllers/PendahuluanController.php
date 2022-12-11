@@ -19,6 +19,7 @@ class PendahuluanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
         if (Gate::allows('admin')) {
@@ -28,7 +29,9 @@ class PendahuluanController extends Controller
             ]);
         }
         $mhsId = Auth::user()->mahasiswa->id;
-        $surats = Surat::where('mahasiswa_id', $mhsId)->get();
+        $surats = Surat::where([
+            ['mahasiswa_id','=', $mhsId],
+            ['id_surat','=',1]])->latest()->get();
         return view('surat.pendahuluan.index', compact('surats'));
     }
 
@@ -67,7 +70,7 @@ class PendahuluanController extends Controller
             'tujuan' => $request->tujuan,
             'alamat' => $request->alamat,
             'judul' => $request->judul,
-            'surat_id' => 1
+            'id_surat' => 1
         ]);
 
         return redirect('pendahuluan')->with('success', 'Pengajuan surat studi pendahuluan berhasil diajukan...!!');
@@ -81,8 +84,10 @@ class PendahuluanController extends Controller
      */
     public function show($id)
     {
+        // $data = $surat->load('Mahasiswa');
+        // dd($surat->nim);
         $data = Surat::findOrFail($id);
-        $tgl = Carbon::parse($data->tgl_surat)->format('j F Y');
+        $tgl = Carbon::parse($data->tgl_surat)->translatedFormat('j F Y');
         $data['tgl_indo'] = $tgl;
         // dd($data);
         return view('surat.pendahuluan.show', compact('data'));

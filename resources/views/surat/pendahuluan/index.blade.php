@@ -58,7 +58,7 @@
                     <td>{{ $mail->nim }}</td>
                     <td>{!! $mail->tujuan !!}</td>
                     <td>{{ $mail->tgl_surat }}</td>
-                    <td>{{ $mail->created_at->diffForHumans() }}</td>
+                    <td>{{ $mail->created_at }}</td>
                     <td>
                       @if ($mail->status == 1)
                         <span class="badge rounded-pill bg-primary">Open</span>

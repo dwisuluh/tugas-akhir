@@ -10,97 +10,93 @@
       </ol>
     </nav>
   </div><!-- End Page Title -->
-  @switch(Auth::user()->mahasiswa->program_studi)
-    @case(1)
-        @php
-            $prodi = 'Rekam Medis dan Teknologi Kesehatan';
-        @endphp
-        @break
-    @case(2)
-        @php
-            $prodi = 'Teknologi Bank Darah';
-        @endphp
 
-        @break
-    @case(3)
-        @php
-            $prodi = 'Farmasi';
-        @endphp
-
-    @default
-
-@endswitch
-
-  <section class="section">
+  <div class="container">
     <div class="row justify-content-center">
-      <div class="col-lg-10">
-
+      <div class="col-12">
+        @if (session()->has('success'))
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle me-1"></i>
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        @elseif (session()->has('failed'))
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamtion-octagon-fill me-1"></i>
+            {{ session('failed') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        @endif
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">Pengajuan Ijin Penelitian</h5>
-
-            <!-- General Form Elements -->
-            <form>
-              <div class="row mb-3">
-                <label for="inputText" class="col-sm-2 col-form-label">NIM</label>
-                <div class="col-sm-10">
-                  <input type="text" class="form-control" value="{{ Auth::user()->mahasiswa->nim }}" disabled>
-                </div>
+            <div class="row">
+              <div class="col-6">
+                <h5 class="card-title">Data Surat Ijin Penelitian</h5>
               </div>
-              <div class="row mb-3">
-                <label for="inputText" class="col-sm-2 col-form-label">Nama</label>
-                <div class="col-sm-10">
-                  <input type="text" class="form-control" value="{{ Auth::user()->name }}" disabled>
-                </div>
+              <div class="col-6 sm-auto mt-3">
+                <p class="text-end"><a href="{{ route('penelitian.create') }}"
+                    class="btn btn-primary btn-sm text-end d-inline">
+                    <i class="bi bi-file-plus"></i> Ajukan Surat </a></p>
               </div>
-              <div class="row mb-3">
-                <label for="inputText" class="col-sm-2 col-form-label">Program Studi</label>
-                <div class="col-sm-10">
-                  <input type="text" class="form-control" value="{{ $prodi }}" disabled>
-                </div>
-              </div>
-              <div class="row mb-3">
-                <label for="inputPassword" class="col-sm-2 col-form-label">Instansi Tujuan</label>
-                <div class="col-sm-10">
-                  <textarea class="form-control" style="height: 100px"></textarea>
-                </div>
-              </div>
-              <div class="row mb-3">
-                <label for="inputPassword" class="col-sm-2 col-form-label">Judul Karya Tulis Ilmiah</label>
-                <div class="col-sm-10">
-                  <textarea class="form-control" style="height: 100px"></textarea>
-                </div>
-              </div>
-              <div class="row mb-3">
-                <label for="inputPassword" class="col-sm-2 col-form-label">Alamat Instansi</label>
-                <div class="col-sm-10">
-                  <textarea class="form-control" style="height: 100px"></textarea>
-                </div>
-              </div>
-              <div class="row mb-3">
-                <label for="inputDate" class="col-sm-2 col-form-label">Tanggal Pelaksanaan</label>
-                <div class="col-sm-4">
-                  <input type="date" class="form-control">
-                </div>
-                <label for="inputDate" class="col-sm-1 col-form-label"> Sampai </label>
-                <div class="col-sm-4">
-                    <input type="date" class="form-control">
-                  </div>
-              </div>
-              <div class="row mb-3">
-                {{-- <label class="col-sm-2 col-form-label"></label> --}}
-                <div class="col-md-6 text-start">
-                  <button type="submit" class="btn btn-danger text-start"> Cancel </button>
-                </div>
-                <div class="col-md-6 text-end">
-                  <button type="submit" class="btn btn-primary"> Submit </button>
-                </div>
-              </div>
-            </form><!-- End General Form Elements -->
-
+            </div>
+            <!-- Bordered Table -->
+            <table class="table datatable table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">NIM</th>
+                  <th scope="col">Tujuan Surat</th>
+                  <th scope="col">Tanggal Surat</th>
+                  <th scope="col">Tanggal Pengajuan</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                @foreach ($surats as $mail)
+                  <tr>
+                    <td scope="row">{{ $loop->iteration }}</td>
+                    <td>{{ $mail->nim }}</td>
+                    <td>{!! $mail->tujuan !!}</td>
+                    <td>{{ $mail->tgl_surat }}</td>
+                    <td>{{ $mail->created_at }}</td>
+                    <td>
+                      @if ($mail->status == 1)
+                        <span class="badge rounded-pill bg-primary">Open</span>
+                      @elseif ($mail->status == 2)
+                        <span class="badge rounded-pill bg-warning">On Progress</span>
+                      @elseif ($mail->status == 3)
+                        <span class="badge rounded-pill bg-success">Done</span>
+                      @elseif ($mail->status == 4)
+                        <span class="badge rounded-pill bg-danger">Rejected</span>
+                      @endif
+                    </td>
+                    <td>
+                      <a href="{{ route('penelitian.show', $mail->id) }}" type="button" class="btn btn-info btn-sm"
+                        data-toggle="tooltip" data-placement="top" title="Detail"><i class="bi bi-eye"></i></a>
+                      @if ($mail->status == 3)
+                        <a href="pendahuluan/print/{{ $mail->id }}" target="_blank" type="button"
+                          class="btn btn-success btn-sm"><i class="bi bi-cloud-download"></i></a>
+                      @endif
+                      {{-- <a type="button" class="btn btn-primary btn-sm"
+                          href="{{ route('mahasiswa.edit', Crypt::encryptString($mahasiswa->id)) }}" data-toggle="tooltip"
+                          data-placement="top" title="Edit"><i class="bi bi-pencil"></i></a> --}}
+                      {{-- <form method="POST" action="{{ route('mahasiswa.destroy', Crypt::encryptString($mahasiswa->id)) }}"
+                          class="d-inline">
+                          @method('DELETE')
+                          @csrf
+                          <button type="button" class="btn btn-danger btn-sm"><i class="bi bi-trash" data-toggle="tooltip"
+                              data-placement="top" title="Delete"></i></button>
+                        </form> --}}
+                    </td>
+                  </tr>
+                @endforeach
+              </tbody>
+            </table>
+            <!-- End Bordered Table -->
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
 @endsection

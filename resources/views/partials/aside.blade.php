@@ -23,7 +23,7 @@
             </a>
           </li>
           <li>
-            <a href="/penelitian" class="{{ Request::is('penelitian*') ? 'active' : '' }}">
+            <a href="{{ route('surat.index',['id' => 2]) }}" class="{{ Request::is('penelitian*') ? 'active' : '' }}">
               <i class="bi bi-circle"></i><span>Penelitian</span>
             </a>
           </li>

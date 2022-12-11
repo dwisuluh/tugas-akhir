@@ -85,5 +85,5 @@
   </div>
 @endsection
 @section('tanggal')
-{{ $surat->tgl_surat }}
+{{ $surat->tgl_ind }}
 @endsection

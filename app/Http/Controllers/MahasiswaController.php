@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
+use App\Imports\MahasiswasImport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Encryption\DecryptException;
 
@@ -127,5 +129,21 @@ class MahasiswaController extends Controller
     public function destroy(Mahasiswa $mahasiswa)
     {
         //
+    }
+
+    public function import()
+    {
+        return view('mahasiswa.upload');
+    }
+    public function importData(Request $data)
+    {
+        $data->validate([
+            'file' => 'required|mimes:xlsx,xls',
+        ]);
+        $path = $data->file('file');
+
+        Excel::import(new MahasiswasImport, $path);
+
+        return redirect('mahasiswa')->with('success','Import Data Mahasiswa Berhasil');
     }
 }

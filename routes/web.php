@@ -8,6 +8,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\PendahuluanController;
+use App\Http\Controllers\SuratController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,17 +26,23 @@ Route::get('/', function () {
 });
 
 // Route::get('/home', [HomeController::class, 'index'])->name('home');
-Route::get('/login',[LoginController::class, 'index'])->name('login')->middleware('guest');
-Route::post('login',[LoginController::class, 'authenticate']);
-Route::post('/logout',[LoginController::class, 'logout']);
-Route::get('reset',[LoginController::class, 'reset']);
-Route::get('register',[RegisterController::class,'index'])->middleware('guest');
-Route::post('register',[RegisterController::class,'store']);
-Route::post('register-reset',[RegisterController::class,'reset']);
+Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
+Route::post('login', [LoginController::class, 'authenticate']);
+Route::post('/logout', [LoginController::class, 'logout']);
+Route::get('reset', [LoginController::class, 'reset']);
+Route::get('register', [RegisterController::class, 'index'])->middleware('guest');
+Route::post('register', [RegisterController::class, 'store']);
+Route::post('register-reset', [RegisterController::class, 'reset']);
 
-Route::get('dashboard',[HomeController::class,'index'])->middleware('auth');
+Route::get('dashboard', [HomeController::class, 'index'])->middleware('auth');
 Route::resource('pendahuluan', PendahuluanController::class)->middleware('auth');
-Route::get('/pendahuluan/print/{id}',[PendahuluanController::class,'print']);
-Route::resource('user',UserController::class)->middleware('auth');
+Route::resource('surat', SuratController::class)->middleware('auth');
+Route::get('/pendahuluan/print/{id}', [PendahuluanController::class, 'print']);
+Route::resource('user', UserController::class)->middleware('auth');
 Route::resource('mahasiswa', MahasiswaController::class)->middleware('auth');
-Route::resource('files',FileController::class)->middleware('auth');
+Route::get('import',[MahasiswaController::class,'import'])->name('mahasiswa-import');
+Route::resource('files', FileController::class)->middleware('auth');
+Route::fallback(function () {
+    return view('layouts.404');
+});
+Route::post('import-mahasiswa',[MahasiswaController::class,'importData'])->name('import-data');

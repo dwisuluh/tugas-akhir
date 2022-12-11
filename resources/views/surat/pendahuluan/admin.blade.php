@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div class="pagetitle">
-    <h1>Surat Ijin</h1>
+    <h1>Surat Ijin Studi Pendahuluan</h1>
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
@@ -36,7 +36,7 @@
                   <th scope="col">NIM</th>
                   <th scope="col">Nama Mahasiswa</th>
                   <th scope="col">Tanggal Surat</th>
-                  <th scope="col">Tanggal Pengajuan</th>
+                  <th scope="col">Waktu Pengajuan</th>
                   <th scope="col">Status</th>
                   <th scope="col">Aksi</th>
                 </tr>

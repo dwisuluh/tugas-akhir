@@ -26,4 +26,16 @@ class HomeController extends Controller
             return view('home.mahasiswa.index',compact('surat'));
         }
     }
+    public function observasi()
+    {
+
+    }
+    public function penelitian()
+    {
+
+    }
+    public function karyaIlmiah()
+    {
+
+    }
 }
