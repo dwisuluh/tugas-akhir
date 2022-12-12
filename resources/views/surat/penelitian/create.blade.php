@@ -41,7 +41,7 @@
               <h5 class="card-title">Pengajuan Ijin Penelitian</h5>
 
               <!-- General Form Elements -->
-              <form class="needs-validation" novalidate action="{{ route('penelitian.store') }}" method="POST">
+              <form class="needs-validation" novalidate action="{{ route('surat.store') }}" method="POST">
                 @csrf
                 <div class="row mb-3">
                   <label for="inputText" class="col-sm-2 col-form-label">NIM</label>
@@ -106,35 +106,41 @@
                     @enderror
                   </div>
                 </div>
-                <div class="row mb-3">
-                  <label for="lokasi" class="col-sm-2 col-form-label">Lokasi Penelitian</label>
-                  <div class="col-sm-10">
-                    <input id="lokasi" type="hidden" name="lokasi" value="{{ old('lokasi') }}">
-                    <trix-editor input="lokasi"
-                      class="@error('lokasi')
+                @if (Request::is('surat-penelitian'))
+                  <div class="row mb-3">
+                    <label for="lokasi" class="col-sm-2 col-form-label">Lokasi Penelitian</label>
+                    <div class="col-sm-10">
+                      <input id="lokasi" type="hidden" name="lokasi" value="{{ old('lokasi') }}">
+                      <trix-editor input="lokasi"
+                        class="@error('lokasi')
                       is-invalid
                   @enderror"></trix-editor>
-                    @error('lokasi')
-                      <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                      </span>
-                    @enderror
+                      @error('lokasi')
+                        <span class="invalid-feedback" role="alert">
+                          <strong>{{ $message }}</strong>
+                        </span>
+                      @enderror
+                    </div>
                   </div>
-                </div>
-                <div class="row mb-3">
-                  <label for="inputDate" class="col-sm-2 col-form-label">Tanggal Pelaksanaan</label>
-                  <div class="col-sm-4">
-                    <input type="date" class="form-control" @error('tgl_awal')
+                  <div class="row mb-3">
+                    <label for="inputDate" class="col-sm-2 col-form-label">Tanggal Pelaksanaan</label>
+                    <div class="col-sm-4">
+                      <input type="date" class="form-control"
+                        @error('tgl_awal')
                         is-invalid
-                    @enderror name="tgl_awal" required>
-                  </div>
-                  <label for="inputDate" class="col-sm-1 col-form-label"> Sampai </label>
-                  <div class="col-sm-4">
-                    <input type="date" class="form-control @error('tgl_akhir')
+                    @enderror name="tgl_awal"
+                        required>
+                    </div>
+                    <label for="inputDate" class="col-sm-1 col-form-label"> Sampai </label>
+                    <div class="col-sm-4">
+                      <input type="date"
+                        class="form-control @error('tgl_akhir')
                         is-invalid
-                    @enderror" name="tgl_akhir" required>
+                    @enderror"
+                        name="tgl_akhir" required>
+                    </div>
                   </div>
-                </div>
+                @endif
                 <div class="row mb-3">
                   <div class="col-md-6 text-start">
                     <a href="{{ url()->previous() }}" type="submit" class="btn btn-danger text-start"> Cancel </a>

@@ -34,7 +34,7 @@
                 <h5 class="card-title">Data Surat Ijin Penelitian</h5>
               </div>
               <div class="col-6 sm-auto mt-3">
-                <p class="text-end"><a href="{{ route('penelitian.create') }}"
+                <p class="text-end"><a href="{{ route('surat.create') }}"
                     class="btn btn-primary btn-sm text-end d-inline">
                     <i class="bi bi-file-plus"></i> Ajukan Surat </a></p>
               </div>
@@ -72,7 +72,7 @@
                       @endif
                     </td>
                     <td>
-                      <a href="{{ route('penelitian.show', $mail->id) }}" type="button" class="btn btn-info btn-sm"
+                      <a href="{{ route('surat.show', $mail->id) }}" type="button" class="btn btn-info btn-sm"
                         data-toggle="tooltip" data-placement="top" title="Detail"><i class="bi bi-eye"></i></a>
                       @if ($mail->status == 3)
                         <a href="pendahuluan/print/{{ $mail->id }}" target="_blank" type="button"

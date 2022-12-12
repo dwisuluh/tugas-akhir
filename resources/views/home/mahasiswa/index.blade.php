@@ -12,8 +12,6 @@
 
   <section class="section dashboard">
     <div class="row">
-
-
       <div class="row">
         <!-- Tabel Pengajuan Surat Ijin Studi Pendahuluan -->
         <div class="col-12">

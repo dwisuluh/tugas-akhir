@@ -28,7 +28,6 @@ class RegisterController extends Controller
         $mahasiswa = Mahasiswa::where('nim', $request['nim'])->first();
         $rules =[
             'nim'   => ['required', 'string', 'unique:users,username', 'exists:mahasiswas,nim'],
-            // 'email' => ['required', 'string', 'email:dns', 'max:255', 'unique:users','unique:mahasiswas'],
         ];
         if($request->email != $mahasiswa->email)
         {
@@ -70,6 +69,7 @@ class RegisterController extends Controller
         $request->validate([
             'nim' => ['required', 'string', 'exists:users,username']
         ]);
+
         User::where('username', $request['nim'])->update([
             'password' => Hash::make($this->password)
         ]);

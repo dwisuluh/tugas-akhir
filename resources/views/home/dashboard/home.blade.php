@@ -20,12 +20,9 @@
   </div><!-- End Page Title -->
 
   <section class="section dashboard">
-    <div class="row">
-
-
       <div class="row">
-
-        <!-- Sales Card -->
+        @can('admin')
+        <!-- Card Studi Pendahuluan -->
         <div class="col-xxl-4 col-md-6">
           <div class="card info-card sales-card">
 
@@ -50,18 +47,17 @@
                   <i class="bi bi-newspaper"></i>
                 </div>
                 <div class="ps-3">
-                  <h6>{{ $surat->count() }}</h6>
+                  <h6>{{ $surats->count() }}</h6>
                   {{-- <span class="text-success small pt-1 fw-bold">00%</span> <span
                     class="text-muted small pt-2 ps-1">increase</span> --}}
-
                 </div>
               </div>
             </div>
 
           </div>
-        </div><!-- End Sales Card -->
+        </div><!-- End Studi Pendahuluan -->
 
-        <!-- Revenue Card -->
+        <!-- Card Karya Ilmiah -->
         <div class="col-xxl-4 col-md-6">
           <div class="card info-card revenue-card">
 
@@ -80,23 +76,21 @@
 
             <div class="card-body">
               <h5 class="card-title">Surat Keterangan <span>| Today</span></h5>
-
               <div class="d-flex align-items-center">
                 <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                   <i class="bi bi-newspaper"></i>
                 </div>
                 <div class="ps-3">
-                  <h6>{{ $karya }}</h6>
+                  <h6>{{ $karyas->count() }}</h6>
                   {{-- <span class="text-success small pt-1 fw-bold">{{ $karya }}</span> <span
                     class="text-muted small pt-2 ps-1">increase</span> --}}
                 </div>
               </div>
             </div>
-
           </div>
-        </div><!-- End Revenue Card -->
+        </div><!-- End Karya Ilmiah -->
 
-        <!-- Customers Card -->
+        <!-- Carad Jumlah Mahasiswa -->
         <div class="col-xxl-4 col-xl-12">
 
           <div class="card info-card customers-card">
@@ -122,7 +116,7 @@
                   <i class="bi bi-people"></i>
                 </div>
                 <div class="ps-3">
-                  <h6>{{ $count }}</h6>
+                  <h6>{{ $countMhs }}</h6>
                   {{-- <span class="text-danger small pt-1 fw-bold">12%</span>
                   <span class="text-muted small pt-2 ps-1">decrease</span> --}}
                 </div>
@@ -131,7 +125,8 @@
             </div>
           </div>
 
-        </div><!-- End Customers Card -->
+        </div><!-- End Jumlah Mahasiswa -->
+        @endcan
 
         <!-- Tabel Pengajuan Surat Ijin Studi Pendahuluan -->
         <div class="col-12">
@@ -164,7 +159,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @foreach ($surat->where('id_surat', 1) as $list)
+                  @foreach ($surats->where('id_surat', 1) as $list)
                     <tr>
                       <th scope="row">{{ $loop->iteration }}</th>
                       <td>{{ $list->nim }}</td>
@@ -223,7 +218,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @foreach ($surat->where('id_surat', 2) as $list)
+                  @foreach ($surats->where('id_surat', 2) as $list)
                     <tr>
                       <td scope="row">{{ $loop->iteration }}</td>
                       <td>{{ $list->nim }}</td>
@@ -328,7 +323,5 @@
         <!-- End Pengajuan Surat Keterangan KTI -->
 
       </div>
-
-    </div>
   </section>
 @endsection

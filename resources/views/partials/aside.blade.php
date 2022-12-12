@@ -4,26 +4,26 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link {{ Request::is('dashboard') ? '' : 'collapsed' }}" href="{{ url('/') }}">
+        <a class="nav-link {{ Request::is('/') ? '' : 'collapsed' }}" href="{{ route('dashboard') }}">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
       </li><!-- End Dashboard Nav -->
 
       <li class="nav-item">
-        <a class="nav-link {{ Request::is('pendahuluan*') ? '' : (Request::is('penelitian*') ? '':'collapsed') }}" data-bs-target="#components-nav"
+        <a class="nav-link {{ Request::is('surat*') ? '':'collapsed' }}" data-bs-target="#components-nav"
           data-bs-toggle="collapse" href="#">
           <i class="bi bi-menu-button-wide"></i><span>Surat Ijin</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-        <ul id="components-nav" class="nav-content collapse {{ Request::is('pendahuluan*') ? 'show' : (Request::is('penelitian*') ? 'show' :'') }}"
+        <ul id="components-nav" class="nav-content collapse {{ Request::is('surat*') ? 'show' : '' }}"
           data-bs-parent="#sidebar-nav">
           <li>
-            <a href="/pendahuluan" class="{{ Request::is('pendahuluan*') ? 'active' : '' }}">
+            <a href="{{ route('pendahuluan') }}" class="{{ Request::is('surat-pendahuluan*') ? 'active' : '' }}">
               <i class="bi bi-circle"></i><span>Studi Pendahuluan</span>
             </a>
           </li>
           <li>
-            <a href="{{ route('surat.index',['id' => 2]) }}" class="{{ Request::is('penelitian*') ? 'active' : '' }}">
+            <a href="{{ route('penelitian') }}" class="{{ Request::is('surat-penelitian*') ? 'active' : '' }}">
               <i class="bi bi-circle"></i><span>Penelitian</span>
             </a>
           </li>

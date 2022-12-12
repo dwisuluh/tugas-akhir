@@ -48,19 +48,26 @@
                       <div class="form-floating mb-3">
                         <input type="text" name="nim"
                           class="form-control @error('nim') is-invalid
-                            @enderror"
+                                  @enderror"
                           id="floatingNIM" placeholder="masukan NIM anda" value="{{ old('nim') }}" required>
                         <label for="floatingNIM">NIM</label>
                         @error('nim')
                           <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
+                            <strong>Status akun belum aktif atau tidak terdaftar, silahkan aktikan melalui menu registrasi</strong>
                           </span>
                         @enderror
                       </div>
                     </div>
                   </div>
-                  <div class="col-12">
-                    <button class="btn btn-primary w-100" type="submit">Login</button>
+                  <div class="row mb-2">
+                    <div class="col-12">
+                      <button class="btn btn-primary w-100" type="submit">Reset</button>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12">
+                      <a href="{{ route('login') }}" class="btn btn-danger w-100" type="submit">Back</a>
+                    </div>
                   </div>
                 </form>
 

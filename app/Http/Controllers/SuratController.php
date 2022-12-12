@@ -20,17 +20,17 @@ class SuratController extends Controller
     // }
     public function index()
     {
-        if (Gate::allows('admin')) {
-            $this->authorize('admin');
-            return view('surat.penelitian.admin', [
-                'data' => Surat::where('id_surat')->latest()->get()
-            ]);
-        }
-        $surats = Surat::where([
-            ['mahasiswa_id', Auth::user()->mahasiswa->id],
-        ])->latest()->get();
-        dd($surats);
-        return view('surat.penelitian.index', compact('surats'));
+        // if (Gate::allows('admin')) {
+        //     $this->authorize('admin');
+        //     return view('surat.penelitian.admin', [
+        //         'data' => Surat::where('id_surat')->latest()->get()
+        //     ]);
+        // }
+        // $surats = Surat::where([
+        //     ['mahasiswa_id', Auth::user()->mahasiswa->id],
+        // ])->latest()->get();
+        // dd($surats);
+        // return view('surat.penelitian.index', compact('surats'));
     }
 
     /**

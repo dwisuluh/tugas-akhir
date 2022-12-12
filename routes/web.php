@@ -24,7 +24,11 @@ use App\Http\Controllers\SuratController;
 Route::get('/', function () {
     return redirect('dashboard');
 });
-
+Route::controller(HomeController::class)->group(function (){
+    Route::get('/','index')->name('dashboard');
+    Route::get('surat-observasi','observasi')->name('pendahuluan');
+    Route::get('surat-penelitian','penelitian')->name('penelitian');
+});
 // Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
 Route::post('login', [LoginController::class, 'authenticate']);
@@ -34,9 +38,14 @@ Route::get('register', [RegisterController::class, 'index'])->middleware('guest'
 Route::post('register', [RegisterController::class, 'store']);
 Route::post('register-reset', [RegisterController::class, 'reset']);
 
-Route::get('dashboard', [HomeController::class, 'index'])->middleware('auth');
-Route::resource('pendahuluan', PendahuluanController::class)->middleware('auth');
-Route::resource('surat', SuratController::class)->middleware('auth');
+// Route::name('dashboard')->group(function()
+// {
+//     Route::get('dashboard', [HomeController::class, 'index'])->name('home');
+
+// });
+
+Route::resource('surat', SuratController::class)->middleware('auth')->except('index');
+Route::resource('pendahuluan', PendahuluanController::class)->middleware('auth')->except(['index','create']);
 Route::get('/pendahuluan/print/{id}', [PendahuluanController::class, 'print']);
 Route::resource('user', UserController::class)->middleware('auth');
 Route::resource('mahasiswa', MahasiswaController::class)->middleware('auth');
