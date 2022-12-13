@@ -6,6 +6,7 @@ use App\Models\Surat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Crypt;
 
 class SuratController extends Controller
 {
@@ -14,12 +15,37 @@ class SuratController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
-    public function index()
+    public function __construct()
     {
+        $this->middleware('auth');
+        // $this->surat = Surat::all();
+        $this->surat = Surat::with('mahasiswa')->latest()->get();
+    }
+    public function index(Request $id_surat)
+    {
+        $id = $id_surat->id;
+        $surats = $this->surat->where('id_surat',$id);
+        // dd($surats);
+        // $surats = Surat::with('mahasiswa')->where('status',$id)->get();
+        // $surats = $this->surat->where('status', $id);
+        if (Gate::allows('mhs')) {
+            $mhs_id = Auth::User()->mahasiswa->id;
+            // $surats = $surats->load(['mahasiswa' => function($query){
+            //     $query->where('mahasiswa_id','mhs_id');
+            // }]);
+            // $surats = Surat::where(['mahasiswa_id' => $mhs_id,
+            // 'id_surat' => $id])->latest()->get();
+            $surats = $surats->where('mahasiswa_id',$mhs_id);
+        }
+        // if(Gate::allows('admin')){
+        //     $surats = Surat::where('id_surat',$id)->latest()->get();
+        // }
+        // dd($surats);
+        $title = ($id == 1) ? 'Studi Pendahuluan' : 'Penelitian';
+        return view('surat.index', compact([
+            'surats', 'title','id'
+        ]));
+        // dd($id_surat);
         // if (Gate::allows('admin')) {
         //     $this->authorize('admin');
         //     return view('surat.penelitian.admin', [
@@ -38,10 +64,11 @@ class SuratController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $id_surat)
     {
+        $type = $id_surat->id;
         if (Gate::allows('mhs')) {
-            return view('surat.penelitian.create');
+            return view('surat.create', compact('type'));
         } else {
             abort(403);
         }
@@ -56,28 +83,35 @@ class SuratController extends Controller
     public function store(Request $request)
     {
         $this->authorize('mhs');
-        $request->validate([
+        $mahasiswa = Auth::user()->mahasiswa;
+        $rules = [
             'tujuan'    => 'required',
             'alamat'    => 'required',
             'judul'     => 'required',
-            'lokasi'    => 'required',
-            'tgl_awal'  => 'required',
-            'tgl_akhir' => 'required'
-        ]);
-        $mahasiswa = Auth::user()->mahasiswa;
-        Surat::create([
+        ];
+        $input = [
             'mahasiswa_id' => $mahasiswa->id,
             'nim'       => $mahasiswa->nim,
             'tujuan'    => $request->tujuan,
             'alamat'    => $request->alamat,
             'judul'     => $request->judul,
-            'lokasi'    => $request->lokasi,
-            'tgl_mulai'  => $request->tgl_awal,
-            'tgl_selesai' => $request->tgl_akhir,
-            'id_surat'  => 2
-        ]);
+            'id_surat'  => $request->id_surat
+        ];
+        if ($request->id_surat == 2) {
+            $rules['lokasi'] = 'required';
+            $rules['tgl_awal'] = 'required';
+            $rules['tgl_akhir'] = 'required';
+
+            $input['lokasi'] = $request->lokasi;
+            $input['tgl_mulai'] = $request->tgl_awal;
+            $input['tgl_selesai'] = $request->tgl_akhir;
+        }
+        $request->validate($rules);
+        // dd($rules);
+        Surat::create($input);
         // dd($input);
-        return redirect('penelitian')->with('success', 'Pengajuan surat studi pendahuluan berhasil diajukan...!!');
+        $id = $request->id_surat;
+        return redirect('surat.index',['id' => $id])->with('success', 'Pengajuan surat studi pendahuluan berhasil diajukan...!!');
 
         // dd($request);
     }
@@ -104,9 +138,9 @@ class SuratController extends Controller
         // $surat = Surat::findOrFail($surat);
         // dd($surat->mahasiswa_id);
         // $surats = $surat;
-        // $surat->load('Mahasiswa');
+        $surat->load('mahasiswa');
         // dd($surat->mahasiswa->name);
-        return view('surat.penelitian.edit', compact('surat'));
+        return view('surat.edit', compact('surat'));
     }
 
     /**

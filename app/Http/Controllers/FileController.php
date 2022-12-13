@@ -51,9 +51,15 @@ class FileController extends Controller
     public function show($id)
     {
         $surat = Surat::findOrFail($id);
+        $pdf = NULL;
         $surat['tgl_ind'] = Carbon::parse($surat->tgl_surat)->translatedFormat('j F Y');
-        $pdf = PDF::loadview('surat.pendahuluan.cetak', compact('surat'))->setPaper('A4');
-    	return $pdf->stream('surat_'.$surat->nim.'.pdf');
+        if ($surat->id_surat == 1) {
+            $pdf = PDF::loadview('surat.pendahuluan.cetak', compact('surat'))->setPaper('A4');
+        }
+        if ($surat->id_surat == 2) {
+            $pdf = PDF::loadview('surat.penelitian.cetak', compact('surat'))->setPaper('A4');
+        }
+        return $pdf->stream('surat_' . $surat->nim . '.pdf');
     }
 
     /**

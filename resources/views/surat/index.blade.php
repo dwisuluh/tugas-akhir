@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<div class="pagetitle">
+  <div class="pagetitle">
     <h1>Surat Ijin</h1>
     <nav>
       <ol class="breadcrumb">
@@ -11,6 +11,7 @@
     </nav>
   </div><!-- End Page Title -->
   <!-- Show Data Surat -->
+  {{-- {{ $id_surat  = Request::is('surat-observasi') ? 1 : 2 }} --}}
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-12">
@@ -20,7 +21,7 @@
             {{ session('success') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>
-          @elseif (session()->has('failed'))
+        @elseif (session()->has('failed'))
           <div class="alert alert-danger alert-dismissible fade show" role="alert">
             <i class="bi bi-exclamtion-octagon-fill me-1"></i>
             {{ session('failed') }}
@@ -33,11 +34,13 @@
               <div class="col-6">
                 <h5 class="card-title">Data Pengajuan Surat {{ $title }}</h5>
               </div>
-              <div class="col-6 sm-auto mt-3">
-                <p class="text-end"><a href="{{ route('surat.create') }}"
-                    class="btn btn-primary btn-sm text-end d-inline">
-                    <i class="bi bi-file-plus"></i> Ajukan Surat </a></p>
-              </div>
+              @can('mhs')
+                <div class="col-6 sm-auto mt-3">
+                  <p class="text-end"><a href="{{ route($link . '.create') }}"
+                      class="btn btn-primary btn-sm text-end d-inline">
+                      <i class="bi bi-file-plus"></i> Ajukan Surat </a></p>
+                </div>
+              @endcan
             </div>
             <!-- Bordered Table -->
             <table class="table datatable table-striped">
@@ -67,15 +70,24 @@
                         <span class="badge rounded-pill bg-warning">On Progress</span>
                       @elseif ($mail->status == 3)
                         <span class="badge rounded-pill bg-success">Done</span>
-                        @elseif ($mail->status == 4)
-                          <span class="badge rounded-pill bg-danger">Rejected</span>
+                      @elseif ($mail->status == 4)
+                        <span class="badge rounded-pill bg-danger">Rejected</span>
                       @endif
                     </td>
                     <td>
-                      <a href="{{ route('pendahuluan.show', $mail->id) }}" type="button" class="btn btn-info btn-sm"
+                      <a href="{{ route($link . '.show', $mail->id) }}" type="button" class="btn btn-info btn-sm"
                         data-toggle="tooltip" data-placement="top" title="Detail"><i class="bi bi-eye"></i></a>
+                      @can('admin')
+                        <a href="{{ route($link . '.edit', $mail->id) }}" type="button"
+                          class="btn btn-warning btn-sm {{ $mail->status == 4 ? 'disabled' : '' }}" data-toggle="tooltip"
+                          data-placement="top" title="Proses" disabled><i class="bi bi-pencil-square"></i></a>
+                        @if ($mail->status == 2 || $mail->status == 3)
+                          <a href="{{ route('files.show', $mail->id) }}" target="_blank" type="button"
+                            class="btn btn-primary btn-sm"><i class="bi bi-printer"></i> </a>
+                        @endif
+                      @endcan
                       @if ($mail->status == 3)
-                        <a href="pendahuluan/print/{{ $mail->id }}" target="_blank" type="button"
+                        <a href="{{ route('print-observasi', $mail->id) }}" target="_blank" type="button"
                           class="btn btn-success btn-sm"><i class="bi bi-cloud-download"></i></a>
                       @endif
                       {{-- <a type="button" class="btn btn-primary btn-sm"

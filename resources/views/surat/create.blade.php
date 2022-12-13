@@ -6,7 +6,7 @@
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
         <li class="breadcrumb-item">Surat Ijin</li>
-        <li class="breadcrumb-item"><a href="{{ url()->previous() }}"> Penelitian </a></li>
+        <li class="breadcrumb-item"><a href="{{ url()->previous() }}"> {{ $title }} </a></li>
         <li class="breadcrumb-item active">Create</li>
       </ol>
     </nav>
@@ -38,11 +38,12 @@
 
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Pengajuan Ijin Penelitian</h5>
+              <h5 class="card-title">Pengajuan Ijin {{ $title }}</h5>
 
               <!-- General Form Elements -->
-              <form class="needs-validation" novalidate action="{{ route('surat.store') }}" method="POST">
+              <form class="needs-validation" novalidate action="{{ route($link . '.store') }}" method="POST">
                 @csrf
+                {{-- <input type="hidden" value="{{ $type }}" name="id_surat"> --}}
                 <div class="row mb-3">
                   <label for="inputText" class="col-sm-2 col-form-label">NIM</label>
                   <div class="col-sm-10">
@@ -106,9 +107,9 @@
                     @enderror
                   </div>
                 </div>
-                @if (Request::is('surat-penelitian'))
+                @if ($title === 'Penelitian')
                   <div class="row mb-3">
-                    <label for="lokasi" class="col-sm-2 col-form-label">Lokasi Penelitian</label>
+                    <label for="Lokasi" class="col-sm-2 col-form-label">Lokasi Penelitian</label>
                     <div class="col-sm-10">
                       <input id="lokasi" type="hidden" name="lokasi" value="{{ old('lokasi') }}">
                       <trix-editor input="lokasi"
@@ -129,7 +130,7 @@
                         @error('tgl_awal')
                         is-invalid
                     @enderror name="tgl_awal"
-                        required>
+                        value="{{ old('tgl_awal') }}" required>
                     </div>
                     <label for="inputDate" class="col-sm-1 col-form-label"> Sampai </label>
                     <div class="col-sm-4">
@@ -137,7 +138,7 @@
                         class="form-control @error('tgl_akhir')
                         is-invalid
                     @enderror"
-                        name="tgl_akhir" required>
+                        name="tgl_akhir" value="{{ old('tgl_akhir') }}" required>
                     </div>
                   </div>
                 @endif

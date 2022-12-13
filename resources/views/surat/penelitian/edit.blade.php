@@ -6,7 +6,7 @@
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
         <li class="breadcrumb-item">Surat Ijin</li>
-        <li class="breadcrumb-item">Penelitian</li>
+        <li class="breadcrumb-item">{{ $title }}</li>
         <li class="breadcrumb-item active">Proses</li>
       </ol>
     </nav>

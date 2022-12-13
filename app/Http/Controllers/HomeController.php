@@ -15,23 +15,26 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->surat = Surat::all();
-        $this->karya = KaryaIlmiah::all();
+        $this->surat = Surat::with('mahasiswa')->get();
+        $this->karya = KaryaIlmiah::with('mahasiswa')->get();
+        // $this->surat = Surat::all();
+        // $this->karya = KaryaIlmiah::all();
     }
     public function index()
     {
+        // $surats = Surat::with('user')
         $surats = $this->surat;
         $karyas = $this->karya;
         $countMhs = Mahasiswa::all()->count();
-
+        // dd($surats);
         if (Gate::allows('admin')) {
             $surats = $surats->where('status', 1);
             $karyas = $karyas->where('status', 1);
         }
         if (Gate::allows('mhs')) {
             $mhsId = Auth::User()->mahasiswa->id;
-            $surats = $surats->where('mahasiswa_id', $mhsId);
-            $karyas = $karyas->where('mahasiswa_id', $mhsId);
+            $surats = $surats->where('mahasiswa_id',$mhsId);
+            $karyas = $karyas->where('status',1);
         }
         return view('home.dashboard.home', compact([
             'countMhs', 'karyas', 'surats'

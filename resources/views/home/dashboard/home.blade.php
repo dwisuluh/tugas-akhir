@@ -165,7 +165,7 @@
                       <td>{{ $list->nim }}</td>
                       <td>{!! $list->mahasiswa->name !!}</td>
                       <td>{{ $list->created_at->diffForHumans() }}</td>
-                      <td><a href="{{ route('pendahuluan.edit',$list->id) }}" class="btn">
+                      <td><a href="{{ route('surat-observasi.edit',$list->id) }}" class="btn">
                         @if ($list->id_surat == 1)
                           <span class="badge rounded-pill bg-primary">Open</span>
                         @elseif ($list->id_surat == 2)
@@ -224,7 +224,7 @@
                       <td>{{ $list->nim }}</td>
                       <td>{!! $list->mahasiswa->name !!}</td>
                       <td>{{ $list->created_at->diffForHumans() }}</td>
-                      <td><a href="{{ route('surat.edit',$list->id) }}">
+                      <td><a href="{{ route('surat-penelitian.edit',$list->id) }}">
                         @if ($list->status == 1)
                           <span class="badge rounded-pill bg-primary">Open</span>
                         @elseif ($list->status == 2)
