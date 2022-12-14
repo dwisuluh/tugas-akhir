@@ -22,20 +22,21 @@ class PenelitianController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->surat = Surat::where('id_surat', 2)->with(['mahasiswa', 'files'])->latest()->get();
+        // $this->surat = Surat::where('id_surat', 2)->with(['mahasiswa', 'files'])->latest()->get();
     }
 
     public function index()
     {
-        $surats = $this->surat;
+        $surats = Surat::where('id_surat', 2)->with(['mahasiswa', 'files'])->latest()->get();
         if (Gate::allows('mhs')) {
             $mhsId = Auth::user()->mahasiswa->id;
             $surats = $surats->where('mahasiswa_id', $mhsId);
         }
         $title = 'Penelitian';
         $link = 'surat-penelitian';
+        $print = 'print-penelitian';
         return view('surat.index', compact([
-            'surats', 'title','link'
+            'surats', 'title','link','print'
         ]));
     }
 
@@ -95,11 +96,12 @@ class PenelitianController extends Controller
     {
         $tgl = Carbon::parse($surat->tgl_surat)->translatedFormat('j F Y');
         $surat['tgl_indo'] = $tgl;
+        // $surat['tahun'] = Carbon::;
         $title = 'Penelitian';
         $link = 'surat-penelitian';
         $fileSurat = 'penelitian';
         $surat->load(['mahasiswa','files']);
-        return view('surat.show',compact(['surat','title','link','fileSurat  ']));
+        return view('surat.show',compact(['surat','title','link','fileSurat']));
     }
 
     /**
@@ -182,7 +184,7 @@ class PenelitianController extends Controller
                 $explode = explode('.', $file->getClientOriginalName());
                 $originalName = $explode[0];
                 $extension = $file->getClientOriginalExtension();
-                $rename = 'stupen_' . date('YmdHis') . '.' . $extension;
+                $rename = 'peneltian_' . date('YmdHis') . '.' . $extension;
                 $mime = $file->getClientMimeType();
                 $filesize = $file->getSize();
 
@@ -201,9 +203,9 @@ class PenelitianController extends Controller
                 'status'    => $request->status,
             ]);
             $send = [
-                'subject'   => 'Surat Permohonan Ijin Studi Pendahuluan',
+                'subject'   => 'Surat Permohonan Ijin Penelitian',
                 'greeting'  => 'Hi, ' . $surat->mahasiswa['name'],
-                'body'      => 'Surat Permohonan Ijin Studi Pendahuluan telah selesai. <br>' .
+                'body'      => 'Surat Permohonan Ijin Penelitian telah selesai. <br>' .
                     'Silahkan Masuk ke aplikasi dan surat ijin dapat di download melalui tombol print ataupun detail <br>',
                 'actionText'    => 'Link Aplikasi',
                 'action'        => url('/'),
@@ -218,16 +220,16 @@ class PenelitianController extends Controller
                 'admin'  => Auth::user()->name
             ]);
             $send = [
-                'subject'   => 'Surat Permohonan Ijin Studi Pendahuluan',
+                'subject'   => 'Surat Permohonan Ijin Penelitian',
                 'greeting'  => 'Hi, ' . $surat->mahasiswa['name'],
-                'body'      => 'Surat Permohonan Ijin Studi Pendahuluan anda <strong>Ditolak</strong>. <br>' .
-                    'Silahkan Masuk ke aplikasi untuk mengajukan kembali surat ijin Studi Pendahuluan. <br>',
+                'body'      => 'Surat Permohonan Ijin Penelitian anda <strong>Ditolak</strong>. <br>' .
+                    'Silahkan Masuk ke aplikasi untuk mengajukan kembali surat ijin Penelitian. <br>',
                 'actionText'    => 'Link Aplikasi',
                 'action'        => url('/'),
                 'thanks'        => 'Atas perhatian dan kerjasama yang baik diucapkan terima kasih'
             ];
             Notification::route('mail', $surat->mahasiswa['email'])->notify(new EmailNotification($send));
-            return redirect('surat-penelitian')->with('failed','Surat Pengajuan dibatalkan');
+            return redirect('surat-penelitian')->with('failed','Surat Pengajuan Ijin Penelitian di Tolak');
         }
         return redirect('surat-penelitian')->with('success', 'Surat berhasil diproses');
     }
@@ -241,5 +243,11 @@ class PenelitianController extends Controller
     public function destroy(Surat $surat)
     {
         //
+    }
+    public function print(Surat $surat)
+    {
+        $surat->load(['files','mahasiswa']);
+        $lokasi = 'penelitian/';
+        return view('surat.print',compact(['surat','lokasi']));
     }
 }

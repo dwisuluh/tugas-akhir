@@ -4,7 +4,7 @@
     <table>
       <tr>
         <td style="width: 2cm">Nomor</td>
-        <td>: 29083/S.Permoh.RMIK/Dir-POLBSI/2022</td>
+        <td>: {{ $surat->no_surat }}/S.Permoh.RMIK/Dir-POLBSI/{{ date('Y', strtotime($surat->tgl_surat)) }}</td>
       </tr>
       <tr>
         <td>Hal</td>

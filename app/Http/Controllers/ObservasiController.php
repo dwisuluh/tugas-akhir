@@ -22,20 +22,22 @@ class ObservasiController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->surat = Surat::where('id_surat', 1)->with(['mahasiswa', 'files'])->latest()->get();
+        // $this->surat = Surat::where('id_surat', 1)->with(['mahasiswa', 'files'])->latest()->get();
     }
 
     public function index()
     {
-        $surats = $this->surat;
+        // $surats = $this->surat;
+        $surats = Surat::where('id_surat', 1)->with(['mahasiswa', 'files'])->latest()->get();
         if (Gate::allows('mhs')) {
             $mhsId = Auth::user()->mahasiswa->id;
             $surats = $surats->where('mahasiswa_id', $mhsId);
         }
         $title = 'Studi Pendahuluan';
         $link = 'surat-observasi';
+        $print = 'print-observasi';
         return view('surat.index', compact([
-            'surats', 'title', 'link'
+            'surats', 'title', 'link','print'
         ]));
     }
 
@@ -228,7 +230,9 @@ class ObservasiController extends Controller
     }
     public function print(Surat $surat)
     {
-        $surat->load('files');
-        return view('surat.print',compact('surat'));
+        // dd($surat);
+        $surat->load(['files','mahasiswa']);
+        $lokasi = 'pendahuluan/';
+        return view('surat.print',compact(['surat','lokasi']));
     }
 }

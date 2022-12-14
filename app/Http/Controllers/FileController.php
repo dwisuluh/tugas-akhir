@@ -57,6 +57,8 @@ class FileController extends Controller
             $pdf = PDF::loadview('surat.pendahuluan.cetak', compact('surat'))->setPaper('A4');
         }
         if ($surat->id_surat == 2) {
+            $surat['tgl_mulai_ind'] = Carbon::parse($surat->tgl_mulai)->translatedFormat('j F Y');
+            $surat['tgl_selesai_ind'] = Carbon::parse($surat->tgl_selesai)->translatedFormat('j F Y');
             $pdf = PDF::loadview('surat.penelitian.cetak', compact('surat'))->setPaper('A4');
         }
         return $pdf->stream('surat_' . $surat->nim . '.pdf');

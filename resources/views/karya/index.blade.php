@@ -1,16 +1,15 @@
 @extends('layouts.app')
 @section('content')
   <div class="pagetitle">
-    <h1>Surat Ijin</h1>
+    <h1>Karya Ilmiah</h1>
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
-        <li class="breadcrumb-item">Surat Ijin</li>
-        <li class="breadcrumb-item active">Penelitian</li>
+        <li class="breadcrumb-item">Data</li>
+        <li class="breadcrumb-item active">{{ $title }}</li>
       </ol>
     </nav>
   </div><!-- End Page Title -->
-
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-12">
@@ -31,21 +30,29 @@
           <div class="card-body">
             <div class="row">
               <div class="col-6">
-                <h5 class="card-title">Data Surat Ijin Penelitian</h5>
+                <h5 class="card-title">Data {{ $title }}</h5>
               </div>
-              <div class="col-6 sm-auto mt-3">
-                <p class="text-end"><a href="{{ route('surat.create') }}"
-                    class="btn btn-primary btn-sm text-end d-inline">
-                    <i class="bi bi-file-plus"></i> Ajukan Surat </a></p>
-              </div>
+              @can('mhs')
+                <div class="col-6 sm-auto mt-3">
+                  <p class="text-end"><a href="{{ route($link . '.create') }}"
+                      class="btn btn-primary btn-sm text-end d-inline">
+                      <i class="bi bi-file-plus"></i> Upload Karya Ilmiah </a></p>
+                </div>
+              @endcan
             </div>
             <!-- Bordered Table -->
             <table class="table datatable table-striped">
               <thead>
                 <tr>
                   <th scope="col">#</th>
-                  <th scope="col">NIM</th>
-                  <th scope="col">Tujuan Surat</th>
+                  <th scope="col">
+                    @can('mhs')
+                      Judul Karya Tulis
+                    @endcan
+                    @can('admin')
+                      NIM
+                    @endcan
+                  </th>
                   <th scope="col">Tanggal Surat</th>
                   <th scope="col">Tanggal Pengajuan</th>
                   <th scope="col">Status</th>
@@ -53,11 +60,17 @@
                 </tr>
               </thead>
               <tbody>
-                @foreach ($surats as $mail)
+                @foreach ($karyas as $mail)
                   <tr>
                     <td scope="row">{{ $loop->iteration }}</td>
-                    <td>{{ $mail->nim }}</td>
-                    <td>{!! $mail->tujuan !!}</td>
+                    <td>
+                      @can('admin')
+                        {{ $mail->nim }}
+                      @endcan
+                      @can('mhs')
+                        {!! $mail->judul !!}
+                      @endcan
+                    </td>
                     <td>{{ $mail->tgl_surat }}</td>
                     <td>{{ $mail->created_at }}</td>
                     <td>
@@ -72,28 +85,37 @@
                       @endif
                     </td>
                     <td>
-                      <a href="{{ route('surat.show', $mail->id) }}" type="button" class="btn btn-info btn-sm"
+                      <a href="{{ route($link . '.show', $mail->id) }}" type="button" class="btn btn-info btn-sm"
                         data-toggle="tooltip" data-placement="top" title="Detail"><i class="bi bi-eye"></i></a>
+                      @can('admin')
+                        <a href="{{ route($link . '.edit', $mail->id) }}" type="button"
+                          class="btn btn-warning btn-sm {{ $mail->status == 4 ? 'disabled' : '' }}" data-toggle="tooltip"
+                          data-placement="top" title="Proses" disabled><i class="bi bi-pencil-square"></i></a>
+                        @if ($mail->status == 2 || $mail->status == 3)
+                          <a href="{{ route('files.show', $mail->id) }}" target="_blank" type="button"
+                            class="btn btn-primary btn-sm"><i class="bi bi-printer"></i> </a>
+                        @endif
+                      @endcan
                       @if ($mail->status == 3)
-                        <a href="pendahuluan/print/{{ $mail->id }}" target="_blank" type="button"
+                        <a href="{{ route($print, $mail->id) }}" target="_blank" type="button"
                           class="btn btn-success btn-sm"><i class="bi bi-cloud-download"></i></a>
                       @endif
                       {{-- <a type="button" class="btn btn-primary btn-sm"
-                          href="{{ route('mahasiswa.edit', Crypt::encryptString($mahasiswa->id)) }}" data-toggle="tooltip"
-                          data-placement="top" title="Edit"><i class="bi bi-pencil"></i></a> --}}
+                        href="{{ route('mahasiswa.edit', Crypt::encryptString($mahasiswa->id)) }}" data-toggle="tooltip"
+                        data-placement="top" title="Edit"><i class="bi bi-pencil"></i></a> --}}
                       {{-- <form method="POST" action="{{ route('mahasiswa.destroy', Crypt::encryptString($mahasiswa->id)) }}"
-                          class="d-inline">
-                          @method('DELETE')
-                          @csrf
-                          <button type="button" class="btn btn-danger btn-sm"><i class="bi bi-trash" data-toggle="tooltip"
-                              data-placement="top" title="Delete"></i></button>
-                        </form> --}}
+                        class="d-inline">
+                        @method('DELETE')
+                        @csrf
+                        <button type="button" class="btn btn-danger btn-sm"><i class="bi bi-trash" data-toggle="tooltip"
+                            data-placement="top" title="Delete"></i></button>
+                      </form> --}}
                     </td>
                   </tr>
                 @endforeach
               </tbody>
             </table>
-            <!-- End Bordered Table -->
+            <!-- End Data Surat -->
           </div>
         </div>
       </div>

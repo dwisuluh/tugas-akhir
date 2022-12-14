@@ -87,7 +87,7 @@
                         @endif
                       @endcan
                       @if ($mail->status == 3)
-                        <a href="{{ route('print-observasi', $mail->id) }}" target="_blank" type="button"
+                        <a href="{{ route($print, $mail->id) }}" target="_blank" type="button"
                           class="btn btn-success btn-sm"><i class="bi bi-cloud-download"></i></a>
                       @endif
                       {{-- <a type="button" class="btn btn-primary btn-sm"

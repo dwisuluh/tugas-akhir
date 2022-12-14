@@ -4,7 +4,7 @@
     <table>
       <tr>
         <td style="width: 2cm">Nomor</td>
-        <td>: 29083/S.Permoh.RMIK/Dir-POLBSI/2022</td>
+        <td>: {{ $surat->no_surat }}/S.Permoh.RMIK/Dir-POLBSI/{{ date('Y', strtotime($surat->tgl_surat)) }}</td>
       </tr>
       <tr>
         <td>Hal</td>
@@ -29,11 +29,9 @@
     <div class="row mt-4">
       <div class="col-lg-12">
         Dengan Hormat
-        <p class="indent text-justify">Sehubungan dengan akan diselenggarakannya kegiatan penyusunan Karya Tulis Ilmiah
-          (KTI) sebagai salah satu
-          syarat untuk menyelesaikan pendidikan bagi mahasiswa Kesehatan Politeknik Kesehatan Bhakti Setya
-          Indonesia, maka kami mengajukan permohonan ijin
-          untuk melaksanakan studi pendahuluan bagi mahasiswa kami :</p>
+        <p class="indent text-justify">Sehubungan dengan akan diselenggarakannya kegiatan Karya Tulis Ilmiah (KTI) sebagai
+          salah satu syarat untuk menyelesaikan studi di Politeknik Kesehatan Bhakti Setya Indonesia Yogyakarta, maka kami mengajukan
+          permohonan ijin untuk studi penelitian bagi mahasiswa kami yaitu:</p>
       </div>
     </div>
   </div>
@@ -73,6 +71,16 @@
           <td style="width: 5%;">:</td>
           <td style="width: 65%;">{!! $surat->judul !!}</td>
         </tr>
+        <tr>
+          <td>Lokasi</td>
+          <td style="width: 5%;">:</td>
+          <td style="width: 60%;">{!! $surat->lokasi !!}</td>
+        </tr>
+        <tr>
+          <td>Waktu</td>
+          <td style="width: 5%;">:</td>
+          <td style="width: 60%;">{{ $surat->tgl_mulai_ind }} Sampai {{ $surat->tgl_selesai_ind }}</td>
+        </tr>
       </table>
     </div>
   </div>
@@ -85,5 +93,5 @@
   </div>
 @endsection
 @section('tanggal')
-{{ $surat->tgl_ind }}
+  {{ $surat->tgl_ind }}
 @endsection

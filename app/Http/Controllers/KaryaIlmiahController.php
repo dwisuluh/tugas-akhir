@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\KaryaIlmiah;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class KaryaIlmiahController extends Controller
 {
@@ -12,9 +14,23 @@ class KaryaIlmiahController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index()
     {
-        //
+        $karyas = KaryaIlmiah::with(['mahasiswa', 'files'])->latest()->get();
+        if (Gate::allows('mhs')) {
+            $mhsId = Auth::user()->mahasiswa->id;
+            $karyas = $karyas->where('mahasiswa_id', $mhsId);
+        }
+        $title = 'Karya Ilmiah';
+        $link = 'karya-ilmiah';
+        $print = 'print-karya-ilmiah';
+        return view('karya.index', compact([
+            'karyas', 'title','link','print'
+        ]));
     }
 
     /**
@@ -24,7 +40,10 @@ class KaryaIlmiahController extends Controller
      */
     public function create()
     {
-        //
+        $this->authorize('mhs');
+        $title = 'Karya Ilmiah';
+        $link = 'karya-ilmiah';
+        return view('karya.create',compact(['title','link']));
     }
 
     /**
