@@ -32,10 +32,14 @@
   <link href="{{ asset('/') }}plugins/vendor/quill/quill.bubble.css" rel="stylesheet">
   <link href="{{ asset('/') }}plugins/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="{{ asset('/') }}plugins/vendor/simple-datatables/style.css" rel="stylesheet">
-
+  <link href="{{ asset('/') }}plugins/dist/css/select2.min.css" rel="stylesheet">
+  <link href="{{ asset('/') }}plugins/datepicker/css/bootstrap-datepicker3.min.css" rel="stylesheet">
+  {{-- <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css"> --}}
   <!-- Template Main CSS File -->
   <link href="{{ asset('/') }}plugins/css/style.css" rel="stylesheet">
   <link href="{{ asset('/') }}plugins/css/trix.css" rel="stylesheet">
+
   <script src="{{ asset('/') }}plugins/js/trix.umd.min.js"></script>
 
   <style>
@@ -45,6 +49,7 @@
   </style>
 
   @yield('head')
+
 
 </head>
 
@@ -74,21 +79,48 @@
         class="bi bi-arrow-up-short"></i></a>
   @endauth
   <!-- Vendor JS Files -->
+  <script type="text/javascript"
+    src="{{ URL::asset('https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js') }}"></script>
   <script src="{{ asset('/') }}plugins/vendor/apexcharts/apexcharts.min.js"></script>
   <script src="{{ asset('/') }}plugins/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
   <script src="{{ asset('/') }}plugins/vendor/chart.js/chart.min.js"></script>
   <script src="{{ asset('/') }}plugins/vendor/echarts/echarts.min.js"></script>
   <script src="{{ asset('/') }}plugins/vendor/quill/quill.min.js"></script>
   <script src="{{ asset('/') }}plugins/vendor/simple-datatables/simple-datatables.js"></script>
   <script src="{{ asset('/') }}plugins/vendor/tinymce/tinymce.min.js"></script>
   <script src="{{ asset('/') }}plugins/vendor/php-email-form/validate.js"></script>
+  <script src="{{ asset('/') }}plugins/dist/js/select2.min.js"></script>
+  <script src="{{ asset('/') }}plugins/datepicker/js/bootstrap-datepicker.min.js"></script>
+  {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/js/bootstrap-datetimepicker.min.js"></script> --}}
+
+  {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> --}}
+  {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script> --}}
 
   <!-- Template Main JS File -->
   <script src="{{ asset('/') }}plugins/js/main.js"></script>
   <script>
+    $(document).ready(function() {
+      $('#js-example-basic-single').select2({
+        placeholder: "Pilih Dosen.....",
+        minimumInputLength: 3,
+        required: true,
+        allowClear: true,
+        maximumSelectionLength: 2,
+        autoclose: true,
+      });
+    });
+    $('.datepicker').datepicker({
+      changeMonth: true,
+      changeYear: true,
+      format: "dd/mm/yyyy",
+      autoclose: true,
+      immediateUpdates: true,
+      todayHighlight: true,
+    });
     document.addEventListener('trix-file-accept', function(e) {
       e.preventDefault();
-    })
+    });
   </script>
 </body>
 

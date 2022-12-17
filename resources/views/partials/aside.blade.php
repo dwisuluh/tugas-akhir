@@ -32,7 +32,7 @@
     </li><!-- End Components Nav -->
 
     <li class="nav-item">
-      <a class="nav-link {{ Request::is('karya-ilmiah') ? '' : 'collapsed' }}" href="{{ url('karya-ilmiah') }}">
+      <a class="nav-link {{ Request::is('karya-ilmia*') ? '' : 'collapsed' }}" href="{{ url('karya-ilmiah') }}">
         <i class="bi bi-grid"></i>
         <span>Karya Ilmiah</span>
       </a>
