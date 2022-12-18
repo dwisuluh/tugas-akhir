@@ -34,10 +34,17 @@
               </div>
               @can('mhs')
                 <div class="col-6 sm-auto mt-3">
+                    @if(!$karyas || $karyas->first()->status == 4)
                   <p class="text-end"><a href="{{ route($link . '.create') }}"
                       class="btn btn-primary btn-sm text-end d-inline">
                       <i class="bi bi-file-plus"></i> Upload Karya Ilmiah </a></p>
                 </div>
+                @else
+                  <p class="text-end"><a href="#"
+                      class="btn btn-danger btn-sm text-end d-inline">
+                      <i class="bi bi-x-circle"></i> Masih Ada Proses Pengajuan </a></p>
+                </div>
+                @endif
               @endcan
             </div>
             <!-- Bordered Table -->

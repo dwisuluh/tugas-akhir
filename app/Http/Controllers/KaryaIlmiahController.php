@@ -134,7 +134,10 @@ class KaryaIlmiahController extends Controller
      */
     public function edit(KaryaIlmiah $karyaIlmiah)
     {
-        //
+        $title = 'Karya Ilmiah';
+        $link = 'karya-ilmiah';
+        $karyaIlmiah->load(['mahasiswa','filekarya']);
+        return view('karya.edit',compact(['karyaIlmiah','title','link']));
     }
 
     /**
@@ -146,7 +149,9 @@ class KaryaIlmiahController extends Controller
      */
     public function update(Request $request, KaryaIlmiah $karyaIlmiah)
     {
-        //
+        $rules = [];
+
+        $this->destroy($karyaIlmiah->id);
     }
 
     /**
@@ -157,6 +162,11 @@ class KaryaIlmiahController extends Controller
      */
     public function destroy(KaryaIlmiah $karyaIlmiah)
     {
-        //
+        $karyaIlmiah->update([
+            'status' => 4,
+            'tgl_surat' => Carbon::now()->format('Y-m-d')
+        ]);
+
+        return redirect('karya-ilmiah')->with('danger', 'Data pengajuan berhasil di tolak..!!!');
     }
 }
