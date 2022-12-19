@@ -32,7 +32,7 @@ class KaryaIlmiahController extends Controller
         $link = 'karya-ilmiah';
         $print = 'print-karya-ilmiah';
         return view('karya.index', compact([
-            'karyas', 'title','link','print'
+            'karyas', 'title', 'link', 'print'
         ]));
     }
 
@@ -46,7 +46,7 @@ class KaryaIlmiahController extends Controller
         $this->authorize('mhs');
         $title = 'Karya Ilmiah';
         $link = 'karya-ilmiah';
-        return view('karya.create',compact(['title','link']));
+        return view('karya.create', compact(['title', 'link']));
     }
 
     /**
@@ -57,7 +57,6 @@ class KaryaIlmiahController extends Controller
      */
     public function store(Request $request)
     {
-        // dd(json_encode($request->pembimbing[0]));
         $this->authorize('mhs');
         $rules = [
             'judul' => 'required',
@@ -68,14 +67,20 @@ class KaryaIlmiahController extends Controller
 
         $request->validate($rules);
 
-        KaryaIlmiah::create([
+        $input = [
             'mahasiswa_id' => $request->id_mhs,
             'nim'   => $request->nim,
             'judul' => $request->judul,
             'pembimbing_1' => $request->pembimbing['0'],
-            'pembimbing_2' => $request->pembimbing['1'],
             'tgl_ujian' => Carbon::createFromFormat('d/m/Y', $request->tgl_ujian),
-        ]);
+        ];
+
+        if (count($request->pembimbing) == 2) {
+            $input['pembimbing_1'] = $request->pembimbing['1'];
+        }
+
+        KaryaIlmiah::create($input);
+
         if ($request->hasFile('file')) {
             $uploadPath = public_path('naskah');
             if (!File::isDirectory($uploadPath)) {
@@ -90,7 +95,7 @@ class KaryaIlmiahController extends Controller
             $mime = $file->getClientMimeType();
             $filesize = $file->getSize();
 
-            $id_karya = KaryaIlmiah::where('mahasiswa_id',$request->id_mhs)->latest()->first();
+            $id_karya = KaryaIlmiah::where('mahasiswa_id', $request->id_mhs)->latest()->first();
             if ($file->move($uploadPath, $rename)) {
 
                 FileKarya::create([
@@ -105,7 +110,6 @@ class KaryaIlmiahController extends Controller
             }
         }
         return redirect('karya-ilmiah')->with('success', 'Penyerahan Naskah Karya Tulis Ilmiah berhasil diajukan...!!');
-        // dd($request);
     }
 
     /**
@@ -120,10 +124,10 @@ class KaryaIlmiahController extends Controller
         $title = 'Karya Ilmiah';
         $link = 'karya-ilmiah';
         $file = 'naskah';
-        $karyaIlmiah->load(['mahasiswa','filekarya']);
+        $karyaIlmiah->load(['mahasiswa', 'filekarya']);
         // $files = $karyaIlmiah->filekarya()->where
         // dd($karyaIlmiah->filekarya->where('jenis_file',1)->first());
-        return view('karya.show',compact(['karyaIlmiah','title','link','file']));
+        return view('karya.show', compact(['karyaIlmiah', 'title', 'link', 'file']));
     }
 
     /**
@@ -136,8 +140,9 @@ class KaryaIlmiahController extends Controller
     {
         $title = 'Karya Ilmiah';
         $link = 'karya-ilmiah';
-        $karyaIlmiah->load(['mahasiswa','filekarya']);
-        return view('karya.edit',compact(['karyaIlmiah','title','link']));
+        $karyaIlmiah['tgl_ujian'] = Carbon::createFromFormat('Y-m-d', $karyaIlmiah->tgl_ujian)->format('d/m/Y');
+        $karyaIlmiah->load(['mahasiswa', 'filekarya']);
+        return view('karya.edit', compact(['karyaIlmiah', 'title', 'link']));
     }
 
     /**
@@ -149,9 +154,25 @@ class KaryaIlmiahController extends Controller
      */
     public function update(Request $request, KaryaIlmiah $karyaIlmiah)
     {
+        $input = [];
+        // dd($request->status);
+        if ($request->status == 2) {
+            $input =
+                [
+                    'status' => $request->status,
+                    'admin' =>   Auth::user()->name,
+                    'tgl_surat' => date('Y-m-d'),
+                ];
+        }
+        // dd($input);
+        $cek = $karyaIlmiah->update($input);
+
+        // dd($cek);
+
+        return redirect('karya-ilmiah')->with('success', 'Pengumpulan Naskah berhasil di proses dan diterima, silahkan cetak surat keterangan..!!');
         $rules = [];
 
-        $this->destroy($karyaIlmiah->id);
+        // $this->destroy($karyaIlmiah->id);
     }
 
     /**

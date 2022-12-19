@@ -87,8 +87,13 @@
                       <button type="submit" class="btn btn-danger"><i class="bi bi-x-circle" data-toggle="tooltip"
                           data-placement="top" title="Reject"></i> Reject</button>
                     </form>
-                    <a href="{{ route($link . '.edit', $karyaIlmiah->id) }}" target="_blank" type="button"
-                      class="btn btn-primary">Proses <i class="bi bi-arrow-right-circle"></i></a>
+                    <form method="POST" action="{{ route($link . '.update', $karyaIlmiah->id) }}" class="d-inline">
+                      @method('PUT')
+                      @csrf
+                      <input type="hidden" value="2" name='status'>
+                      <button type="submit" class="btn btn-primary">Proses <i
+                          class="bi bi-arrow-right-circle"></i></button>
+                    </form>
                     <a href="{{ route('files.show', $karyaIlmiah->id) }}" target="_blank" type="button"
                       class="btn btn-success"><i class="bi bi-printer"></i> Print</a>
                   @endif

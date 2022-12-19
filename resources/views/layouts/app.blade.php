@@ -115,6 +115,7 @@
       changeYear: true,
       format: "dd/mm/yyyy",
       autoclose: true,
+      allowClear: true,
       immediateUpdates: true,
       todayHighlight: true,
     });

@@ -8,7 +8,7 @@
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
         <li class="breadcrumb-item"><a href="{{ url()->previous() }}"> {{ $title }} </a></li>
-        <li class="breadcrumb-item active">Create</li>
+        <li class="breadcrumb-item active">Proses</li>
       </ol>
     </nav>
   </div><!-- End Page Title -->
@@ -42,21 +42,21 @@
               <h5 class="card-title">Upload {{ $title }}</h5>
 
               <!-- General Form Elements -->
-              <form class="needs-validation" novalidate action="{{ route($link . '.update',$karyaIlmiah->id) }}" method="POST"
-                enctype="multipart/form-data">
+              <form class="needs-validation" novalidate action="{{ route($link . '.update', $karyaIlmiah->id) }}"
+                method="POST" enctype="multipart/form-data">
                 @csrf
                 {{-- <input type="hidden" value="{{ Auth::user()->mahasiswa->id }}" name="id_mhs"> --}}
                 <div class="row mb-3">
                   <label for="inputText" class="col-sm-2 col-form-label">NIM</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" value="{{ $karyaIlmiah->nim }}" name="nim"
-                      readonly>
+                    <input type="text" class="form-control" value="{{ $karyaIlmiah->nim }}" name="nim" readonly>
                   </div>
                 </div>
                 <div class="row mb-3">
                   <label for="inputText" class="col-sm-2 col-form-label">Nama</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" value="{{ $karyaIlmiah->mahasiswa->name }}" name="name" readonly>
+                    <input type="text" class="form-control" value="{{ $karyaIlmiah->mahasiswa->name }}" name="name"
+                      readonly>
                   </div>
                 </div>
                 <div class="row mb-3">
@@ -68,7 +68,7 @@
                 <div class="row mb-3">
                   <label for="Judul" class="col-sm-2 col-form-label">Judul Karya Tulis Ilmiah</label>
                   <div class="col-sm-10">
-                    <input id="judul" type="hidden" name="judul" value="{{ old('judul',$karyaIlmiah->judul) }}">
+                    <input id="judul" type="hidden" name="judul" value="{{ old('judul', $karyaIlmiah->judul) }}">
                     <trix-editor input="judul"
                       class="@error('judul')
                       is-invalid
@@ -87,9 +87,9 @@
                       <input type="text"
                         class="form-control datepicker @error('tgl_ujian')
                           is-invalid
-                      @enderror" value="{{ old('tgl_ujian',$karyaIlmiah->tgl_ujian) }}"
-                        placeholder="Tanggal" aria-label="tanggal ujian" aria-describedby="basic-addon2" name="tgl_ujian"
-                        required>
+                      @enderror"
+                        value="{{ old('tgl_ujian', $karyaIlmiah->tgl_ujian) }}" placeholder="Tanggal"
+                        aria-label="tanggal ujian" aria-describedby="basic-addon2" name="tgl_ujian" required readonly>
                       <span class="input-group-text" id="basic-addon2"><i class="bi bi-calendar-date"></i></span>
                       @error('tgl_ujia')
                         <span class='invalid-feedback' role="alert">
@@ -108,6 +108,8 @@
                     @enderror"
                       id="js-example-basic-single" multiple aria-label="Default select example" name="pembimbing[]"
                       required>
+                      <option value="{{ old($karyaIlmiah->pembimbing_1) }} selected">{{ $karyaIlmiah->pembimbing_1 }}</option>
+                      {{-- <option value="{{ old($karyaIlmiah->pembimbing_2) }} selected">{{ $karyaIlmiah->pembimbing_2 }}</option> --}}
                       <option>Ibnu Mardiyoko, S.KM., MM</option>
                       <option>Hendra Rohman, S.KM. M.P.H</option>
                       <option>Syarah Mazaya F., S.KM., M.P.H</option>
