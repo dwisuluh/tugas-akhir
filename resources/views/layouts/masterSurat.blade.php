@@ -101,21 +101,23 @@
               <br>
               Direktur,
             </p>
+            @yield('ttd')
+            {{-- <br>
             <br>
-            <br>
-            <br>
-            <p>Dra. Yuli Puspito Rini, M.Si.</p>
+            <br> --}}
+            <p>@yield('pejabat')</p>
           </div>
         </div>
       </div>
     </div>
     <footer>
       <div class="row footer">
-        <p class="one"> Program Studi: <br>
+        @yield('footer')
+        {{-- <p class="one"> Program Studi: <br>
           D3 Farmasi (Akreditasi B)<br>
           D3 Rekam Medis dan Informasi Kesehatan (Akreditasi B)<br>
           D3 Teknologi Transfusi Darah (Akreditasi B)
-        </p>
+        </p> --}}
       </div>
 
     </footer>

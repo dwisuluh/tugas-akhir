@@ -85,5 +85,13 @@
   </div>
 @endsection
 @section('tanggal')
-{{ $surat->tgl_ind }}
+  {{ $surat->tgl_ind }}
+@endsection
+@section('pejabat')
+  <div class="mt-5">
+    <p>
+      <br>
+      Dra. Yuli Puspita Rini, M.Si.
+    </p>
+  </div>
 @endsection

@@ -102,7 +102,7 @@
                     @endcan
                     @can('admin')
                       @if ($mail->status == 2 || $mail->status == 3)
-                        <a href="{{ route('files.show', $mail->id) }}" target="_blank" type="button"
+                        <a href="{{ route('print-karya', $mail->id) }}" target="_blank" type="button"
                           class="btn btn-primary btn-sm"><i class="bi bi-printer"></i> </a>
                       @endif
                     @endcan

@@ -46,7 +46,7 @@ class FileKaryaController extends Controller
      */
     public function show(FileKarya $fileKarya)
     {
-        //
+        dd($fileKarya);
     }
 
     /**

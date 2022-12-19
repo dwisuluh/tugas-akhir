@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use PDF;
 use Carbon\Carbon;
 use App\Models\FileKarya;
 use App\Models\KaryaIlmiah;
@@ -9,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Gate;
+use QrCode;
 
 class KaryaIlmiahController extends Controller
 {
@@ -190,5 +192,42 @@ class KaryaIlmiahController extends Controller
         ]);
 
         return redirect('karya-ilmiah')->with('danger', 'Data pengajuan berhasil di tolak..!!!');
+    }
+    public function print(KaryaIlmiah $karyaIlmiah)
+    {
+        // dd($karyaIlmiah);
+        // $pdf = NULL;
+        $karyaIlmiah['tgl_ind'] = Carbon::parse($karyaIlmiah->tgl_surat)->translatedFormat('j F Y');
+        $karyaIlmiah->load(['mahasiswa']);
+        // if ($surat->id_surat == 1) {
+        //     $pdf = PDF::loadview('surat.pendahuluan.cetak', compact('surat'))->setPaper('A4');
+        // }
+        // if ($surat->id_surat == 2) {
+        //     $surat['tgl_mulai_ind'] = Carbon::parse($surat->tgl_mulai)->translatedFormat('j F Y');
+        //     $surat['tgl_selesai_ind'] = Carbon::parse($surat->tgl_selesai)->translatedFormat('j F Y');
+        //     $pdf = PDF::loadview('karya.cetak', compact('surat'))->setPaper('A4');
+        // }
+        $data =
+            'Nama : '.$karyaIlmiah->mahasiswa->name.' | '.
+            'Nim : '.$karyaIlmiah->nim.' | '.
+            'Pembimbing_1 : '.$karyaIlmiah->pembimbing_1.' | '.
+            'Pembimbing-2 : '.$karyaIlmiah->pembimbing_2.' | '.
+            'Tanggal_Surat : '.$karyaIlmiah->tgl_surat.' | '.
+            'Admin : '.$karyaIlmiah->admin
+        ;
+        // $data = [
+        //     'Nama' => $karyaIlmiah->mahasiswa->name,
+        //     'Nim'  => $karyaIlmiah->nim,
+        //     'Pembimbing_1' => $karyaIlmiah->pembimbing_1,
+        //     'Pembimbing-2' => $karyaIlmiah->pembimbing_2,
+        //     'Tanggal_Surat' => $karyaIlmiah->tgl_surat,
+        //     'Admin' => $karyaIlmiah->admin,
+        // ];
+        // dd($karyaIlmiah  );
+        // $qrCode = base64_encode(QrCode::format('svg')->size(100)->errorCorrection('H')->generate(implode($data)));
+        $qrCode = base64_encode(QrCode::format('svg')->size(100)->errorCorrection('H')->generate(stripslashes($data)));
+        // $qrCode = QrCode::size(200)->generate($karyaIlmiah);
+        $pdf = PDF::loadview('karya.cetak',compact(['karyaIlmiah','qrCode']))->setPaper('A4');
+        return $pdf->stream('surat_Keterangan_' . $karyaIlmiah->nim . '.pdf');
     }
 }
