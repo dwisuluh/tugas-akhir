@@ -155,16 +155,17 @@ class KaryaIlmiahController extends Controller
     public function update(Request $request, KaryaIlmiah $karyaIlmiah)
     {
         $input = [];
-        // dd($request->status);
-        if ($request->status == 2) {
-            $input =
-                [
-                    'status' => $request->status,
-                    'admin' =>   Auth::user()->name,
-                    'tgl_surat' => date('Y-m-d'),
-                ];
+        if (Gate::allows('admin')) {
+            if ($request->status == 2) {
+                $input =
+                    [
+                        'status' => $request->status,
+                        'admin' =>   Auth::user()->name,
+                        'tgl_surat' => date('Y-m-d'),
+                    ];
+            }
         }
-        // dd($input);
+
         $cek = $karyaIlmiah->update($input);
 
         // dd($cek);
