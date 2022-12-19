@@ -106,3 +106,8 @@
 @section('ttd')
   <img src="data:image/png;base64, {!! $qrCode !!}">
 @endsection
+@section('pejabat')
+    <p>
+      Dra. Yuli Puspita Rini, M.Si.
+    </p>
+@endsection

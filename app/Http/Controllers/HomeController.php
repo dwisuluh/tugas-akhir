@@ -18,7 +18,7 @@ class HomeController extends Controller
     }
     public function index()
     {
-        $surats = Surat::with('mahasiswa')->get();
+        $surats = Surat::with('mahasiswa')->latest()->get();
         $karyas = KaryaIlmiah::with('mahasiswa')->get();
         $countMhs = NULL;
         // dd($surats);
