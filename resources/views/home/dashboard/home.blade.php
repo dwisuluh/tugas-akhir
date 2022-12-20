@@ -1,14 +1,6 @@
 @extends('layouts.app')
-@section('head')
-{{-- <meta http-equiv="refresh" content="10" > --}}
-{{-- <script>
-    function autoRefresh() {
-        window.location = window.location.href;
-    }
-    setInterval('autoRefresh()', 5000);
-</script> --}}
-@endsection
 @section('content')
+<!-- Page Titile -->
   <div class="pagetitle">
     <h1>Dashboard</h1>
     <nav>
@@ -90,7 +82,7 @@
           </div>
         </div><!-- End Karya Ilmiah -->
 
-        <!-- Carad Jumlah Mahasiswa -->
+        <!-- Card Jumlah Mahasiswa -->
         <div class="col-xxl-4 col-xl-12">
 
           <div class="card info-card customers-card">
@@ -149,11 +141,45 @@
               <h5 class="card-title">Studi Pendahuluan <span>| Surat Ijin</span></h5>
 
               <table class="table datatable table-striped">
+                @can('admin')
+                <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">NIM</th>
+                      <th scope="col">Nama</th>
+                      <th scope="col">Waktu Pengajuan</th>
+                      <th scope="col">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach ($surats->where('id_surat', 1) as $list)
+                      <tr>
+                        <th scope="row">{{ $loop->iteration }}</th>
+                        <td>{{ $list->nim }}</td>
+                        <td>{!! $list->mahasiswa->name !!}</td>
+                        <td>{{ $list->created_at->diffForHumans() }}</td>
+                        <td><a href="{{ route('surat-observasi.edit',$list->id) }}" class="btn">
+                          @if ($list->id_surat == 1)
+                            <span class="badge rounded-pill bg-primary">Open</span>
+                          @elseif ($list->id_surat == 2)
+                            <span class="badge rounded-pill bg-warning">On Progress</span>
+                          @elseif ($list->id_surat == 3)
+                            <span class="badge rounded-pill bg-success">Done</span>
+                            @elseif ($list->id_surat == 4)
+                              <span class="badge rounded-pill bg-danger">Rejected</span>
+                          @endif
+                          </a>
+                        </td>
+                      </tr>
+                    @endforeach
+                  </tbody>
+                @endcan
+                @can('mhs')
                 <thead>
                   <tr>
                     <th scope="col">#</th>
-                    <th scope="col">NIM</th>
-                    <th scope="col">Nama</th>
+                    <th scope="col">Tujuan</th>
+                    <th scope="col">Tanggal Surat</th>
                     <th scope="col">Waktu Pengajuan</th>
                     <th scope="col">Status</th>
                   </tr>
@@ -162,10 +188,10 @@
                   @foreach ($surats->where('id_surat', 1) as $list)
                     <tr>
                       <th scope="row">{{ $loop->iteration }}</th>
-                      <td>{{ $list->nim }}</td>
-                      <td>{!! $list->mahasiswa->name !!}</td>
+                      <td>{!! $list->tujuan !!}</td>
+                      <td>{!! $list->tgl_surat !!}</td>
                       <td>{{ $list->created_at->diffForHumans() }}</td>
-                      <td><a href="{{ route('surat-observasi.edit',$list->id) }}" class="btn">
+                      <td><a href="{{ route('surat-observasi.show',$list->id) }}" class="btn">
                         @if ($list->id_surat == 1)
                           <span class="badge rounded-pill bg-primary">Open</span>
                         @elseif ($list->id_surat == 2)
@@ -180,6 +206,8 @@
                     </tr>
                   @endforeach
                 </tbody>
+
+                @endcan
               </table>
 
             </div>

@@ -48,6 +48,13 @@
       </li><!-- End Profile Page Nav -->
 
       <li class="nav-item">
+        <a class="nav-link {{ Request::is('data-dosen*') ? '' : 'collapsed' }}" href="{{ url('data-dosen') }}">
+          <i class="bi bi-person"></i>
+          <span>Data Dosen</span>
+        </a>
+      </li><!-- End Profile Page Nav -->
+
+      <li class="nav-item">
         <a class="nav-link {{ Request::is('user*') ? '' : 'collapsed' }}" href="{{ route('user.index') }}">
           <i class="bi bi-people-fill"></i>
           <span>User</span>

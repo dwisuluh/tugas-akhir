@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DosenController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\FileKaryaController;
@@ -31,10 +32,16 @@ Route::get('/', function () {
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index')->name('dashboard');
 });
-Route::get('login', [LoginController::class, 'index'])->name('login')->middleware('guest');
-Route::post('login', [LoginController::class, 'authenticate']);
-Route::post('logout', [LoginController::class, 'logout']);
-Route::get('reset', [LoginController::class, 'reset']);
+Route::controller(LoginController::class)->group(function(){
+    Route::get('login','index')->name('login')->middleware('guest');
+    Route::post('login','authenticate');
+    Route::post('logout','logout');
+    Route::get('reset','reset');
+});
+// Route::get('login', [LoginController::class, 'index'])->name('login')->middleware('guest');
+// Route::post('login', [LoginController::class, 'authenticate']);
+// Route::post('logout', [LoginController::class, 'logout']);
+// Route::get('reset', [LoginController::class, 'reset']);
 Route::get('register', [RegisterController::class, 'index'])->middleware('guest');
 Route::post('register', [RegisterController::class, 'store']);
 Route::post('register-reset', [RegisterController::class, 'reset']);
@@ -51,6 +58,9 @@ Route::resource('file-karya', FileKaryaController::class)->middleware('auth');
 Route::get('karya-ilmiah-print/{karyaIlmiah}', [KaryaIlmiahController::class, 'print'])->name('print-karya');
 // Route::get('karya-ilmiah-download-surat{karyaIlmiah}', [KaryaIlmiahController::class, 'download'])->name('download-surat');
 Route::post('import-mahasiswa', [MahasiswaController::class, 'importData'])->name('import-data');
+Route::resource('data-dosen',DosenController::class);
+Route::get('import',[DosenController::class,'import'])->name('dosen-import');
+Route::post('import-dosen',[DosenController::class,'importData'])->name('import-dosen');
 Route::fallback(function () {
     return view('layouts.404');
 });
