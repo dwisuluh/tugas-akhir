@@ -47,7 +47,9 @@ Route::resource('user', UserController::class)->middleware('auth');
 Route::resource('mahasiswa', MahasiswaController::class)->middleware('auth');
 Route::get('import', [MahasiswaController::class, 'import'])->name('mahasiswa-import');
 Route::resource('files', FileController::class)->middleware('auth');
+Route::resource('file-karya', FileKaryaController::class)->middleware('auth');
 Route::get('karya-ilmiah-print/{karyaIlmiah}', [KaryaIlmiahController::class, 'print'])->name('print-karya');
+// Route::get('karya-ilmiah-download-surat{karyaIlmiah}', [KaryaIlmiahController::class, 'download'])->name('download-surat');
 Route::post('import-mahasiswa', [MahasiswaController::class, 'importData'])->name('import-data');
 Route::fallback(function () {
     return view('layouts.404');

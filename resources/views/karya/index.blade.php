@@ -34,7 +34,7 @@
               </div>
               @can('mhs')
                 <div class="col-6 sm-auto mt-3">
-                  @if (!$karyas || $karyas->first()->status == 4)
+                  @if (count($karyas) === 0 || count($karyas->where('status', 4)) === count($karyas))
                     <p class="text-end"><a href="{{ route($link . '.create') }}"
                         class="btn btn-primary btn-sm text-end d-inline">
                         <i class="bi bi-file-plus"></i> Upload Karya Ilmiah </a></p>
@@ -102,12 +102,15 @@
                     @endcan
                     @can('admin')
                       @if ($mail->status == 2 || $mail->status == 3)
+                        <a href="{{ route($link . '.edit', $mail->id) }}" type="button"
+                          class="btn btn-success btn-sm {{ $mail->status == 4 ? 'disabled' : '' }}" data-toggle="tooltip"
+                          data-placement="top" title="Upload Surat" disabled><i class="bi bi-upload"></i></a>
                         <a href="{{ route('print-karya', $mail->id) }}" target="_blank" type="button"
                           class="btn btn-primary btn-sm"><i class="bi bi-printer"></i> </a>
                       @endif
                     @endcan
                     @if ($mail->status == 3)
-                      <a href="{{ route($print, $mail->id) }}" target="_blank" type="button"
+                      <a href="{{ route('file-karya.show', $mail->filekarya->where('jenis_file',2)->first()->id) }}" target="_blank" type="button"
                         class="btn btn-success btn-sm"><i class="bi bi-cloud-download"></i></a>
                     @endif
                     {{-- <a type="button" class="btn btn-primary btn-sm"

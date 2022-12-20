@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\FileKarya;
 use App\Models\Surat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -44,6 +45,9 @@ class RouteServiceProvider extends ServiceProvider
         });
         Route::bind('surat-penelitian', function ($value){
             return Surat::where('id', $value)->firstOrFail();
+        });
+        Route::bind('file-karya', function ($value){
+            return FileKarya::where('id',$value)->firstOrFail();
         });
     }
 

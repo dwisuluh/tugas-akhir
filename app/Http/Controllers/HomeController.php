@@ -19,7 +19,7 @@ class HomeController extends Controller
     public function index()
     {
         $surats = Surat::with('mahasiswa')->latest()->get();
-        $karyas = KaryaIlmiah::with('mahasiswa')->get();
+        $karyas = KaryaIlmiah::with('mahasiswa')->latest()->get();
         $countMhs = NULL;
         // dd($surats);
         if (Gate::allows('admin')) {

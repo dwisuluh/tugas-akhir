@@ -7,7 +7,7 @@
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
         <li class="breadcrumb-item"><a href="{{ url()->previous() }}">{{ $title }}</a></li>
-        <li class="breadcrumb-item active">Detail</li>
+        <li class="breadcrumb-item active">Upload Surat</li>
       </ol>
     </nav>
   </div><!-- End Page Header -->
@@ -16,16 +16,6 @@
     <div class="row">
       <div class="col-xl-12">
         <div class="card">
-          @if ($karyaIlmiah->status == 4)
-            <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-              <div class="social-links mt-2">
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                  <i class="bi bi-exclamtion-octagon-fill me-1"></i>
-                  Status Pengumpulan Naskah di Tolak
-                </div>
-              </div>
-            </div>
-          @endif
           <div class="card-body pt-3">
             <h5 class="card-title">Data karyaIlmiah Ijin {{ $title }}</h5>
             <div class="row mb-2">
@@ -42,7 +32,7 @@
             </div>
             <div class="row mb-2">
               <div class="col-lg-2 col-md-2 label">Tanggal Ujian</div>
-              <div class="col-lg-9 col-md-8">{!! $karyaIlmiah->tgl_indo !!}</div>
+              <div class="col-lg-9 col-md-8">{!! $karyaIlmiah->tgl_ujian !!}</div>
             </div>
             <div class="row mb-2">
               <div class="col-lg-2 col-md-2 label">Pembimbing 1</div>
@@ -54,13 +44,27 @@
                 <div class="col-lg-9 col-md-8">{{ $karyaIlmiah->pembimbing_2 }}</div>
               </div>
             @endif
-            <div class="row mb-2">
-              <div class="col-lg-2 col-md-2 label">File</div>
-              <div class="col-lg-10 col-md-10">
-                <iframe src="{{ url($file . '/' . $karyaIlmiah->filekarya->where('jenis_file', 1)->first()->file) }}"
-                  align="top" height="720" width="100%" frameborder="0" scrolling="auto"></iframe>
+            <form method="POST" action="{{ route($link . '.update', $karyaIlmiah->id) }}" class="d-inline"
+              enctype="multipart/form-data">
+              @method('PUT')
+              @csrf
+              <div class="row mb-4">
+                <div class="col-lg-2 col-md-2 label">Upload Surat</div>
+                <div class="col-lg-9 col-md-8">
+                    <input class="form-control @error('file') is-invalid
+                    @enderror" type="file"
+                      id="formFile" name="file" required>
+                    @error('file')
+                      <span class="invalid-feedback" role="alert">
+                        {{ $message }}
+                      </span>
+                    @enderror
+                    <input type="hidden" value="3" name="status">
+
+                </div>
               </div>
-            </div>
+              <button type="submit" class="btn btn-primary">Proses <i class="bi bi-arrow-right-circle"></i></button>
+            </form>
             @if ($karyaIlmiah->status == 3)
             @endif
             <div class="row mt-3">

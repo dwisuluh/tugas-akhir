@@ -46,7 +46,10 @@ class FileKaryaController extends Controller
      */
     public function show(FileKarya $fileKarya)
     {
-        dd($fileKarya);
+        // dd($fileKarya);
+        $fileKarya->load('karyaIlmiah');
+        $lokasi = 'naskah/';
+        return view('karya.download-surat',compact(['fileKarya','lokasi']));
     }
 
     /**
@@ -57,7 +60,7 @@ class FileKaryaController extends Controller
      */
     public function edit(FileKarya $fileKarya)
     {
-        //
+        dd($fileKarya);
     }
 
     /**
