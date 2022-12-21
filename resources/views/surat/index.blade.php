@@ -78,28 +78,22 @@
                       <a href="{{ route($link . '.show', $mail->id) }}" type="button" class="btn btn-info btn-sm"
                         data-toggle="tooltip" data-placement="top" title="Detail"><i class="bi bi-eye"></i></a>
                       @can('admin')
-                        <a href="{{ route($link . '.edit', $mail->id) }}" type="button"
-                          class="btn btn-warning btn-sm {{ $mail->status == 4 ? 'disabled' : '' }}" data-toggle="tooltip"
-                          data-placement="top" title="Proses" disabled><i class="bi bi-pencil-square"></i></a>
-                        @if ($mail->status == 2 || $mail->status == 3)
+                        @if ($mail->status == 1 || $mail->status == 2)
+                          <a href="{{ route($link . '.edit', $mail->id) }}" type="button" class="btn btn-warning btn-sm"
+                            data-toggle="tooltip" data-placement="top" title="Proses" disabled><i
+                              class="bi bi-pencil-square"></i></a>
+                        @endif
+                        @if ($mail->status == 2)
                           <a href="{{ route('files.show', $mail->id) }}" target="_blank" type="button"
-                            class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Print"><i class="bi bi-printer"></i> </a>
+                            class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Print"><i
+                              class="bi bi-printer"></i> </a>
                         @endif
                       @endcan
                       @if ($mail->status == 3)
                         <a href="{{ route($print, $mail->id) }}" target="_blank" type="button"
-                          class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Download"><i class="bi bi-cloud-download"></i></a>
+                          class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Download"><i
+                            class="bi bi-cloud-download"></i></a>
                       @endif
-                      {{-- <a type="button" class="btn btn-primary btn-sm"
-                        href="{{ route('mahasiswa.edit', Crypt::encryptString($mahasiswa->id)) }}" data-toggle="tooltip"
-                        data-placement="top" title="Edit"><i class="bi bi-pencil"></i></a> --}}
-                      {{-- <form method="POST" action="{{ route('mahasiswa.destroy', Crypt::encryptString($mahasiswa->id)) }}"
-                        class="d-inline">
-                        @method('DELETE')
-                        @csrf
-                        <button type="button" class="btn btn-danger btn-sm"><i class="bi bi-trash" data-toggle="tooltip"
-                            data-placement="top" title="Delete"></i></button>
-                      </form> --}}
                     </td>
                   </tr>
                 @endforeach

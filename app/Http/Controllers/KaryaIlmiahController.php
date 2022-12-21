@@ -52,7 +52,7 @@ class KaryaIlmiahController extends Controller
         $title = 'Karya Ilmiah';
         $link = 'karya-ilmiah';
         $dosens = Dosen::all();
-        return view('karya.create', compact(['title', 'link','dosens']));
+        return view('karya.create', compact(['title', 'link', 'dosens']));
     }
 
     /**
@@ -130,10 +130,10 @@ class KaryaIlmiahController extends Controller
         $title = 'Karya Ilmiah';
         $link = 'karya-ilmiah';
         $file = 'naskah';
+        $print = 'print-karya-ilmiah';
         $karyaIlmiah->load(['mahasiswa', 'filekarya']);
-        // $files = $karyaIlmiah->filekarya()->where
-        // dd($karyaIlmiah->filekarya->where('jenis_file',1)->first());
-        return view('karya.show', compact(['karyaIlmiah', 'title', 'link', 'file']));
+
+        return view('karya.show', compact(['karyaIlmiah', 'title', 'link', 'file','print']));
     }
 
     /**
@@ -149,10 +149,10 @@ class KaryaIlmiahController extends Controller
         $karyaIlmiah['tgl_ujian'] = Carbon::createFromFormat('Y-m-d', $karyaIlmiah->tgl_ujian)->format('d/m/Y');
         $karyaIlmiah->load(['mahasiswa', 'filekarya']);
         $dosens = Dosen::all();
-        if(Gate::allows('admin')){
-            return view('karya.adminEdit',compact(['karyaIlmiah', 'title', 'link']));
+        if (Gate::allows('admin')) {
+            return view('karya.adminEdit', compact(['karyaIlmiah', 'title', 'link']));
         }
-        return view('karya.edit', compact(['karyaIlmiah', 'title', 'link','dosens']));
+        return view('karya.edit', compact(['karyaIlmiah', 'title', 'link', 'dosens']));
     }
 
     /**
@@ -165,6 +165,56 @@ class KaryaIlmiahController extends Controller
     public function update(Request $request, KaryaIlmiah $karyaIlmiah)
     {
         $input = [];
+        $catatan = NULL;
+        if (Gate::allows('mhs')) {
+            $rules = [
+                'judul' => 'required',
+                'tgl_ujian' => 'required',
+                'pembimbing1' => 'required',
+            ];
+
+            $request->validate($rules);
+
+            $input = [
+                'nim'   => $request->nim,
+                'judul' => $request->judul,
+                'pembimbing_1' => $request->pembimbing1,
+                'pembimbing_2' => NULL,
+                'tgl_ujian' => Carbon::createFromFormat('d/m/Y', $request->tgl_ujian),
+            ];
+
+            if ($request->pembimbing2) {
+                $input['pembimbing_2'] = $request->pembimbing2;
+            }
+
+            $karyaIlmiah->update($input);
+
+            if ($request->hasFile('file')) {
+                $uploadPath = public_path('naskah');
+                if (!File::isDirectory($uploadPath)) {
+                    File::makeDirectory($uploadPath, 0755, true, true);
+                }
+
+                $file = $request->file('file');
+                $explode = explode('.', $file->getClientOriginalName());
+                $originalName = $explode[0];
+                $extension = $file->getClientOriginalExtension();
+                $rename = 'naskah_' . date('YmdHis') . '.' . $extension;
+                $mime = $file->getClientMimeType();
+                $filesize = $file->getSize();
+
+                if ($file->move($uploadPath, $rename)) {
+
+                    $karyaIlmiah->filekarya()->update([
+                        'name' => $originalName,
+                        'file' => $rename,
+                        'extension' => $extension,
+                        'size' => $filesize,
+                        'mime' => $mime,
+                    ]);
+                }
+            }
+        }
         if (Gate::allows('admin')) {
             if ($request->status == 2) {
                 $input =
@@ -174,9 +224,9 @@ class KaryaIlmiahController extends Controller
                         'tgl_surat' => date('Y-m-d'),
                     ];
             }
-            if($request->status == 3){
+            if ($request->status == 3) {
                 $request->validate([
-                    'file' => ['required','mimes:pdf']
+                    'file' => ['required', 'mimes:pdf']
                 ]);
                 $input = ['status' => $request->status];
 
@@ -194,7 +244,6 @@ class KaryaIlmiahController extends Controller
                     $mime = $file->getClientMimeType();
                     $filesize = $file->getSize();
 
-                    // $id_karya = KaryaIlmiah::where('mahasiswa_id', $request->id_mhs)->latest()->first();
                     if ($file->move($uploadPath, $rename)) {
 
                         FileKarya::create([
@@ -209,13 +258,12 @@ class KaryaIlmiahController extends Controller
                     }
                 }
             }
+            $catatan = 'Pengumpulan Naskah berhasil di proses dan diterima, silahkan cetak surat keterangan..!!';
         }
 
         $cek = $karyaIlmiah->update($input);
 
-
-        return redirect('karya-ilmiah')->with('success', 'Pengumpulan Naskah berhasil di proses dan diterima, silahkan cetak surat keterangan..!!');
-        $rules = [];
+        return redirect('karya-ilmiah')->with('success', $catatan);
 
         // $this->destroy($karyaIlmiah->id);
     }
@@ -237,48 +285,30 @@ class KaryaIlmiahController extends Controller
     }
     public function print(KaryaIlmiah $karyaIlmiah)
     {
-        // dd($karyaIlmiah);
-        // $pdf = NULL;
+
         $karyaIlmiah['tgl_ind'] = Carbon::parse($karyaIlmiah->tgl_surat)->translatedFormat('j F Y');
         $karyaIlmiah->load(['mahasiswa']);
-        // if ($surat->id_surat == 1) {
-        //     $pdf = PDF::loadview('surat.pendahuluan.cetak', compact('surat'))->setPaper('A4');
-        // }
-        // if ($surat->id_surat == 2) {
-        //     $surat['tgl_mulai_ind'] = Carbon::parse($surat->tgl_mulai)->translatedFormat('j F Y');
-        //     $surat['tgl_selesai_ind'] = Carbon::parse($surat->tgl_selesai)->translatedFormat('j F Y');
-        //     $pdf = PDF::loadview('karya.cetak', compact('surat'))->setPaper('A4');
-        // }
+
         $data =
-            'Nama : '.$karyaIlmiah->mahasiswa->name.' | '.
-            'Nim : '.$karyaIlmiah->nim.' | '.
-            'Pembimbing_1 : '.$karyaIlmiah->pembimbing_1.' | '.
-            'Pembimbing-2 : '.$karyaIlmiah->pembimbing_2.' | '.
-            'Tanggal_Surat : '.$karyaIlmiah->tgl_surat.' | '.
-            'Admin : '.$karyaIlmiah->admin
-        ;
-        // $data = [
-        //     'Nama' => $karyaIlmiah->mahasiswa->name,
-        //     'Nim'  => $karyaIlmiah->nim,
-        //     'Pembimbing_1' => $karyaIlmiah->pembimbing_1,
-        //     'Pembimbing-2' => $karyaIlmiah->pembimbing_2,
-        //     'Tanggal_Surat' => $karyaIlmiah->tgl_surat,
-        //     'Admin' => $karyaIlmiah->admin,
-        // ];
-        // dd($karyaIlmiah  );
+            'Nama : ' . $karyaIlmiah->mahasiswa->name . ' | ' .
+            'Nim : ' . $karyaIlmiah->nim . ' | ' .
+            'Pembimbing_1 : ' . $karyaIlmiah->pembimbing_1 . ' | ' .
+            'Pembimbing-2 : ' . $karyaIlmiah->pembimbing_2 . ' | ' .
+            'Tanggal_Surat : ' . $karyaIlmiah->tgl_surat . ' | ' .
+            'Admin : ' . $karyaIlmiah->admin;
+
         // $qrCode = base64_encode(QrCode::format('svg')->size(100)->errorCorrection('H')->generate(implode($data)));
         $qrCode = base64_encode(QrCode::format('svg')->size(100)->errorCorrection('H')->generate(stripslashes($data)));
         // $qrCode = QrCode::size(200)->generate($karyaIlmiah);
-        $pdf = PDF::loadview('karya.cetak',compact(['karyaIlmiah','qrCode']))->setPaper('A4');
+        $pdf = PDF::loadview('karya.cetak', compact(['karyaIlmiah', 'qrCode']))->setPaper('A4');
         return $pdf->stream('surat_Keterangan_' . $karyaIlmiah->nim . '.pdf');
     }
 
     public function download(KaryaIlmiah $karyaIlmiah)
     {
         dd($karyaIlmiah);
-        $karyaIlmiah->load(['mahasiswa','filekarya']);
+        $karyaIlmiah->load(['mahasiswa', 'filekarya']);
         $lokasi = 'naskah/';
-        return view('karya.download-surat',compact(['karyaIlmiah','lokasi']));
-
+        return view('karya.download-surat', compact(['karyaIlmiah', 'lokasi']));
     }
 }

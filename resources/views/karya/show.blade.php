@@ -61,14 +61,17 @@
                   align="top" height="720" width="100%" frameborder="0" scrolling="auto"></iframe>
               </div>
             </div>
-            @if ($karyaIlmiah->status == 3)
-            @endif
             <div class="row mt-3">
               <div class="text-start col-6">
                 <a href="{{ url()->previous() }}" type="button" class="btn btn-danger"><i
                     class="bi bi-arrow-left-circle"></i> Back</a>
               </div>
               <div class="col-6 text-end">
+                @if ($karyaIlmiah->status == 3)
+                <a href="{{ route('file-karya.show', $karyaIlmiah->filekarya->where('jenis_file', 2)->first()->id) }}"
+                    target="_blank" type="button" class="btn btn-success btn-sm"><i
+                      class="bi bi-cloud-download"></i> Download</a>
+                @endif
                 @can('mhs')
                   @if ($karyaIlmiah->status == 1)
                     <a href="{{ route($link . '.edit', $karyaIlmiah->id) }}" target="_blank" type="button"
@@ -90,7 +93,9 @@
                       <button type="submit" class="btn btn-primary">Proses <i
                           class="bi bi-arrow-right-circle"></i></button>
                     </form>
-                    <a href="{{ route('files.show', $karyaIlmiah->id) }}" target="_blank" type="button"
+                  @endif
+                  @if ($karyaIlmiah->status == 2)
+                    <a href="{{ route('print-karya', $karyaIlmiah->id) }}" target="_blank" type="button"
                       class="btn btn-success"><i class="bi bi-printer"></i> Print</a>
                   @endif
                 @endcan

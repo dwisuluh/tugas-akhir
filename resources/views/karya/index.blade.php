@@ -42,96 +42,86 @@
               @else
                 <p class="text-end"><a href="#" class="btn btn-danger btn-sm text-end d-inline">
                     <i class="bi bi-x-circle"></i> Masih Ada Proses Pengajuan </a></p>
-              </div>
-              @endif
-            @endcan
-          </div>
-          <!-- Bordered Table -->
-          <table class="table datatable table-striped">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">
-                  @can('mhs')
-                    Judul Karya Tulis
-                  @endcan
-                  @can('admin')
-                    NIM
-                  @endcan
-                </th>
-                <th scope="col">Tanggal Surat</th>
-                <th scope="col">Tanggal Pengajuan</th>
-                <th scope="col">Status</th>
-                <th scope="col">Aksi</th>
-              </tr>
-            </thead>
-            <tbody>
-              @foreach ($karyas as $mail)
+                @endif
+              @endcan
+            </div>
+            <!-- Bordered Table -->
+            <table class="table datatable table-striped">
+              <thead>
                 <tr>
-                  <td scope="row">{{ $loop->iteration }}</td>
-                  <td>
-                    @can('admin')
-                      {{ $mail->nim }}
-                    @endcan
+                  <th scope="col">#</th>
+                  <th scope="col">
                     @can('mhs')
-                      {!! $mail->judul !!}
-                    @endcan
-                  </td>
-                  <td>{{ $mail->tgl_surat }}</td>
-                  <td>{{ $mail->created_at }}</td>
-                  <td>
-                    @if ($mail->status == 1)
-                      <span class="badge rounded-pill bg-primary">Open</span>
-                    @elseif ($mail->status == 2)
-                      <span class="badge rounded-pill bg-warning">On Progress</span>
-                    @elseif ($mail->status == 3)
-                      <span class="badge rounded-pill bg-success">Done</span>
-                    @elseif ($mail->status == 4)
-                      <span class="badge rounded-pill bg-danger">Rejected</span>
-                    @endif
-                  </td>
-                  <td>
-                    <a href="{{ route($link . '.show', $mail->id) }}" type="button" class="btn btn-info btn-sm"
-                      data-toggle="tooltip" data-placement="top" title="Detail"><i class="bi bi-eye"></i></a>
-                    @can('mhs')
-                      @if ($mail->status == 1)
-                        <a href="{{ route($link . '.edit', $mail->id) }}" type="button"
-                          class="btn btn-warning btn-sm {{ $mail->status == 4 ? 'disabled' : '' }}" data-toggle="tooltip"
-                          data-placement="top" title="Proses" disabled><i class="bi bi-pencil-square"></i></a>
-                      @endif
+                      Judul Karya Tulis
                     @endcan
                     @can('admin')
-                      @if ($mail->status == 2 || $mail->status == 3)
-                        <a href="{{ route($link . '.edit', $mail->id) }}" type="button"
-                          class="btn btn-success btn-sm {{ $mail->status == 4 ? 'disabled' : '' }}" data-toggle="tooltip"
-                          data-placement="top" title="Upload Surat" disabled><i class="bi bi-upload"></i></a>
-                        <a href="{{ route('print-karya', $mail->id) }}" target="_blank" type="button"
-                          class="btn btn-primary btn-sm"><i class="bi bi-printer"></i> </a>
-                      @endif
+                      NIM
                     @endcan
-                    @if ($mail->status == 3)
-                      <a href="{{ route('file-karya.show', $mail->filekarya->where('jenis_file',2)->first()->id) }}" target="_blank" type="button"
-                        class="btn btn-success btn-sm"><i class="bi bi-cloud-download"></i></a>
-                    @endif
-                    {{-- <a type="button" class="btn btn-primary btn-sm"
-                        href="{{ route('mahasiswa.edit', Crypt::encryptString($mahasiswa->id)) }}" data-toggle="tooltip"
-                        data-placement="top" title="Edit"><i class="bi bi-pencil"></i></a> --}}
-                    {{-- <form method="POST" action="{{ route('mahasiswa.destroy', Crypt::encryptString($mahasiswa->id)) }}"
-                        class="d-inline">
-                        @method('DELETE')
-                        @csrf
-                        <button type="button" class="btn btn-danger btn-sm"><i class="bi bi-trash" data-toggle="tooltip"
-                            data-placement="top" title="Delete"></i></button>
-                      </form> --}}
-                  </td>
+                  </th>
+                  <th scope="col">Tanggal Surat</th>
+                  <th scope="col">Tanggal Pengajuan</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Aksi</th>
                 </tr>
-              @endforeach
-            </tbody>
-          </table>
-          <!-- End Data Surat -->
+              </thead>
+              <tbody>
+                @foreach ($karyas as $mail)
+                  <tr>
+                    <td scope="row">{{ $loop->iteration }}</td>
+                    <td>
+                      @can('admin')
+                        {{ $mail->nim }}
+                      @endcan
+                      @can('mhs')
+                        {!! $mail->judul !!}
+                      @endcan
+                    </td>
+                    <td>{{ $mail->tgl_surat }}</td>
+                    <td>{{ $mail->created_at }}</td>
+                    <td>
+                      @if ($mail->status == 1)
+                        <span class="badge rounded-pill bg-primary">Open</span>
+                      @elseif ($mail->status == 2)
+                        <span class="badge rounded-pill bg-warning">On Progress</span>
+                      @elseif ($mail->status == 3)
+                        <span class="badge rounded-pill bg-success">Done</span>
+                      @elseif ($mail->status == 4)
+                        <span class="badge rounded-pill bg-danger">Rejected</span>
+                      @endif
+                    </td>
+                    <td>
+                      <a href="{{ route($link . '.show', $mail->id) }}" type="button" class="btn btn-info btn-sm"
+                        data-toggle="tooltip" data-placement="top" title="Detail"><i class="bi bi-eye"></i></a>
+                      @can('mhs')
+                        @if ($mail->status == 1)
+                          <a href="{{ route($link . '.edit', $mail->id) }}" type="button"
+                            class="btn btn-warning btn-sm {{ $mail->status == 4 ? 'disabled' : '' }}" data-toggle="tooltip"
+                            data-placement="top" title="Proses" disabled><i class="bi bi-pencil-square"></i></a>
+                        @endif
+                      @endcan
+                      @can('admin')
+                        @if ($mail->status == 2)
+                          <a href="{{ route($link . '.edit', $mail->id) }}" type="button"
+                            class="btn btn-success btn-sm {{ $mail->status == 4 ? 'disabled' : '' }}" data-toggle="tooltip"
+                            data-placement="top" title="Upload Surat" disabled><i class="bi bi-upload"></i></a>
+                          <a href="{{ route('print-karya', $mail->id) }}" target="_blank" type="button"
+                            class="btn btn-primary btn-sm"><i class="bi bi-printer"></i> </a>
+                        @endif
+                      @endcan
+                      @if ($mail->status == 3)
+                        <a href="{{ route('file-karya.show', $mail->filekarya->where('jenis_file', 2)->first()->id) }}"
+                          target="_blank" type="button" class="btn btn-success btn-sm"><i
+                            class="bi bi-cloud-download"></i></a>
+                      @endif
+                    </td>
+                  </tr>
+                @endforeach
+              </tbody>
+            </table>
+            <!-- End Data Surat -->
+          </div>
         </div>
       </div>
     </div>
-  </div>
   </div>
 @endsection

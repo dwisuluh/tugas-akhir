@@ -44,6 +44,7 @@
               <!-- General Form Elements -->
               <form class="needs-validation" novalidate action="{{ route($link . '.update', $karyaIlmiah->id) }}"
                 method="POST" enctype="multipart/form-data">
+                @method('PUT')
                 @csrf
                 {{-- <input type="hidden" value="{{ Auth::user()->mahasiswa->id }}" name="id_mhs"> --}}
                 <div class="row mb-3">
@@ -144,7 +145,7 @@
                   <div class="col-sm-10">
                     <input class="form-control @error('file') is-invalid
                     @enderror" type="file"
-                      id="formFile" name="file" required>
+                      id="formFile" name="file">
                     @error('file')
                       <span class="invalid-feedback" role="alert">
                         {{ $message }}

@@ -125,7 +125,7 @@
                     <div class="row mb-3">
                       <label for="Lokasi" class="col-sm-2 col-form-label">Lokasi Penelitian</label>
                       <div class="col-sm-10">
-                        <input id="lokasi" type="hidden" name="lokasi" value="{{ old('lokasi',$surat->lokasi) }}">
+                        <input id="lokasi" type="hidden" name="lokasi" value="{{ old('lokasi', $surat->lokasi) }}">
                         <trix-editor input="lokasi"
                           class="@error('lokasi')
                       is-invalid
@@ -145,7 +145,7 @@
                           @error('tgl_awal')
                         is-invalid
                     @enderror
-                          name="tgl_awal" value="{{ old('tgl_awal',$surat->tgl_mulai) }}" required>
+                          name="tgl_awal" value="{{ old('tgl_awal', $surat->tgl_mulai) }}" required>
                       </div>
                       <label for="inputDate" class="col-sm-1 col-form-label"> Sampai </label>
                       <div class="col-sm-4">
@@ -153,13 +153,13 @@
                           class="form-control @error('tgl_akhir')
                         is-invalid
                     @enderror"
-                          name="tgl_akhir" value="{{ old('tgl_akhir',$surat->tgl_selesai) }}" required>
+                          name="tgl_akhir" value="{{ old('tgl_akhir', $surat->tgl_selesai) }}" required>
                       </div>
                     </div>
                   @endif
                   <div class="row mb-3">
                     <label for="noSurat" class="col-sm-2 col-form-label">Nomor Surat</label>
-                    <div class="col-sm-10">
+                    <div class="col-sm-4">
                       <input type="number" class="form-control @error('noSurat') is-invalid @enderror"
                         value="{{ old('noSurat', $surat->no_surat) }}" name="noSurat" required>
                     </div>
@@ -171,9 +171,12 @@
                   </div>
                   <div class="row mb-3">
                     <label for="tglSurat" class="col-sm-2 col-form-label">Tanggal Surat</label>
-                    <div class="col-sm-10">
-                      <input type="date" class="form-control @error('tglSurat') is-invalid @enderror"
-                        value="{{ old('tglSurat', $surat->tgl_surat) }}" name="tglSurat" required>
+                    <div class="col-sm-4">
+                      <div class="input-group date">
+                        <input type="text" class="form-control datepicker @error('tglSurat') is-invalid @enderror"
+                          value="{{ old('tglSurat', $surat->tgl_surat) }}" name="tglSurat" required>
+                        <span class="input-group-text" id="basic-addon2"><i class="bi bi-calendar-date"></i></span>
+                      </div>
                     </div>
                   </div>
                 @endif

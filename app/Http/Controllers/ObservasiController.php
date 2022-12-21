@@ -22,12 +22,10 @@ class ObservasiController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        // $this->surat = Surat::where('id_surat', 1)->with(['mahasiswa', 'files'])->latest()->get();
     }
 
     public function index()
     {
-        // $surats = $this->surat;
         $surats = Surat::where('id_surat', 1)->with(['mahasiswa', 'files'])->latest()->get();
         if (Gate::allows('mhs')) {
             $mhsId = Auth::user()->mahasiswa->id;
@@ -37,7 +35,7 @@ class ObservasiController extends Controller
         $link = 'surat-observasi';
         $print = 'print-observasi';
         return view('surat.index', compact([
-            'surats', 'title', 'link','print'
+            'surats', 'title', 'link', 'print'
         ]));
     }
 
@@ -94,8 +92,8 @@ class ObservasiController extends Controller
         $title = 'Studi Pendahuluan';
         $link = 'surat-observasi';
         $fileSurat = 'pendahuluan';
-        $surat->load(['mahasiswa','files']);
-        return view('surat.show',compact(['surat','title','link','fileSurat']));
+        $surat->load(['mahasiswa', 'files']);
+        return view('surat.show', compact(['surat', 'title', 'link', 'fileSurat']));
     }
 
     /**
@@ -125,7 +123,7 @@ class ObservasiController extends Controller
         if ($request->status == 2) {
             $rules = [
                 'noSurat' => 'required',
-                'tglSurat' => 'required|date'
+                'tglSurat' => 'required'
             ];
         }
         if ($request->tujuan != $surat->tujuan && $request->status == 2) {
@@ -141,7 +139,6 @@ class ObservasiController extends Controller
             $rules['file'] = ['required', 'mimes:pdf'];
         }
         $request->validate($rules);
-        // dd($rules);
 
         if ($request->status == 2) {
             $surat->update([
@@ -149,7 +146,7 @@ class ObservasiController extends Controller
                 'alamat'    => $request->alamat,
                 'judul'     => $request->judul,
                 'no_surat'  => $request->noSurat,
-                'tgl_surat' => $request->tglSurat,
+                'tgl_surat' => Carbon::createFromFormat('d/m/Y', $request->tglSurat),
                 'status'    => $request->status,
                 'admin'     => Auth::user()->name
 
@@ -213,7 +210,7 @@ class ObservasiController extends Controller
                 'thanks'        => 'Atas perhatian dan kerjasama yang baik diucapkan terima kasih'
             ];
             Notification::route('mail', $surat->mahasiswa['email'])->notify(new EmailNotification($send));
-            return redirect('surat-observasi')->with('failed','Surat Pengajuan dibatalkan');
+            return redirect('surat-observasi')->with('failed', 'Surat Pengajuan dibatalkan');
         }
         return redirect('surat-observasi')->with('success', 'Surat berhasil diproses');
     }
@@ -226,13 +223,16 @@ class ObservasiController extends Controller
      */
     public function destroy(Surat $surat)
     {
-        //
+        $surat->update(['status' => 4]);
+
+        return redirect('surat-observasi')->with('danger','Surat pengajuan studi pendahuluan berhasil dibatalkan atau ditolak,,,!!!');
+
     }
     public function print(Surat $surat)
     {
         // dd($surat);
-        $surat->load(['files','mahasiswa']);
+        $surat->load(['files', 'mahasiswa']);
         $lokasi = 'pendahuluan/';
-        return view('surat.print',compact(['surat','lokasi']));
+        return view('surat.print', compact(['surat', 'lokasi']));
     }
 }
