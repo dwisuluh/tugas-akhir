@@ -100,35 +100,38 @@
                   </div>
                 </div>
                 <div class="row mb-3">
-                  <label for="Pembimbing" class="col-sm-2 col-form-label">Pembimbing</label>
+                  <label for="Pembimbing1" class="col-sm-2 col-form-label">Pembimbing 1</label>
                   <div class="col-sm-6">
                     <select
-                      class="form-select select2 @error('pembimbing')
+                      class="form-select pembimbing @error('pembimbing1')
                         is-invalid
-                    @enderror"
-                      id="js-example-basic-single" multiple aria-label="Default select example" name="pembimbing[]"
-                      required>
-                      <option>Ibnu Mardiyoko, S.KM., MM</option>
-                      <option>Hendra Rohman, S.KM. M.P.H</option>
-                      <option>Syarah Mazaya F., S.KM., M.P.H</option>
-                      <option>Vidya Widowati, S.KM., M.A.R.S</option>
-                      <option>Yuli Fitriyah, S.KM., M.P.H</option>
-                      <option>Agung Dwi Saputro, S.KM., M.A.R.S</option>
-                      <option>Andhy Sulistyo, M.Kom</option>
-                      <option>dr. Anna Dewi Lukitasari, M.P.H</option>
-                      <option>Indra Narendra, M.H.Kes</option>
-                      <option>M. Imron Mawardi, M.Kes (Epid)</option>
-                      <option>Sugeng, S.KM., MM</option>
-                      <option>Ana Mardiyaningsih, M.Sc., Apt</option>
-                      <option>Eddy Kristiyono, S.KM</option>
-                      <option>Fadia Sulaiman, S.Thi., M.Si</option>
-                      <option>Nur Ismiyati, M.Sc., Apt</option>
-                      <option>Oni Noviandi K., S.Pd., M.Pd</option>
-                      <option>Pramono, S.Kom</option>
-                      <option>Widhi Sulistyo, S.Kom. M.Cs</option>
-                      <option>Windadari Murni Hartini, M.P.H</option>
+                    @enderror" id="my-select2"
+                      aria-label="Default select example" name="pembimbing1" style="width: 50%; font-size:15px" required>
+                      <option></option>
+                      @foreach ($dosens as $dosen)
+                        <option>{{ $dosen->nama }}</option>
+                      @endforeach
                     </select>
-                    @error('pembimbing')
+                    @error('pembimbing1')
+                      <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                      </span>
+                    @enderror
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="Pembimbing2" class="col-sm-2 col-form-label">Pembimbing 2</label>
+                  <div class="col-sm-6">
+                    <select
+                      class="form-select @error('pembimbing2')
+                        is-invalid @enderror"
+                      aria-label="Default select example" id="pembimbing" style="width: 50%; font-size:20px" name="pembimbing2">
+                      <option></option>
+                      @foreach ($dosens as $dosen)
+                        <option>{{ $dosen->nama }}</option>
+                      @endforeach
+                    </select>
+                    @error('pembimbing[]')
                       <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                       </span>
@@ -193,7 +196,6 @@
                   </div>
                 </div>
               </form><!-- End General Form Elements -->
-
             </div>
           </div>
         </div>

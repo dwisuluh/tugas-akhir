@@ -101,12 +101,23 @@
   <script src="{{ asset('/') }}plugins/js/main.js"></script>
   <script>
     $(document).ready(function() {
-      $('#js-example-basic-single').select2({
+      $('#pembimbing').select2({
         placeholder: "Pilih Dosen.....",
         minimumInputLength: 3,
         required: true,
         allowClear: true,
-        maximumSelectionLength: 2,
+        autoclose: true,
+        width: 'resolve',
+        // width: '300px',
+        // dropdownCssClass: "bigdrop"
+      });
+      $('#my-select2').select2({
+        placeholder: "Pilih Dosen.....",
+        minimumInputLength: 3,
+        required: true,
+        allowClear: true,
+        width: 'resolve',
+        // maximumSelectionLength: 2,
         autoclose: true,
       });
     });

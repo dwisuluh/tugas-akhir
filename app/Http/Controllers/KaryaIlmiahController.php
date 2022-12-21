@@ -3,14 +3,15 @@
 namespace App\Http\Controllers;
 
 use PDF;
+use QrCode;
 use Carbon\Carbon;
+use App\Models\Dosen;
 use App\Models\FileKarya;
 use App\Models\KaryaIlmiah;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Gate;
-use QrCode;
 
 class KaryaIlmiahController extends Controller
 {
@@ -26,13 +27,12 @@ class KaryaIlmiahController extends Controller
     public function index()
     {
         $karyas = KaryaIlmiah::with(['mahasiswa', 'filekarya'])->latest()->get();
-        // dd($karyas);
 
         if (Gate::allows('mhs')) {
             $mhsId = Auth::user()->mahasiswa->id;
             $karyas = $karyas->where('mahasiswa_id', $mhsId);
         }
-        // dd($karyas->filekarya->where('jenis_file',2)->get());
+
         $title = 'Karya Ilmiah';
         $link = 'karya-ilmiah';
         $print = 'print-karya-ilmiah';
@@ -51,7 +51,8 @@ class KaryaIlmiahController extends Controller
         $this->authorize('mhs');
         $title = 'Karya Ilmiah';
         $link = 'karya-ilmiah';
-        return view('karya.create', compact(['title', 'link']));
+        $dosens = Dosen::all();
+        return view('karya.create', compact(['title', 'link','dosens']));
     }
 
     /**
@@ -125,8 +126,6 @@ class KaryaIlmiahController extends Controller
      */
     public function show(KaryaIlmiah $karyaIlmiah)
     {
-        dd($karyaIlmiah);
-
         $karyaIlmiah['tgl_indo'] = Carbon::parse($karyaIlmiah->tgl_ujian)->translatedFormat('j F Y');
         $title = 'Karya Ilmiah';
         $link = 'karya-ilmiah';
