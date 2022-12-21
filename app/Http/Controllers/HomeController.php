@@ -21,18 +21,21 @@ class HomeController extends Controller
         $surats = Surat::with('mahasiswa')->latest()->get();
         $karyas = KaryaIlmiah::with('mahasiswa')->latest()->get();
         $countMhs = NULL;
-        // dd($surats);
+        $dashboard = NULL;
+
         if (Gate::allows('admin')) {
             $surats = $surats->where('status', 1);
             $karyas = $karyas->where('status', 1);
             $countMhs = Mahasiswa::count();
+            $dashboard = 'home.dashboard.home';
         }
         if (Gate::allows('mhs')) {
             $mhsId = Auth::User()->mahasiswa->id;
             $surats = $surats->where('mahasiswa_id',$mhsId);
             $karyas = $karyas->where('mahasiswa_id',$mhsId);
+            $dashboard = 'home.mahasiswa.home';
         }
-        return view('home.dashboard.home', compact([
+        return view($dashboard, compact([
             'countMhs', 'karyas', 'surats'
         ]));
     }

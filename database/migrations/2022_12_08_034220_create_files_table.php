@@ -17,10 +17,10 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('surat_id');
             $table->string('name');
-            $table->string('file');
-            $table->string('extension');
+            $table->string('file',100);
+            $table->string('extension',10);
             $table->integer('size');
-            $table->string('mime');
+            $table->string('mime',50);
             $table->timestamps();
         });
     }

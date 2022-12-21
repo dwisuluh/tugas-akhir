@@ -19,6 +19,9 @@ class MahasiswasImport implements ToModel
             'name'  => $row[1],
             'jenis_kelamin' => $row[2],
             'program_studi' => $row[3],
+            'nik'   => $row[4],
+            'tempat_lahir'  => $row[5],
+            'tgl_lahir' => $row[6],
         ]);
     }
 }

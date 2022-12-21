@@ -53,11 +53,11 @@
                         href="{{ route('user.show', Crypt::encrypt($user->id)) }}"><i class="bi bi-eye"></i></a>
                       <a type="button" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Edit"
                         href="{{ route('user.edit', Crypt::encrypt($user->id)) }}"><i class="bi bi-pencil"></i></a>
-                      <form method="POST" action="{{ route('user.destroy', Crypt::encrypt($user->id)) }}"
+                      <form method="POST" action="{{ route('user.destroy', $user->id) }}"
                         class="d-inline">
                         @method('DELETE')
                         @csrf
-                        <button type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top"
+                        <button type="submit" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top"
                           title="Delete" onclick="return "><i class="bi bi-trash"></i></button>
                       </form>
                       {{-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#disablebackdrop">

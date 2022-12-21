@@ -43,6 +43,16 @@ Route::controller(RegisterController::class)->group(function () {
     Route::post('register','store');
     Route::post('register-reset','reset');
 });
+Route::controller(MahasiswaController::class)->group(function(){
+    Route::get('mahasiswa-import', 'import')->name('import-mahasiswa');
+    Route::post('import-data-mahasiswa','importData')->name('data-mahasiswa');
+})->middleware('admin');
+Route::resource('mahasiswa', MahasiswaController::class)->middleware('auth');
+Route::resource('data-dosen', DosenController::class);
+Route::controller(DosenController::class)->group(function(){
+    Route::get('import','import')->name('dosen-import');
+    Route::post('import-dosen','importData')->name('import-dosen');
+});
 // Route::get('login', [LoginController::class, 'index'])->name('login')->middleware('guest');
 // Route::post('login', [LoginController::class, 'authenticate']);
 // Route::post('logout', [LoginController::class, 'logout']);
@@ -56,16 +66,15 @@ Route::resource('surat-observasi', ObservasiController::class)->except('destroy'
 Route::get('surat-observasi-print/{surat}', [ObservasiController::class, 'print'])->name('print-observasi');
 Route::get('surat-penelitian-print/{surat}', [PenelitianController::class, 'print'])->name('print-penelitian');
 Route::resource('user', UserController::class)->middleware('auth');
-Route::resource('mahasiswa', MahasiswaController::class)->middleware('auth');
-Route::get('import', [MahasiswaController::class, 'import'])->name('mahasiswa-import');
+Route::get('replacePass/{id}',[UserController::class,'replacePass'])->name('replace-pass')->middleware('auth');
+// Route::get('import', [MahasiswaController::class, 'import'])->name('mahasiswa-import');
 Route::resource('files', FileController::class)->middleware('auth');
 Route::resource('file-karya', FileKaryaController::class)->middleware('auth');
 Route::get('karya-ilmiah-print/{karyaIlmiah}', [KaryaIlmiahController::class, 'print'])->name('print-karya');
 // Route::get('karya-ilmiah-download-surat{karyaIlmiah}', [KaryaIlmiahController::class, 'download'])->name('download-surat');
-Route::post('import-mahasiswa', [MahasiswaController::class, 'importData'])->name('import-data');
-Route::resource('data-dosen', DosenController::class);
-Route::get('import', [DosenController::class, 'import'])->name('dosen-import');
-Route::post('import-dosen', [DosenController::class, 'importData'])->name('import-dosen');
+// Route::post('import-data-mahasiswa', [MahasiswaController::class, 'importData'])->name('import-data');
+// Route::get('import', [DosenController::class, 'import'])->name('dosen-import');
+// Route::post('import-dosen', [DosenController::class, 'importData'])->name('import-dosen');
 Route::fallback(function () {
     return view('layouts.404');
 });

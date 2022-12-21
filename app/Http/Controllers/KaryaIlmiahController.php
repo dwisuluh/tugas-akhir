@@ -67,7 +67,7 @@ class KaryaIlmiahController extends Controller
         $rules = [
             'judul' => 'required',
             'tgl_ujian' => 'required',
-            'pembimbing' => 'required',
+            'pembimbing1' => 'required',
             'file'  => 'required|mimes:pdf'
         ];
 
@@ -77,12 +77,12 @@ class KaryaIlmiahController extends Controller
             'mahasiswa_id' => $request->id_mhs,
             'nim'   => $request->nim,
             'judul' => $request->judul,
-            'pembimbing_1' => $request->pembimbing['0'],
+            'pembimbing_1' => $request->pembimbing1,
             'tgl_ujian' => Carbon::createFromFormat('d/m/Y', $request->tgl_ujian),
         ];
 
-        if (count($request->pembimbing) == 2) {
-            $input['pembimbing_2'] = $request->pembimbing['1'];
+        if ($request->pembimbing2) {
+            $input['pembimbing_2'] = $request->pembimbing2;
         }
 
         KaryaIlmiah::create($input);
@@ -148,10 +148,11 @@ class KaryaIlmiahController extends Controller
         $link = 'karya-ilmiah';
         $karyaIlmiah['tgl_ujian'] = Carbon::createFromFormat('Y-m-d', $karyaIlmiah->tgl_ujian)->format('d/m/Y');
         $karyaIlmiah->load(['mahasiswa', 'filekarya']);
+        $dosens = Dosen::all();
         if(Gate::allows('admin')){
             return view('karya.adminEdit',compact(['karyaIlmiah', 'title', 'link']));
         }
-        return view('karya.edit', compact(['karyaIlmiah', 'title', 'link']));
+        return view('karya.edit', compact(['karyaIlmiah', 'title', 'link','dosens']));
     }
 
     /**

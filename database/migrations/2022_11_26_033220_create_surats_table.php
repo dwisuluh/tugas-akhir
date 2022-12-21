@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('surats', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('mahasiswa_id');
-            $table->string('nim');
+            $table->string('nim',15);
             $table->text('tujuan');
             $table->text('alamat');
             $table->text('judul');
@@ -24,9 +24,9 @@ return new class extends Migration
             $table->text('lokasi')->nullable();
             $table->date('tgl_mulai')->nullable();
             $table->date('tgl_selesai')->nullable();
-            $table->string('no_surat')->nullable();
+            $table->string('no_surat',5)->nullable();
             $table->date('tgl_surat')->nullable();
-            $table->string('admin')->nullable();
+            $table->string('admin',100)->nullable();
             $table->enum('status',['1','2','3','4'])->default('1');
             $table->timestamps();
         });

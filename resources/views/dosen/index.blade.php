@@ -22,12 +22,21 @@
             </div>
           </div>
         @endif
+        @if (session()->has('danger'))
+          <div class="d-flex justify-content-center py-4">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              <i class="bi bi-person-x-fill me-1"></i>
+              {{ session('danger') }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          </div>
+        @endif
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Data Dosen</h5>
             <p>
               <span class="text-start">
-                <a href="{{ route('dosen-import') }}" class="btn btn-sm btn-success"><i class="bi bi-cloud-arrow-up"></i>Import</a>
+                <a href="{{ route('dosen-import') }}" class="btn btn-sm btn-success"><i class="bi bi-cloud-arrow-up"></i> Import</a>
               </span>
               <span class="text-end sm-auto">
                 <a href="{{ route('data-dosen.create') }}" class="btn btn-primary btn-sm sm-auto text-end">
@@ -56,9 +65,9 @@
                         data-placement="top" title="Edit"><i class="bi bi-pencil"></i></a>
                       <form method="POST" action="{{ route('data-dosen.destroy', $list->id) }}"
                         class="d-inline">
-                        @method('DELETE')
                         @csrf
-                        <button type="button" class="btn btn-danger btn-sm"><i class="bi bi-trash" data-toggle="tooltip"
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-trash" data-toggle="tooltip"
                             data-placement="top" title="Delete"></i></button>
                       </form>
                     </td>

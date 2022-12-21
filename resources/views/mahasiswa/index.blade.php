@@ -27,7 +27,7 @@
             <h5 class="card-title">Data Mahasiswa</h5>
             <p>
               <span class="text-start">
-                <a href="{{ route('mahasiswa-import') }}" class="btn btn-sm btn-success"><i class="bi bi-cloud-arrow-up"></i>Import</a>
+                <a href="{{ route('import-mahasiswa') }}" class="btn btn-sm btn-success"><i class="bi bi-cloud-arrow-up"></i> Import</a>
               </span>
               <span class="text-end sm-auto">
                 <a href="{{ route('mahasiswa.create') }}" class="btn btn-primary btn-sm sm-auto text-end">
@@ -60,7 +60,7 @@
                       <a type="button" class="btn btn-primary btn-sm"
                         href="{{ route('mahasiswa.edit', Crypt::encryptString($mahasiswa->id)) }}" data-toggle="tooltip"
                         data-placement="top" title="Edit"><i class="bi bi-pencil"></i></a>
-                      <form method="POST" action="{{ route('mahasiswa.destroy', Crypt::encryptString($mahasiswa->id)) }}"
+                      <form method="POST" action="{{ route('mahasiswa.destroy', $mahasiswa->id) }}"
                         class="d-inline">
                         @method('DELETE')
                         @csrf

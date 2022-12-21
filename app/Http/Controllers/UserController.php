@@ -124,4 +124,11 @@ class UserController extends Controller
         User::findOrFail($id)->delete();
         return redirect('user')->with('success','Data berhasil dihapus..!!!');
     }
+
+    public function replacePass($id)
+    {
+        $user = User::findOrFail($id);
+
+        return view('user.replacePass',compact('user'));
+    }
 }

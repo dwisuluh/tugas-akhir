@@ -81,7 +81,7 @@
                   <select class="form-select" aria-label="Default select example" name="prodi" required>
                     <option></option>
                     <option value="1">Rekam Medis dan Informasi Kesehatan</option>
-                    <option value="2">Teknologi Bank Darah</option>
+                    <option value="2">Teknologi Transfusi Darah</option>
                     <option value="3">Farmasi</option>
                   </select>
                 </div>

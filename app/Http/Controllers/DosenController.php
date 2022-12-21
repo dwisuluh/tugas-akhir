@@ -14,14 +14,10 @@ class DosenController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function __construct()
-    {
-        // $this->authorize('mhs');
-    }
     public function index()
     {
         $dosen = Dosen::all();
-        return view('dosen.index',compact('dosen'));
+        return view('dosen.index', compact('dosen'));
     }
 
     /**
@@ -31,7 +27,8 @@ class DosenController extends Controller
      */
     public function create()
     {
-        //
+        $this->authorize('admin');
+        return view('dosen.create');
     }
 
     /**
@@ -42,7 +39,13 @@ class DosenController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nama' => 'required',
+        ]);
+        Dosen::create([
+            'nama' => $request->nama,
+        ]);
+        return redirect('data-dosen')->with('success', 'Input data dosen berhasil....');
     }
 
     /**
@@ -53,7 +56,6 @@ class DosenController extends Controller
      */
     public function show($id)
     {
-        //
     }
 
     /**
@@ -64,7 +66,9 @@ class DosenController extends Controller
      */
     public function edit($id)
     {
-        //
+        $dosen = Dosen::find($id);
+
+        return view('dosen.edit', compact('dosen'));
     }
 
     /**
@@ -76,7 +80,14 @@ class DosenController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'nama' => 'required',
+        ]);
+
+        $dosen = Dosen::find($id);
+        $dosen->update($request->all());
+
+        return redirect('data-dosen')->with('success', 'Update data dosen berhasil...!');
     }
 
     /**
@@ -87,13 +98,14 @@ class DosenController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Dosen::find($id)->delete();
+
+        return redirect('data-dosen')->with('danger', 'Data Dosen berhasil dihapus...');
     }
 
     public function import()
     {
         return view('dosen.upload');
-
     }
     public function importData(Request $data)
     {
@@ -104,6 +116,6 @@ class DosenController extends Controller
 
         Excel::import(new ImportDosen, $path);
 
-        return redirect('data-dosen')->with('success','Import Data Mahasiswa Berhasil');
+        return redirect('data-dosen')->with('success', 'Import Data Mahasiswa Berhasil');
     }
 }

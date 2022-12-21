@@ -87,11 +87,11 @@
                       <input type="text"
                         class="form-control datepicker @error('tgl_ujian')
                           is-invalid
-                      @enderror"
-                        placeholder="Tanggal" aria-label="tanggal ujian" aria-describedby="basic-addon2" name="tgl_ujian"
+                      @enderror" value="{{ old('tgl_ujian') }}"
+                        placeholder="Tanggal Ujian" aria-label="tanggal ujian" aria-describedby="basic-addon2" name="tgl_ujian"
                         required>
                       <span class="input-group-text" id="basic-addon2"><i class="bi bi-calendar-date"></i></span>
-                      @error('tgl_ujia')
+                      @error('tgl_ujian')
                         <span class='invalid-feedback' role="alert">
                           <strong>{{ $message }}</strong>
                         </span>
@@ -103,10 +103,11 @@
                   <label for="Pembimbing1" class="col-sm-2 col-form-label">Pembimbing 1</label>
                   <div class="col-sm-6">
                     <select
-                      class="form-select pembimbing @error('pembimbing1')
+                      class="form-select @error('pembimbing1')
                         is-invalid
-                    @enderror" id="my-select2"
-                      aria-label="Default select example" name="pembimbing1" style="width: 50%; font-size:15px" required>
+                    @enderror"
+                      id="my-select2" aria-label="Default select example" name="pembimbing1"
+                      style="width: 50%; font-size:15px" required>
                       <option></option>
                       @foreach ($dosens as $dosen)
                         <option>{{ $dosen->nama }}</option>
@@ -122,10 +123,10 @@
                 <div class="row mb-3">
                   <label for="Pembimbing2" class="col-sm-2 col-form-label">Pembimbing 2</label>
                   <div class="col-sm-6">
-                    <select
-                      class="form-select @error('pembimbing2')
+                    <select class="form-select @error('pembimbing2')
                         is-invalid @enderror"
-                      aria-label="Default select example" id="pembimbing" style="width: 50%; font-size:20px" name="pembimbing2">
+                      aria-label="Default select example" id="pembimbing" style="width: 50%; font-size:20px"
+                      name="pembimbing2">
                       <option></option>
                       @foreach ($dosens as $dosen)
                         <option>{{ $dosen->nama }}</option>
@@ -151,42 +152,6 @@
                     @enderror
                   </div>
                 </div>
-                @if ($title === 'Penelitian')
-                  <div class="row mb-3">
-                    <label for="Lokasi" class="col-sm-2 col-form-label">Lokasi Penelitian</label>
-                    <div class="col-sm-10">
-                      <input id="lokasi" type="hidden" name="lokasi" value="{{ old('lokasi') }}">
-                      <trix-editor input="lokasi"
-                        class="@error('lokasi')
-                      is-invalid
-                  @enderror">
-                      </trix-editor>
-                      @error('lokasi')
-                        <span class="invalid-feedback" role="alert">
-                          <strong>{{ $message }}</strong>
-                        </span>
-                      @enderror
-                    </div>
-                  </div>
-                  <div class="row mb-3">
-                    <label for="inputDate" class="col-sm-2 col-form-label">Tanggal Pelaksanaan</label>
-                    <div class="col-sm-4">
-                      <input type="date" class="form-control"
-                        @error('tgl_awal')
-                        is-invalid
-                    @enderror name="tgl_awal"
-                        value="{{ old('tgl_awal') }}" required>
-                    </div>
-                    <label for="inputDate" class="col-sm-1 col-form-label"> Sampai </label>
-                    <div class="col-sm-4">
-                      <input type="date"
-                        class="form-control @error('tgl_akhir')
-                        is-invalid
-                    @enderror"
-                        name="tgl_akhir" value="{{ old('tgl_akhir') }}" required>
-                    </div>
-                  </div>
-                @endif
                 <div class="row mb-3">
                   <div class="col-md-6 text-start">
                     <a href="{{ url()->previous() }}" type="submit" class="btn btn-danger text-start"> Cancel </a>

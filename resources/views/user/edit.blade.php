@@ -29,7 +29,7 @@
               </div>
             @endif
             <!-- General Form Elements -->
-            <form class="row g-3 needs-validation" action="{{ route('user.update', Crypt::encryptString($find->id)) }}"
+            <form class="row g-3 needs-validation" action="{{ route('user.update', Crypt::encryptString($user->id)) }}"
               method="POST" novalidate>
               @method('put')
               @csrf
