@@ -92,6 +92,7 @@
   <script src="{{ asset('/') }}plugins/vendor/php-email-form/validate.js"></script>
   <script src="{{ asset('/') }}plugins/dist/js/select2.min.js"></script>
   <script src="{{ asset('/') }}plugins/datepicker/js/bootstrap-datepicker.min.js"></script>
+  <script src="{{ asset('/') }}plugins/datepicker/locales/bootstrap-datepicker.id.min.js"></script>
   {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/js/bootstrap-datetimepicker.min.js"></script> --}}
 
   {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> --}}
@@ -121,9 +122,18 @@
         autoclose: true,
       });
     });
+    $('.input-daterange').datepicker({
+      format: "dd/mm/yyyy",
+      clearBtn: true,
+      language: "id",
+    //   autoclose: true,
+      todayHighlight: true,
+      toggleActive: true
+    });
     $('.datepicker').datepicker({
       changeMonth: true,
       changeYear: true,
+      language: "id",
       format: "dd/mm/yyyy",
       autoclose: true,
       allowClear: true,

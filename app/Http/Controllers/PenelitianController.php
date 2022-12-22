@@ -68,8 +68,8 @@ class PenelitianController extends Controller
             'alamat'    => 'required',
             'judul'     => 'required',
             'lokasi'    => 'required',
-            'tgl_awal'  => 'required',
-            'tgl_akhir' => 'required'
+            'tgl_mulai'  => 'required',
+            'tgl_selesai' => 'required'
         ];
         $request->validate($rules);
         Surat::create([
@@ -79,8 +79,8 @@ class PenelitianController extends Controller
             'alamat'    => $request->alamat,
             'judul'     => $request->judul,
             'lokasi'    => $request->lokasi,
-            'tgl_mulai' => $request->tgl_awal,
-            'tgl_selesai' => $request->tgl_akhir,
+            'tgl_mulai' => Carbon::createFromFormat('d/m/Y',$request->tgl_mulai),
+            'tgl_selesai' => Carbon::createFromFormat('d/m/Y',$request->tgl_selesai),
             'id_surat'  => 2
         ]);
         return redirect('surat-penelitian')->with('success', 'Pengajuan surat Ijin Penelitian berhasil diajukan...!!');
@@ -113,6 +113,8 @@ class PenelitianController extends Controller
     public function edit(Surat $surat)
     {
         $surat->load(['mahasiswa','files']);
+        $surat['tgl_mulai'] = Carbon::createFromFormat('Y-m-d',$surat->tgl_mulai)->format('d/m/Y');
+        $surat['tgl_selesai'] = Carbon::createFromFormat('Y-m-d',$surat->tgl_selesai)->format('d/m/Y');
         $title = 'Penelitian';
         $link = 'surat-penelitian';
         return view('surat.edit',compact(['surat','title','link']));
@@ -132,7 +134,7 @@ class PenelitianController extends Controller
         if ($request->status == 2) {
             $rules = [
                 'noSurat' => 'required',
-                'tglSurat' => 'required|date'
+                'tglSurat' => 'required'
             ];
         }
         if ($request->tujuan != $surat->tujuan && $request->status == 2) {
@@ -147,10 +149,10 @@ class PenelitianController extends Controller
         if ($request->lokasi != $surat->lokasi && $request->status == 2){
             $rules['lokasi'] = ['required'];
         }
-        if ($request->tgl_awal != $surat->tgl_mulai && $request->status == 2){
+        if ($request->tgl_mulai != $surat->tgl_mulai && $request->status == 2){
             $rules['tgl_awal'] = ['required'];
         }
-        if ($request->tgl_akhir != $surat->tgl_selesai && $request->status == 2){
+        if ($request->tgl_selesai != $surat->tgl_selesai && $request->status == 2){
             $rules['tgl_selesai'] = ['required'];
         }
         if ($request->status == 3) {
@@ -163,10 +165,10 @@ class PenelitianController extends Controller
                 'alamat'    => $request->alamat,
                 'judul'     => $request->judul,
                 'no_surat'  => $request->noSurat,
-                'tgl_surat' => $request->tglSurat,
+                'tgl_surat' => Carbon::createFromFormat('d/m/Y',$request->tglSurat),
                 'status'    => $request->status,
-                'tgl_mulai' => $request->tgl_awal,
-                'tgl_selesai' => $request->tgl_akhir,
+                'tgl_mulai' => Carbon::createFromFormat('d/m/Y',$request->tgl_mulai),
+                'tgl_selesai' => Carbon::createFromFormat('d/m/Y',$request->tgl_selesai),
                 'lokasi'    => $request->lokasi,
                 'admin'     => Auth::user()->name
 

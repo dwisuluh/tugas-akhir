@@ -140,20 +140,14 @@
                     </div>
                     <div class="row mb-3">
                       <label for="inputDate" class="col-sm-2 col-form-label">Tanggal Pelaksanaan</label>
-                      <div class="col-sm-4">
-                        <input type="date" class="form-control"
-                          @error('tgl_awal')
-                        is-invalid
-                    @enderror
-                          name="tgl_awal" value="{{ old('tgl_awal', $surat->tgl_mulai) }}" required>
-                      </div>
-                      <label for="inputDate" class="col-sm-1 col-form-label"> Sampai </label>
-                      <div class="col-sm-4">
-                        <input type="date"
-                          class="form-control @error('tgl_akhir')
-                        is-invalid
-                    @enderror"
-                          name="tgl_akhir" value="{{ old('tgl_akhir', $surat->tgl_selesai) }}" required>
+                      <div class="col-sm-6">
+                        <div class="input-daterange input-group" id="datepicker">
+                          <input type="text" class="input-sm form-control" name="tgl_mulai"
+                            value="{{ old('tgl_mulai', $surat->tgl_mulai) }}" required />
+                          <span class="input-group-text"> Sampai </span>
+                          <input type="text" class="input-sm form-control" name="tgl_selesai"
+                            value="{{ old('tgl_selesai', $surat->tgl_selesai) }}" required />
+                        </div>
                       </div>
                     </div>
                   @endif
