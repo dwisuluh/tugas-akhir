@@ -149,10 +149,10 @@ class PenelitianController extends Controller
         if ($request->lokasi != $surat->lokasi && $request->status == 2){
             $rules['lokasi'] = ['required'];
         }
-        if ($request->tgl_mulai != $surat->tgl_mulai && $request->status == 2){
-            $rules['tgl_awal'] = ['required'];
+        if (Carbon::createFromFormat('d/m/Y',$request->tgl_mulai) != $surat->tgl_mulai && $request->status == 2){
+            $rules['tgl_mulai'] = ['required'];
         }
-        if ($request->tgl_selesai != $surat->tgl_selesai && $request->status == 2){
+        if (Carbon::createFromFormat('d/m/Y',$request->tgl_selesai) != $surat->tgl_selesai && $request->status == 2){
             $rules['tgl_selesai'] = ['required'];
         }
         if ($request->status == 3) {
