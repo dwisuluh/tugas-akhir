@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use PDF;
+use QrCode;
 use App\Models\Files;
 use App\Models\Surat;
 use Illuminate\Http\Request;
@@ -50,16 +51,26 @@ class FileController extends Controller
      */
     public function show($id)
     {
-        $surat = Surat::findOrFail($id);
+        $surat = Surat::with('mahasiswa')->findOrFail($id);
         $pdf = NULL;
         $surat['tgl_ind'] = Carbon::parse($surat->tgl_surat)->translatedFormat('j F Y');
+        $data =
+            'Nama : ' . $surat->mahasiswa->name . ' | ' .
+            'Nim : ' . $surat->nim . ' | ' .
+            'Judul : ' . $surat->judul . ' | ' .
+            'Tujuan : ' . $surat->tujuan . ' | ' .
+            'Tanggal_Surat : ' . $surat->tgl_surat . ' | ' .
+            'Admin : ' . $surat->admin;
+
+        // $qrCode = base64_encode(QrCode::format('svg')->size(100)->errorCorrection('H')->generate(implode($data)));
+        $qrCode = base64_encode(QrCode::format('svg')->size(100)->errorCorrection('Q')->generate(stripslashes($data)));
         if ($surat->id_surat == 1) {
-            $pdf = PDF::loadview('surat.pendahuluan.cetak', compact('surat'))->setPaper('A4');
+            $pdf = PDF::loadview('surat.pendahuluan.cetak', compact(['surat','qrCode']))->setPaper('A4');
         }
         if ($surat->id_surat == 2) {
             $surat['tgl_mulai_ind'] = Carbon::parse($surat->tgl_mulai)->translatedFormat('j F Y');
             $surat['tgl_selesai_ind'] = Carbon::parse($surat->tgl_selesai)->translatedFormat('j F Y');
-            $pdf = PDF::loadview('surat.penelitian.cetak', compact('surat'))->setPaper('A4');
+            $pdf = PDF::loadview('surat.penelitian.cetak', compact(['surat','qrCode']))->setPaper('A4');
         }
         return $pdf->stream('surat_' . $surat->nim . '.pdf');
     }

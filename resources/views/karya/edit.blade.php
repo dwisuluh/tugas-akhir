@@ -101,45 +101,47 @@
                   </div>
                 </div>
                 <div class="row mb-3">
-                    <label for="Pembimbing1" class="col-sm-2 col-form-label">Pembimbing 1</label>
-                    <div class="col-sm-6">
-                      <select
-                        class="form-select @error('pembimbing1')
+                  <label for="Pembimbing1" class="col-sm-2 col-form-label">Pembimbing 1</label>
+                  <div class="col-sm-6">
+                    <select
+                      class="form-select @error('pembimbing1')
                           is-invalid
                       @enderror"
-                        id="my-select2" aria-label="Default select example" name="pembimbing1"
-                        style="width: 50%; font-size:15px" required>
-                        <option></option>
-                        @foreach ($dosens as $dosen)
-                          <option {{ old('pembimbing1',$karyaIlmiah->pembimbing_1) == $dosen->nama ? 'selected' : '' }}>{{ $dosen->nama }}</option>
-                        @endforeach
-                      </select>
-                      @error('pembimbing1')
-                        <span class="invalid-feedback" role="alert">
-                          <strong>{{ $message }}</strong>
-                        </span>
-                      @enderror
-                    </div>
+                      id="my-select2" aria-label="Default select example" name="pembimbing1"
+                      style="width: 60%; font-size:15px" required>
+                      <option></option>
+                      @foreach ($dosens as $dosen)
+                        <option {{ old('pembimbing1', $karyaIlmiah->pembimbing_1) == $dosen->nama ? 'selected' : '' }}>
+                          {{ $dosen->nama }}</option>
+                      @endforeach
+                    </select>
+                    @error('pembimbing1')
+                      <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                      </span>
+                    @enderror
                   </div>
-                  <div class="row mb-3">
-                    <label for="Pembimbing2" class="col-sm-2 col-form-label">Pembimbing 2</label>
-                    <div class="col-sm-6">
-                      <select class="form-select @error('pembimbing2')
+                </div>
+                <div class="row mb-3">
+                  <label for="Pembimbing2" class="col-sm-2 col-form-label">Pembimbing 2</label>
+                  <div class="col-sm-6">
+                    <select class="form-select @error('pembimbing2')
                           is-invalid @enderror"
-                        aria-label="Default select example" id="pembimbing" style="width: 50%; font-size:20px"
-                        name="pembimbing2">
-                        <option></option>
-                        @foreach ($dosens as $dosen)
-                        <option {{ old('pembimbing2',$karyaIlmiah->pembimbing_2) == $dosen->nama ? 'selected' : '' }}>{{ $dosen->nama }}</option>
-                        @endforeach
-                      </select>
-                      @error('pembimbing[]')
-                        <span class="invalid-feedback" role="alert">
-                          <strong>{{ $message }}</strong>
-                        </span>
-                      @enderror
-                    </div>
+                      aria-label="Default select example" id="pembimbing" style="width: 60%; font-size:20px"
+                      name="pembimbing2">
+                      <option></option>
+                      @foreach ($dosens as $dosen)
+                        <option {{ old('pembimbing2', $karyaIlmiah->pembimbing_2) == $dosen->nama ? 'selected' : '' }}>
+                          {{ $dosen->nama }}</option>
+                      @endforeach
+                    </select>
+                    @error('pembimbing[]')
+                      <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                      </span>
+                    @enderror
                   </div>
+                </div>
                 <div class="row mb-3">
                   <label for="formFile" class="col-sm-2 col-form-label">Upload Naskah KTI</label>
                   <div class="col-sm-10">

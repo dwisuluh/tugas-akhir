@@ -53,13 +53,13 @@
                     <td>{{ $user->username }}</td>
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
-                    <td>{{ $user->role === 1 ? 'Admin' : 'Mahasiswa' }}</td>
+                    <td>{{ $user->role == 1 ? 'Admin' : 'Mahasiswa' }}</td>
                     <td>
                       <a type="button" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top"
-                        title="Detail" href="{{ route('user.show', Crypt::encrypt($user->id)) }}"><i
+                        title="Detail" href="{{ route('user.show', Crypt::encryptString($user->id)) }}"><i
                           class="bi bi-eye"></i></a>
                       <a type="button" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top"
-                        title="Edit" href="{{ route('user.edit', Crypt::encrypt($user->id)) }}"><i
+                        title="Edit" href="{{ route('user.edit', Crypt::encryptString($user->id)) }}"><i
                           class="bi bi-pencil"></i></a>
                       <form method="POST" action="{{ route('user.destroy', $user->id) }}" class="d-inline">
                         @method('DELETE')

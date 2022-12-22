@@ -275,7 +275,7 @@
                     <td>{{ $list->nim }}</td>
                     <td>{!! $list->mahasiswa->name !!}</td>
                     <td>{{ $list->created_at->diffForHumans() }}</td>
-                    <td><a href="{{ route('karya-ilmiah.edit', $list->id) }}">
+                    <td><a href="{{ route('karya-ilmiah.show', $list->id) }}">
                         @if ($list->status == 1)
                           <span class="badge rounded-pill bg-primary">Open</span>
                         @elseif ($list->status == 2)

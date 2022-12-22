@@ -42,11 +42,11 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'username'  => ['required','string','unique:users,username'],
-            'name'      => ['required','string'],
-            'email'     => ['required','string','email:dns','unique:users,email'],
+            'username'  => ['required', 'string', 'unique:users,username'],
+            'name'      => ['required', 'string'],
+            'email'     => ['required', 'string', 'email:dns', 'unique:users,email'],
             'role'      => ['required'],
-            'password'  => ['required','confirmed','min:8']
+            'password'  => ['required', 'confirmed', 'min:8']
         ]);
 
         User::create([
@@ -58,7 +58,7 @@ class UserController extends Controller
         ]);
         // dd('sukses');
 
-        return redirect(route ('user.index'))->with('success','Data user berhasil ditambahkan ...!!!');
+        return redirect(route('user.index'))->with('success', 'Data user berhasil ditambahkan ...!!!');
     }
 
     /**
@@ -69,7 +69,9 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::findOrFail(Crypt::decryptString($id));
+
+        return view('user.show', compact('user'));
     }
 
     /**
@@ -80,8 +82,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $find = User::find(Crypt::decryptString($id));
-        return view('user.edit', compact('find'));
+        $user = User::find(Crypt::decryptString($id));
+        return view('user.edit', compact('user'));
     }
 
     /**
@@ -93,24 +95,41 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'oldPassword' => 'required',
-            'password'  => 'required|confirmed|min:8',
-        ]);
+        $rules = [];
+        if (!$request->oldPassword) {
+            $request->validate([
+                'username'  => 'required',
+                'name'      => 'required',
+                'email'     => 'required|email:dns',
+                'role'      => 'required'
+            ]);
 
-        $userId = User::find(Crypt::decryptString($id));
+            User::findOrFail(Crypt::decryptString($id))->update([
+                'username'  => $request->username,
+                'name'      => $request->name,
+                'email'     => $request->email,
+                'role'      => $request->role,
+            ]);
+        }
+        if ($request->oldPassword) {
+            $request->validate([
+                'oldPassword' => 'required',
+                'password'  => 'required|confirmed|min:8',
+            ]);
 
-        if(!Hash::check($request->oldPassword, $userId->password))
-        {
-            return back()->with('passError', 'Unable to Change Password');
+            $userId = User::find(Crypt::decryptString($id));
+
+            if (!Hash::check($request->oldPassword, $userId->password)) {
+                return back()->with('passError', 'Unable to Change Password');
+            }
+
+            User::where('id', $userId->id)->update([
+                'password'  => Hash::make($request->password)
+            ]);
         }
 
-        User::where('id',$userId->id)->update([
-            'password'  => Hash::make($request->password)
-         ]);
 
-        return redirect('/')->with('success', ' reset password berhasil, silahkan cek email untuk memgetahui password terbaru');
-
+        return redirect('user')->with('success', ' reset password berhasil, silahkan cek email untuk memgetahui password terbaru');
     }
 
     /**
@@ -122,13 +141,18 @@ class UserController extends Controller
     public function destroy($id)
     {
         User::findOrFail($id)->delete();
-        return redirect('user')->with('success','Data berhasil dihapus..!!!');
+        $mahasiswa = Mahasiswa::where('user_id', $id);
+        $mahasiswa->update([
+            'user_id' => NULL,
+            'status' => 0
+        ]);
+        return redirect('user')->with('success', 'Data berhasil dihapus..!!!');
     }
 
     public function replacePass($id)
     {
         $user = User::findOrFail($id);
 
-        return view('user.replacePass',compact('user'));
+        return view('user.replacePass', compact('user'));
     }
 }

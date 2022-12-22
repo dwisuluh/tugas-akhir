@@ -73,7 +73,7 @@
     .footer {
       position: fixed;
       /* left: 0; */
-      bottom: 0;
+      bottom: 10;
       width: 100%;
       /* background-color: red;
       color: white;

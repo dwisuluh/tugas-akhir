@@ -95,3 +95,6 @@
     </p>
   </div>
 @endsection
+@section('footer')
+<img src="data:image/png;base64, {!! $qrCode !!}">
+@endsection

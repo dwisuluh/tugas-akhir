@@ -27,7 +27,7 @@
             </div>
           @endif
           <div class="card-body pt-3">
-            <h5 class="card-title">Data karyaIlmiah Ijin {{ $title }}</h5>
+            <h5 class="card-title">Data {{ $title }}</h5>
             <div class="row mb-2">
               <div class="col-lg-2 col-md-2 label ">Nama Lengkap</div>
               <div class="col-lg-10 col-md-8">{{ $karyaIlmiah->mahasiswa->name }}</div>

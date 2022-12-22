@@ -44,13 +44,14 @@
                 <div class="col-lg-9 col-md-8">{{ $karyaIlmiah->pembimbing_2 }}</div>
               </div>
             @endif
-            <form method="POST" action="{{ route($link . '.update', $karyaIlmiah->id) }}" class="d-inline"
-              enctype="multipart/form-data">
-              @method('PUT')
-              @csrf
-              <div class="row mb-4">
-                <div class="col-lg-2 col-md-2 label">Upload Surat</div>
-                <div class="col-lg-9 col-md-8">
+            @if ($karyaIlmiah->status == 3)
+              <form method="POST" action="{{ route($link . '.update', $karyaIlmiah->id) }}" class="d-inline"
+                enctype="multipart/form-data">
+                @method('PUT')
+                @csrf
+                <div class="row mb-4">
+                  <div class="col-lg-2 col-md-2 label">Upload Surat</div>
+                  <div class="col-lg-9 col-md-8">
                     <input class="form-control @error('file') is-invalid
                     @enderror" type="file"
                       id="formFile" name="file" required>
@@ -61,11 +62,10 @@
                     @enderror
                     <input type="hidden" value="3" name="status">
 
+                  </div>
                 </div>
-              </div>
-              <button type="submit" class="btn btn-primary">Proses <i class="bi bi-arrow-right-circle"></i></button>
-            </form>
-            @if ($karyaIlmiah->status == 3)
+                <button type="submit" class="btn btn-primary">Proses <i class="bi bi-arrow-right-circle"></i></button>
+              </form>
             @endif
             <div class="row mt-3">
               <div class="text-start col-6">
@@ -73,12 +73,6 @@
                     class="bi bi-arrow-left-circle"></i> Back</a>
               </div>
               <div class="col-6 text-end">
-                @can('mhs')
-                  @if ($karyaIlmiah->status == 1)
-                    <a href="{{ route($link . '.edit', $karyaIlmiah->id) }}" target="_blank" type="button"
-                      class="btn btn-warning">Edit <i class="bi bi-arrow-right-circle"></i></a>
-                  @endif
-                @endcan
                 @can('admin')
                   @if ($karyaIlmiah->status == 1)
                     <form method="POST" action="{{ route($link . '.destroy', $karyaIlmiah->id) }}" class="d-inline">
