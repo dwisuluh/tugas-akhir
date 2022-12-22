@@ -33,17 +33,17 @@
           <li>
             <hr class="dropdown-divider">
           </li>
-
+          @can('mhs')
           <li>
-            <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+            <a class="dropdown-item d-flex align-items-center" href="{{ route('mahasiswa.show',Auth::user()->mahasiswa->id) }}">
               <i class="bi bi-person"></i>
               <span>My Profile</span>
             </a>
           </li>
+          @endcan
           <li>
             <hr class="dropdown-divider">
           </li>
-
           <li>
             <a class="dropdown-item d-flex align-items-center" href="{{ route('replace-pass', Auth::user()->id) }}">
               <i class="bi bi-gear"></i>

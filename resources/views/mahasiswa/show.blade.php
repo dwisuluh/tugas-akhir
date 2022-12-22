@@ -46,6 +46,14 @@
               <div class="col-lg-9 col-md-8">{{ $mahasiswa->jenis_kelamin == 1 ? 'Laki-laki' : 'Perempuan' }}</div>
             </div>
             <div class="row">
+              <div class="col-lg-3 col-md-4 label">NIK</div>
+              <div class="col-lg-9 col-md-8">{{ $mahasiswa->nik }}</div>
+            </div>
+            <div class="row">
+              <div class="col-lg-3 col-md-4 label">Tempat, Tanggal Lahir</div>
+              <div class="col-lg-9 col-md-8">{{ $mahasiswa->tempat_lahir }}, {{ $mahasiswa->tgl_lahir }}</div>
+            </div>
+            <div class="row">
               <div class="col-lg-3 col-md-4 label">Program Studi</div>
               <div class="col-lg-9 col-md-8">
                 @switch($mahasiswa->program_studi)

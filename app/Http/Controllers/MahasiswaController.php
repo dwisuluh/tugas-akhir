@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 use App\Imports\MahasiswasImport;
+use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Encryption\DecryptException;
@@ -71,7 +72,8 @@ class MahasiswaController extends Controller
      */
     public function show(Mahasiswa $mahasiswa)
     {
-        $this->authorize('admin');
+        // $this->authorize('admin');
+        $mahasiswa['tgl_lahir'] = Carbon::parse($mahasiswa->tgl_lahir)->translatedFormat('j F Y');
         return view('mahasiswa.show', compact('mahasiswa'));
     }
 

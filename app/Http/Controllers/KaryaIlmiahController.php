@@ -133,7 +133,7 @@ class KaryaIlmiahController extends Controller
         $print = 'print-karya-ilmiah';
         $karyaIlmiah->load(['mahasiswa', 'filekarya']);
 
-        return view('karya.show', compact(['karyaIlmiah', 'title', 'link', 'file','print']));
+        return view('karya.show', compact(['karyaIlmiah', 'title', 'link', 'file', 'print']));
     }
 
     /**
@@ -223,6 +223,7 @@ class KaryaIlmiahController extends Controller
                         'admin' =>   Auth::user()->name,
                         'tgl_surat' => date('Y-m-d'),
                     ];
+                $catatan = 'Pengumpulan Naskah berhasil di proses dan diterima, silahkan cetak surat keterangan..!!';
             }
             if ($request->status == 3) {
                 $request->validate([
@@ -257,8 +258,20 @@ class KaryaIlmiahController extends Controller
                         ]);
                     }
                 }
+                $catatan = 'Upload surat keterangan telah berhasil diproses...!!!';
+
+                $karyaIlmiah->load('mahasiswa');
+                $send = [
+                    'subject'   => 'Penyerahan Naskah Karya Tulis Ilmiah',
+                    'greeting'  => 'Hi, ' . $karyaIlmiah->mahasiswa['name'],
+                    'body'      => 'Penyerahan Naskah Karya Tulis Ilmiah anda <strong>diterima</strong>. <br>' .
+                        'Silahkan Masuk ke aplikasi dan surat keterangan dapat didownload. <br>',
+                    'actionText'    => 'Link Aplikasi',
+                    'action'        => url('/'),
+                    'thanks'        => 'Atas perhatian dan kerjasama yang baik diucapkan terima kasih'
+                ];
+                Notification::route('mail', $karyaIlmiah->mahasiswa['email'])->notify(new EmailNotification($send));
             }
-            $catatan = 'Pengumpulan Naskah berhasil di proses dan diterima, silahkan cetak surat keterangan..!!';
         }
 
         $cek = $karyaIlmiah->update($input);
@@ -280,6 +293,18 @@ class KaryaIlmiahController extends Controller
             'status' => 4,
             'tgl_surat' => Carbon::now()->format('Y-m-d')
         ]);
+
+        $karyaIlmiah->load('mahasiswa');
+        $send = [
+            'subject'   => 'Penyerahan Naskah Karya Tulis Ilmiah',
+            'greeting'  => 'Hi, ' . $karyaIlmiah->mahasiswa['name'],
+            'body'      => 'Penyerahan Naskah Karya Tulis Ilmiah anda <strong>ditolak</strong>. <br>' .
+                'Silahkan Masuk ke aplikasi dan upload kembali Naskah Kaya Tulis Ilmiah sesuai dengan ketentuan dan format yang berlaku. <br>',
+            'actionText'    => 'Link Aplikasi',
+            'action'        => url('/'),
+            'thanks'        => 'Atas perhatian dan kerjasama yang baik diucapkan terima kasih'
+        ];
+        Notification::route('mail', $karyaIlmiah->mahasiswa['email'])->notify(new EmailNotification($send));
 
         return redirect('karya-ilmiah')->with('danger', 'Data pengajuan berhasil di tolak..!!!');
     }
