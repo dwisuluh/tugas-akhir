@@ -36,7 +36,7 @@ class PenelitianController extends Controller
         $link = 'surat-penelitian';
         $print = 'print-penelitian';
         return view('surat.index', compact([
-            'surats', 'title','link','print'
+            'surats', 'title', 'link', 'print'
         ]));
     }
 
@@ -50,7 +50,7 @@ class PenelitianController extends Controller
         $this->authorize('mhs');
         $title = 'Penelitian';
         $link = 'surat-penelitian';
-        return view('surat.create',compact(['title','link']));
+        return view('surat.create', compact(['title', 'link']));
     }
 
     /**
@@ -79,8 +79,8 @@ class PenelitianController extends Controller
             'alamat'    => $request->alamat,
             'judul'     => $request->judul,
             'lokasi'    => $request->lokasi,
-            'tgl_mulai' => Carbon::createFromFormat('d/m/Y',$request->tgl_mulai),
-            'tgl_selesai' => Carbon::createFromFormat('d/m/Y',$request->tgl_selesai),
+            'tgl_mulai' => Carbon::createFromFormat('d/m/Y', $request->tgl_mulai),
+            'tgl_selesai' => Carbon::createFromFormat('d/m/Y', $request->tgl_selesai),
             'id_surat'  => 2
         ]);
         return redirect('surat-penelitian')->with('success', 'Pengajuan surat Ijin Penelitian berhasil diajukan...!!');
@@ -100,8 +100,8 @@ class PenelitianController extends Controller
         $title = 'Penelitian';
         $link = 'surat-penelitian';
         $fileSurat = 'penelitian';
-        $surat->load(['mahasiswa','files']);
-        return view('surat.show',compact(['surat','title','link','fileSurat']));
+        $surat->load(['mahasiswa', 'files']);
+        return view('surat.show', compact(['surat', 'title', 'link', 'fileSurat']));
     }
 
     /**
@@ -112,12 +112,12 @@ class PenelitianController extends Controller
      */
     public function edit(Surat $surat)
     {
-        $surat->load(['mahasiswa','files']);
-        $surat['tgl_mulai'] = Carbon::createFromFormat('Y-m-d',$surat->tgl_mulai)->format('d/m/Y');
-        $surat['tgl_selesai'] = Carbon::createFromFormat('Y-m-d',$surat->tgl_selesai)->format('d/m/Y');
+        $surat->load(['mahasiswa', 'files']);
+        $surat['tgl_mulai'] = Carbon::createFromFormat('Y-m-d', $surat->tgl_mulai)->format('d/m/Y');
+        $surat['tgl_selesai'] = Carbon::createFromFormat('Y-m-d', $surat->tgl_selesai)->format('d/m/Y');
         $title = 'Penelitian';
         $link = 'surat-penelitian';
-        return view('surat.edit',compact(['surat','title','link']));
+        return view('surat.edit', compact(['surat', 'title', 'link']));
     }
 
     /**
@@ -129,13 +129,19 @@ class PenelitianController extends Controller
      */
     public function update(Request $request, Surat $surat)
     {
-        $surat->load(['mahasiswa','files']);
+        $surat->load(['mahasiswa', 'files']);
         $rules = [];
         if ($request->status == 2) {
             $rules = [
                 'noSurat' => 'required',
                 'tglSurat' => 'required'
             ];
+            if (Carbon::createFromFormat('d/m/Y', $request->tgl_mulai) != $surat->tgl_mulai && $request->status == 2) {
+                $rules['tgl_mulai'] = ['required'];
+            }
+            if (Carbon::createFromFormat('d/m/Y', $request->tgl_selesai) != $surat->tgl_selesai && $request->status == 2) {
+                $rules['tgl_selesai'] = ['required'];
+            }
         }
         if ($request->tujuan != $surat->tujuan && $request->status == 2) {
             $rules['tujuan'] = ['required'];
@@ -146,14 +152,8 @@ class PenelitianController extends Controller
         if ($request->judul != $surat->judul && $request->status == 2) {
             $rules['judul'] = ['required'];
         }
-        if ($request->lokasi != $surat->lokasi && $request->status == 2){
+        if ($request->lokasi != $surat->lokasi && $request->status == 2) {
             $rules['lokasi'] = ['required'];
-        }
-        if (Carbon::createFromFormat('d/m/Y',$request->tgl_mulai) != $surat->tgl_mulai && $request->status == 2){
-            $rules['tgl_mulai'] = ['required'];
-        }
-        if (Carbon::createFromFormat('d/m/Y',$request->tgl_selesai) != $surat->tgl_selesai && $request->status == 2){
-            $rules['tgl_selesai'] = ['required'];
         }
         if ($request->status == 3) {
             $rules['file'] = ['required', 'mimes:pdf'];
@@ -165,10 +165,10 @@ class PenelitianController extends Controller
                 'alamat'    => $request->alamat,
                 'judul'     => $request->judul,
                 'no_surat'  => $request->noSurat,
-                'tgl_surat' => Carbon::createFromFormat('d/m/Y',$request->tglSurat),
+                'tgl_surat' => Carbon::createFromFormat('d/m/Y', $request->tglSurat),
                 'status'    => $request->status,
-                'tgl_mulai' => Carbon::createFromFormat('d/m/Y',$request->tgl_mulai),
-                'tgl_selesai' => Carbon::createFromFormat('d/m/Y',$request->tgl_selesai),
+                'tgl_mulai' => Carbon::createFromFormat('d/m/Y', $request->tgl_mulai),
+                'tgl_selesai' => Carbon::createFromFormat('d/m/Y', $request->tgl_selesai),
                 'lokasi'    => $request->lokasi,
                 'admin'     => Auth::user()->name
 
@@ -231,7 +231,7 @@ class PenelitianController extends Controller
                 'thanks'        => 'Atas perhatian dan kerjasama yang baik diucapkan terima kasih'
             ];
             Notification::route('mail', $surat->mahasiswa['email'])->notify(new EmailNotification($send));
-            return redirect('surat-penelitian')->with('failed','Surat Pengajuan Ijin Penelitian di Tolak');
+            return redirect('surat-penelitian')->with('failed', 'Surat Pengajuan Ijin Penelitian di Tolak');
         }
         return redirect('surat-penelitian')->with('success', 'Surat berhasil diproses');
     }
@@ -248,8 +248,8 @@ class PenelitianController extends Controller
     }
     public function print(Surat $surat)
     {
-        $surat->load(['files','mahasiswa']);
+        $surat->load(['files', 'mahasiswa']);
         $lokasi = 'penelitian/';
-        return view('surat.print',compact(['surat','lokasi']));
+        return view('surat.print', compact(['surat', 'lokasi']));
     }
 }
