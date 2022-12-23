@@ -12,6 +12,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Gate;
+use App\Notifications\EmailNotification;
+use Illuminate\Support\Facades\Notification;
 
 class KaryaIlmiahController extends Controller
 {

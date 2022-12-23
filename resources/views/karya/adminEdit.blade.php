@@ -44,7 +44,7 @@
                 <div class="col-lg-9 col-md-8">{{ $karyaIlmiah->pembimbing_2 }}</div>
               </div>
             @endif
-            @if ($karyaIlmiah->status == 3)
+            @if ($karyaIlmiah->status == 2)
               <form method="POST" action="{{ route($link . '.update', $karyaIlmiah->id) }}" class="d-inline"
                 enctype="multipart/form-data">
                 @method('PUT')
@@ -64,14 +64,19 @@
 
                   </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Proses <i class="bi bi-arrow-right-circle"></i></button>
+                <div class="row">
+                  <div class="text-start col-6">
+                    <a href="{{ url()->previous() }}" type="button" class="btn btn-danger"><i
+                        class="bi bi-arrow-left-circle"></i> Back</a>
+                  </div>
+                  <div class="col-sm-6 text-end">
+                    <button type="submit" class="btn btn-primary">Proses <i
+                        class="bi bi-arrow-right-circle"></i></button>
+                  </div>
+                </div>
               </form>
             @endif
             <div class="row mt-3">
-              <div class="text-start col-6">
-                <a href="{{ url()->previous() }}" type="button" class="btn btn-danger"><i
-                    class="bi bi-arrow-left-circle"></i> Back</a>
-              </div>
               <div class="col-6 text-end">
                 @can('admin')
                   @if ($karyaIlmiah->status == 1)
