@@ -10,7 +10,7 @@
     <ul class="d-flex align-items-center">
       <li class="nav-itempe-3">
         <a class="nav-link nav-profile d-flex align-items-center pe-5" href="/login">
-          <i class="bi bi-box-arrow-in-right"></i>Login
+          <i class="bi bi-box-arrow-in-right"></i><span class="d-none d-md-block ps-2"> Login</span>
         </a><!-- End Profile Iamge Icon -->
       </li><!-- End Profile Nav -->
     </ul>

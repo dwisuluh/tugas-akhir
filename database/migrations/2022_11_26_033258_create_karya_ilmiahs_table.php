@@ -18,8 +18,8 @@ return new class extends Migration
             $table->foreignUuid('mahasiswa_id');
             $table->string('nim',15);
             $table->text('judul');
-            $table->string('pembimbing_1');
-            $table->string('pembimbing_2')->nullable();
+            $table->string('pembimbing_1',100);
+            $table->string('pembimbing_2',100)->nullable();
             $table->date('tgl_ujian');
             $table->string('no_surat',5)->nullable();
             $table->date('tgl_surat')->nullable();

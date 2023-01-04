@@ -11,9 +11,9 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\ObservasiController;
-use App\Http\Controllers\PendahuluanController;
+// use App\Http\Controllers\PendahuluanController;
 use App\Http\Controllers\PenelitianController;
-
+use App\Http\Controllers\SearchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,6 +52,10 @@ Route::resource('data-dosen', DosenController::class);
 Route::controller(DosenController::class)->group(function(){
     Route::get('import','import')->name('dosen-import');
     Route::post('import-dosen','importData')->name('import-dosen');
+});
+Route::controller(SearchController::class)->group(function () {
+    Route::get('search','index');
+    Route::get('detail-surat-ijin/{id}','show')->name('detail-surat-ijin');
 });
 // Route::get('login', [LoginController::class, 'index'])->name('login')->middleware('guest');
 // Route::post('login', [LoginController::class, 'authenticate']);

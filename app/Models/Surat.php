@@ -23,4 +23,15 @@ class Surat extends Model
     {
         return $this->hasOne(Files::class);
     }
+
+    public function scopeFilter($query, array $filter)
+    {
+        $query->when($filter['search'] ?? false, function ($query, $search) {
+            return $query->where('nim', 'like', '%' . $search . '%')
+                ->orWhere('tujuan', 'like', '%' . $search . '%')
+                ->orWhereHas('mahasiswa', function ($query) use ($search) {
+                    $query->where('name', 'like', '%' . $search . '%');
+                });
+        });
+    }
 }

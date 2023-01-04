@@ -56,8 +56,14 @@
 <body class="d-flex flex-column min-vh-100">
 
   @guest
-    @include('partials.navout')
-    @yield('content')
+    <main>
+      <div class="container">
+        @include('partials.navout')
+      </div>
+      <div class="row">
+        @yield('content')
+      </div>
+    </=>
   @endguest
   @auth
     <div id="app">
@@ -126,7 +132,7 @@
       format: "dd/mm/yyyy",
       clearBtn: true,
       language: "id",
-    //   autoclose: true,
+      //   autoclose: true,
       todayHighlight: true,
       toggleActive: true
     });
@@ -144,6 +150,7 @@
       e.preventDefault();
     });
   </script>
+  @yield('script')
 </body>
 
 </html>

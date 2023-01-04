@@ -76,6 +76,9 @@
                     <button class="btn btn-primary w-100" type="submit">Login</button>
                   </div>
                 </form>
+                <div class="col-12 mt-2">
+                    <a href="{{ url('search') }}" class="btn btn-info w-100">Lacak Surat</a>
+                </div>
                 <div class="col-12">
                   <p class="small mb-0">Akun belum aktif?
                     <a href="/register">aktifkan akun</a>

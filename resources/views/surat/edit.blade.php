@@ -6,7 +6,7 @@
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
         <li class="breadcrumb-item">Surat Ijin</li>
-        <li class="breadcrumb-item">Studi Pendahuluan</li>
+        <li class="breadcrumb-item">{{ $title }}</li>
         <li class="breadcrumb-item active">Proses</li>
       </ol>
     </nav>
@@ -194,7 +194,9 @@
                   <div class="col-sm-6">
                     <select class="form-select" aria-label="Default select example" name="status" required>
                       <option value="2">Proses</option>
+                      @if($surat->status != 1)
                       <option value="3" {{ $surat->status == 2 ? 'selected' : '' }}>Selesai</option>
+                      @endif
                       <option value="4">Tolak</option>
                     </select>
                   </div>
