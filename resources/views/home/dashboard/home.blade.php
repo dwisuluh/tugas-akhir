@@ -204,7 +204,7 @@
                   <th scope="col">#</th>
                   <th scope="col">NIM</th>
                   <th scope="col">Nama Mahasiswa</th>
-                  <th scope="col">Pengajuan</th>
+                  <th scope="col">Waktu Pengajuan</th>
                   <th scope="col">Status</th>
                 </tr>
               </thead>
@@ -264,7 +264,7 @@
                   <th scope="col">#</th>
                   <th scope="col">NIM</th>
                   <th scope="col">Nama Mahasiswa</th>
-                  <th scope="col">Pengajuan</th>
+                  <th scope="col">Waktu Pengajuan</th>
                   <th scope="col">Status</th>
                 </tr>
               </thead>

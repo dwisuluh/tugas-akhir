@@ -14,6 +14,11 @@ class DosenController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        // $this->authorize('admin');
+    }
+
     public function index()
     {
         $dosen = Dosen::all();

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Crypt;
 
@@ -128,8 +130,12 @@ class UserController extends Controller
             ]);
         }
 
-
-        return redirect('user')->with('success', ' reset password berhasil, silahkan cek email untuk memgetahui password terbaru');
+        if(Gate::allows('admin')){
+            return redirect('user')->with('success', ' Password berhasil diganti');
+        }
+        if(Gate::allows('mhs')){
+            return redirect('/')->with('success', ' Password berhasil diganti');
+        }
     }
 
     /**

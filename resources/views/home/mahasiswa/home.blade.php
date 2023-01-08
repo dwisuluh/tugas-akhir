@@ -9,6 +9,15 @@
       </ol>
     </nav>
   </div><!-- End Page Title -->
+  @if (session()->has('success'))
+    <div class="d-flex justify-content-center py-4 mt-3 mb-3">
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check2-circle me-1"></i>
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    </div>
+  @endif
 
   <section class="section dashboard">
     <div class="row">
@@ -156,36 +165,36 @@
 
               <table class="table table-borderless datatable">
                 <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Judul Karya Tulis</th>
-                  <th scope="col">Pembimbing</th>
-                  <th scope="col">Waktu Pengajuan</th>
-                  <th scope="col">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                @foreach ($karyas as $list)
                   <tr>
-                    <td scope="row">{{ $loop->iteration }}</td>
-                    <td>{!! $list->judul !!}</td>
-                    <td>{{ $list->pembimbing_1 }}<br>{{ $list->pembimbing_2 }}</td>
-                    <td>{{ $list->created_at->diffForHumans() }}</td>
-                    <td><a href="{{ route('karya-ilmiah.show', $list->id) }}">
-                        @if ($list->status == 1)
-                          <span class="badge rounded-pill bg-primary">Open</span>
-                        @elseif ($list->status == 2)
-                          <span class="badge rounded-pill bg-warning">On Progress</span>
-                        @elseif ($list->status == 3)
-                          <span class="badge rounded-pill bg-success">Done</span>
-                        @elseif ($list->status == 4)
-                          <span class="badge rounded-pill bg-danger">Rejected</span>
-                        @endif
-                      </a>
-                    </td>
+                    <th scope="col">#</th>
+                    <th scope="col">Judul Karya Tulis</th>
+                    <th scope="col">Pembimbing</th>
+                    <th scope="col">Waktu Pengajuan</th>
+                    <th scope="col">Status</th>
                   </tr>
-                @endforeach
-              </tbody>
+                </thead>
+                <tbody>
+                  @foreach ($karyas as $list)
+                    <tr>
+                      <td scope="row">{{ $loop->iteration }}</td>
+                      <td>{!! $list->judul !!}</td>
+                      <td>{{ $list->pembimbing_1 }}<br>{{ $list->pembimbing_2 }}</td>
+                      <td>{{ $list->created_at->diffForHumans() }}</td>
+                      <td><a href="{{ route('karya-ilmiah.show', $list->id) }}">
+                          @if ($list->status == 1)
+                            <span class="badge rounded-pill bg-primary">Open</span>
+                          @elseif ($list->status == 2)
+                            <span class="badge rounded-pill bg-warning">On Progress</span>
+                          @elseif ($list->status == 3)
+                            <span class="badge rounded-pill bg-success">Done</span>
+                          @elseif ($list->status == 4)
+                            <span class="badge rounded-pill bg-danger">Rejected</span>
+                          @endif
+                        </a>
+                      </td>
+                    </tr>
+                  @endforeach
+                </tbody>
               </table>
 
             </div>

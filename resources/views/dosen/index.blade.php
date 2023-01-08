@@ -58,8 +58,8 @@
                     <th scope="row">{{ $loop->iteration }}</th>
                     <td>{{ $list->nama }}</td>
                     <td>
-                      <a href="{{ route('data-dosen.show', $list->id) }}" type="button" class="btn btn-info btn-sm"
-                        data-toggle="tooltip" data-placement="top" title="Detail"><i class="bi bi-eye"></i></a>
+                      {{-- <a href="{{ route('data-dosen.show', $list->id) }}" type="button" class="btn btn-info btn-sm"
+                        data-toggle="tooltip" data-placement="top" title="Detail"><i class="bi bi-eye"></i></a> --}}
                       <a type="button" class="btn btn-primary btn-sm"
                         href="{{ route('data-dosen.edit', $list->id) }}" data-toggle="tooltip"
                         data-placement="top" title="Edit"><i class="bi bi-pencil"></i></a>
@@ -67,7 +67,7 @@
                         class="d-inline">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-trash" data-toggle="tooltip"
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah {{ $list->nama }} benar akan dihapus?')"><i class="bi bi-trash" data-toggle="tooltip"
                             data-placement="top" title="Delete"></i></button>
                       </form>
                     </td>

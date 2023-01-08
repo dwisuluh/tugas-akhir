@@ -64,7 +64,7 @@
                         class="d-inline">
                         @method('DELETE')
                         @csrf
-                        <button type="button" class="btn btn-danger btn-sm"><i class="bi bi-trash" data-toggle="tooltip"
+                        <button type="button" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Benar akan dihapus?')"><i class="bi bi-trash" data-toggle="tooltip"
                             data-placement="top" title="Delete"></i></button>
                       </form>
                     </td>

@@ -65,7 +65,7 @@
                         @method('DELETE')
                         @csrf
                         <button type="submit" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top"
-                          title="Delete" onclick="return "><i class="bi bi-trash"></i></button>
+                          title="Delete" onclick="return confirm('Apakah benar akan dihapus?')"><i class="bi bi-trash"></i></button>
                       </form>
                       {{-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#disablebackdrop">
                         Launch Modal

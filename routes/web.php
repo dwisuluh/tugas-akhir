@@ -48,22 +48,15 @@ Route::controller(MahasiswaController::class)->group(function(){
     Route::post('import-data-mahasiswa','importData')->name('data-mahasiswa');
 })->middleware('admin');
 Route::resource('mahasiswa', MahasiswaController::class)->middleware('auth');
-Route::resource('data-dosen', DosenController::class);
+Route::resource('data-dosen', DosenController::class)->middleware('admin');
 Route::controller(DosenController::class)->group(function(){
     Route::get('import','import')->name('dosen-import');
     Route::post('import-dosen','importData')->name('import-dosen');
-});
+})->middleware('admin');
 Route::controller(SearchController::class)->group(function () {
     Route::get('search','index');
     Route::get('detail-surat-ijin/{id}','show')->name('detail-surat-ijin');
 });
-// Route::get('login', [LoginController::class, 'index'])->name('login')->middleware('guest');
-// Route::post('login', [LoginController::class, 'authenticate']);
-// Route::post('logout', [LoginController::class, 'logout']);
-// Route::get('reset', [LoginController::class, 'reset']);
-// Route::get('register', [RegisterController::class, 'index'])->middleware('guest');
-// Route::post('register', [RegisterController::class, 'store']);
-// Route::post('register-reset', [RegisterController::class, 'reset']);
 Route::resource('karya-ilmiah', KaryaIlmiahController::class);
 Route::resource('surat-penelitian', PenelitianController::class)->except('destroy');
 Route::resource('surat-observasi', ObservasiController::class)->except('destroy');
