@@ -26,9 +26,9 @@ use App\Http\Controllers\SearchController;
 |
 */
 
-Route::get('/', function () {
-    return redirect('dashboard');
-});
+// Route::get('/', function () {
+//     return redirect('dashboard');
+// });
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index')->name('dashboard');
 });
