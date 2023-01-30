@@ -13,6 +13,7 @@ class RegisterController extends Controller
 {
 
     protected $string = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    protected $password;
 
     public function __construct()
     {
@@ -37,7 +38,7 @@ class RegisterController extends Controller
         $send = [
             'subject' => 'Akun dan Password',
             'greeting'  => 'Hi, Selamat Datang, ' . $mahasiswa['name'],
-            'body'      => 'Terima kasih telah melakukan resgitrasi akun. <br>' .
+            'body'      => 'Terima kasih telah melakukan Registrasi akun. <br>' .
                 'untuk melakukan login silahkan menggunakan username dan password sebagai berikut: <br>' .
                 '<strong>Username : </strong>' . $request['nim'] . '<br>' .
                 '<strong>Password : </strong>' . $this->password . '<br>',

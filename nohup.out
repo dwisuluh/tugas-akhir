@@ -1,0 +1,7 @@
+
+   INFO  Processing jobs from the [default] queue.  
+
+  2023-01-23 08:15:35 App\Notifications\EmailNotification ................................................................................ RUNNING
+  2023-01-23 08:15:39 App\Notifications\EmailNotification ........................................................................ 3,235.74ms DONE
+  2023-01-23 08:16:30 App\Notifications\EmailNotification ................................................................................ RUNNING
+  2023-01-23 08:16:31 App\Notifications\EmailNotification ........................................................................ 1,688.78ms DONE

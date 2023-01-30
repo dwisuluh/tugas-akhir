@@ -62,7 +62,6 @@ class FileController extends Controller
             'Tanggal_Surat : ' . $surat->tgl_surat . ' | ' .
             'Admin : ' . $surat->admin;
 
-        // $qrCode = base64_encode(QrCode::format('svg')->size(100)->errorCorrection('H')->generate(implode($data)));
         $qrCode = base64_encode(QrCode::format('svg')->size(100)->errorCorrection('Q')->generate(stripslashes($data)));
         if ($surat->id_surat == 1) {
             $pdf = PDF::loadview('surat.pendahuluan.cetak', compact(['surat','qrCode']))->setPaper('A4');

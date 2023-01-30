@@ -27,7 +27,9 @@ class PenelitianController extends Controller
 
     public function index()
     {
-        $surats = Surat::where('id_surat', 2)->with(['mahasiswa', 'files'])->latest()->get();
+        $surats = Surat::whereHas('mahasiswa', function ($query){
+            $query->where('status',true);
+        })->where('id_surat',2)->latest()->get();
         if (Gate::allows('mhs')) {
             $mhsId = Auth::user()->mahasiswa->id;
             $surats = $surats->where('mahasiswa_id', $mhsId);

@@ -1,30 +1,5 @@
 @extends('layouts.masterSurat')
 @section('content')
-  {{-- <div class="row space-text-1">
-    <table>
-      <tr>
-        <td style="width: 2cm">Nomor</td>
-        <td>: {{ $surat->no_surat }}/S.Permoh.RMIK/Dir-POLBSI/{{ date('Y', strtotime($surat->tgl_surat)) }}</td>
-      </tr>
-      <tr>
-        <td>Hal</td>
-        <td>: Surat Ijin Penelitian</td>
-      </tr>
-    </table>
-  </div>
-  <div class="row space-text-1">
-    <div class="row mt-4">
-      <div class="col-sm-3">
-        Kepada Yth.
-      </div>
-      <div class="col-sm-5">
-        {!! $surat->tujuan !!}
-      </div>
-      <div class="col-sm-5">
-        {!! $surat->alamat !!}
-      </div>
-    </div>
-  </div> --}}
   <div class="row space-text-1">
     <div class="row mt-4">
       <div class="col-sm-12" style="text-align: center">

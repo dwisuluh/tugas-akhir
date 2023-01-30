@@ -30,9 +30,7 @@
             <!-- General Form Elements -->
             <form class="needs-validation" novalidate action="{{ route('data-mahasiswa') }}" method="POST"
               enctype="multipart/form-data">
-              {{-- @method('PUT') --}}
               @csrf
-              {{-- <input type="hidden" value="{{ Auth::user()->mahasiswa->id }}" name=""> --}}
               <div class="row mb-3">
                 <label for="formFile" class="col-sm-2 col-form-label">File Upload</label>
                 <div class="col-sm-10">
@@ -55,7 +53,6 @@
                   <button type="submit" class="btn btn-primary"> Submit </button>
                 </div>
               </div>
-
             </form><!-- End General Form Elements -->
           </div>
         </div>

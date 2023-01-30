@@ -67,9 +67,6 @@
                         <button type="submit" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top"
                           title="Delete" onclick="return confirm('Apakah benar akan dihapus?')"><i class="bi bi-trash"></i></button>
                       </form>
-                      {{-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#disablebackdrop">
-                        Launch Modal
-                      </button> --}}
                     </td>
                   </tr>
                 @endforeach
@@ -81,21 +78,4 @@
       </div>
     </div>
   </div>
-  {{-- <div class="modal fade" id="disablebackdrop" tabindex="-1" data-bs-backdrop="false">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Konfirmasi</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          Apakah Anda Yakin akan menghapus data tersebut?
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
-    </div>
-  </div> --}}
 @endsection

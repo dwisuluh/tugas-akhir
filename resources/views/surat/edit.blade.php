@@ -53,7 +53,6 @@
                 enctype="multipart/form-data">
                 @method('patch')
                 @csrf
-                {{-- <input type="hidden" value="{{ Auth::user()->mahasiswa->id }}" name=""> --}}
                 <div class="row mb-3">
                   <label for="nim" class="col-sm-2 col-form-label">NIM </label>
                   <div class="col-sm-10">

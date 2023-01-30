@@ -11,7 +11,6 @@
       </ol>
     </nav>
   </div><!-- End Page Header -->
-
   <section class="section">
     <div class="row justify-content-center">
       <div class="col-lg-10">
@@ -19,7 +18,6 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Tambah Data Mahasiswa</h5>
-
             <!-- General Form Elements -->
             <form class="row g-3 needs-validation" novalidate method="POST" action="{{ route('mahasiswa.store') }}">
               @csrf
@@ -50,10 +48,11 @@
               <div class="row mb-3">
                 <label for="inputText" class="col-sm-2 col-form-label">Email</label>
                 <div class="col-sm-8">
-                  <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" required>
+                  <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
+                    value="{{ old('email') }}" required>
                   @error('email')
                     <span class="invalid-feedback" role="alert">
-                         <strong>{{ $message }}</strong>
+                      <strong>{{ $message }}</strong>
                     </span>
                   @enderror
                 </div>
@@ -87,7 +86,6 @@
                 </div>
               </div>
               <div class="row mb-3">
-                {{-- <label class="col-sm-2 col-form-label"></label> --}}
                 <div class="col-md-6 text-start">
                   <a href="{{ url()->previous() }}" type="cancel" class="btn btn-danger text-start"> Cancel </a>
                 </div>
@@ -95,9 +93,7 @@
                   <button type="submit" class="btn btn-primary"> Submit </button>
                 </div>
               </div>
-
             </form><!-- End General Form Elements -->
-
           </div>
         </div>
       </div>

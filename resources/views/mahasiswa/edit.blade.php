@@ -87,22 +87,18 @@
                     @endif
                     @if (old('prodi', $mahasiswa->program_studi) == 2)
                       <option value="2" selected>Teknologi Bank Darah</option>
-                      @else
+                    @else
                       <option value="2">Teknologi Bank Darah</option>
                     @endif
-                    @if (old('prodi',$mahasiswa->program_studi) ==3 )
-                        <option value="3" selected>Farmasi</option>
-                        @else
-                        <option value="3">Farmasi</option>
+                    @if (old('prodi', $mahasiswa->program_studi) == 3)
+                      <option value="3" selected>Farmasi</option>
+                    @else
+                      <option value="3">Farmasi</option>
                     @endif
-                    {{-- <option value="2" {{ $mahasiswa->program_studi == 2 ? 'selected' : '' }}>Teknologi Bank Darah
-                    </option> --}}
-                    {{-- <option value="3" {{ $mahasiswa->program_studi == 3 ? 'selected' : '' }}>Farmasi</option> --}}
                   </select>
                 </div>
               </div>
               <div class="row mb-3">
-                {{-- <label class="col-sm-2 col-form-label"></label> --}}
                 <div class="col-md-6 text-start">
                   <a href="{{ url()->previous() }}" type="cancel" class="btn btn-danger text-start"> Cancel </a>
                 </div>
@@ -110,12 +106,7 @@
                   <button type="submit" class="btn btn-primary"> Submit </button>
                 </div>
               </div>
-
             </form><!-- End General Form Elements -->
-
-            <!-- Bordered Table -->
-
-            <!-- End Bordered Table -->
           </div>
         </div>
       </div>

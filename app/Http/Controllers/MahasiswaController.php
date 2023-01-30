@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 use App\Imports\MahasiswasImport;
-use Carbon\Carbon;
+use Illuminate\Foundation\Auth\User;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Encryption\DecryptException;
@@ -130,7 +131,9 @@ class MahasiswaController extends Controller
      */
     public function destroy(Mahasiswa $mahasiswa)
     {
-        //
+        User::where('id',$mahasiswa->user_id)->delete();
+        $mahasiswa->delete();
+        return redirect('mahasiswa')->with('success','Data berhasil dihapus');
     }
 
     public function import()

@@ -19,7 +19,7 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Edit Data Dosen</h5>
-            <!-- Form Tamabah Data Dosen -->
+            <!-- Form Tambah Data Dosen -->
             <form class="row g-3 needs-validation" novalidate method="POST" action="{{ route('data-dosen.update',$dosen->id) }}">
                 @method('PUT')
               @csrf

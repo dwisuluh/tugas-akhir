@@ -27,13 +27,13 @@ class HomeController extends Controller
             $surats = $surats->where('status', 1);
             $karyas = $karyas->where('status', 1);
             $countMhs = Mahasiswa::count();
-            $dashboard = 'home.dashboard.home';
+            $dashboard = 'home.dashboard.index';
         }
         if (Gate::allows('mhs')) {
             $mhsId = Auth::User()->mahasiswa->id;
             $surats = $surats->where('mahasiswa_id',$mhsId);
             $karyas = $karyas->where('mahasiswa_id',$mhsId);
-            $dashboard = 'home.mahasiswa.home';
+            $dashboard = 'home.mahasiswa.index';
         }
         return view($dashboard, compact([
             'countMhs', 'karyas', 'surats'

@@ -64,14 +64,9 @@ Route::get('surat-observasi-print/{surat}', [ObservasiController::class, 'print'
 Route::get('surat-penelitian-print/{surat}', [PenelitianController::class, 'print'])->name('print-penelitian');
 Route::resource('user', UserController::class)->middleware('auth');
 Route::get('replacePass/{id}',[UserController::class,'replacePass'])->name('replace-pass')->middleware('auth');
-// Route::get('import', [MahasiswaController::class, 'import'])->name('mahasiswa-import');
 Route::resource('files', FileController::class)->middleware('auth');
 Route::resource('file-karya', FileKaryaController::class)->middleware('auth');
 Route::get('karya-ilmiah-print/{karyaIlmiah}', [KaryaIlmiahController::class, 'print'])->name('print-karya');
-// Route::get('karya-ilmiah-download-surat{karyaIlmiah}', [KaryaIlmiahController::class, 'download'])->name('download-surat');
-// Route::post('import-data-mahasiswa', [MahasiswaController::class, 'importData'])->name('import-data');
-// Route::get('import', [DosenController::class, 'import'])->name('dosen-import');
-// Route::post('import-dosen', [DosenController::class, 'importData'])->name('import-dosen');
 Route::fallback(function () {
     return view('layouts.404');
 });

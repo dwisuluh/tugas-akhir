@@ -34,13 +34,11 @@
   <link href="{{ asset('/') }}plugins/vendor/simple-datatables/style.css" rel="stylesheet">
   <link href="{{ asset('/') }}plugins/dist/css/select2.min.css" rel="stylesheet">
   <link href="{{ asset('/') }}plugins/datepicker/css/bootstrap-datepicker3.min.css" rel="stylesheet">
-  {{-- <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css"> --}}
-  <!-- Template Main CSS File -->
   <link href="{{ asset('/') }}plugins/css/style.css" rel="stylesheet">
   <link href="{{ asset('/') }}plugins/css/trix.css" rel="stylesheet">
 
   <script src="{{ asset('/') }}plugins/js/trix.umd.min.js"></script>
+  @livewireStyles
 
   <style>
     trix-toolbar [data-trix-button-group="file-tools"] {
@@ -106,6 +104,7 @@
 
   <!-- Template Main JS File -->
   <script src="{{ asset('/') }}plugins/js/main.js"></script>
+  @livewireScripts
   <script>
     $(document).ready(function() {
       $('#pembimbing').select2({

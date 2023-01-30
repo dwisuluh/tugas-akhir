@@ -33,7 +33,6 @@
               method="POST" novalidate>
               @method('put')
               @csrf
-              {{-- <input type="hidden" value="{{ $find->id }}" name="userId"> --}}
               <div class="col-12">
                 <div class="row mb-3">
                   <label for="inputText" class="col-sm-3 col-form-label">Password Lama</label>
@@ -72,7 +71,6 @@
                 </div>
               </div>
               <div class="row mb-3">
-                {{-- <label class="col-sm-2 col-form-label"></label> --}}
                 <div class="col-md-6 text-start">
                   <button type="cancel" class="btn btn-danger text-start"> Cancel </button>
                 </div>
@@ -80,9 +78,7 @@
                   <button type="submit" class="btn btn-primary"> Submit </button>
                 </div>
               </div>
-
             </form><!-- End General Form Elements -->
-
           </div>
         </div>
       </div>

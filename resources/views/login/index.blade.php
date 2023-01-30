@@ -28,7 +28,6 @@
               <div class="card-body">
                 <div class="pt-4 pb-2">
                   <h5 class="card-title text-center pb-0 fs-4">Login</h5>
-                  {{-- <p class="text-center small">Enter username & password to login</p> --}}
                 </div>
                 @if (session()->has('loginError'))
                   <div class="d-flex justify-content-center py-4 mt-3 mb-3">
@@ -48,8 +47,6 @@
                     <div class="input-group has-validation">
                       <input type="text" name="username" class="form-control @error('username') is-invalid @enderror"
                         id="yourUsername" value="{{ old('username') }}" required autocomplete="username" autofocus>
-
-                      {{-- <div class="invalid-feedback">Please enter your username.</div> --}}
                       @error('username')
                         <span class="invalid-feedback" role="alert">
                           <strong>{{ $message }}</strong>
@@ -57,14 +54,11 @@
                       @enderror
                     </div>
                   </div>
-
                   <div class="col-12">
                     <label for="yourPassword" class="form-label">Password</label>
                     <input type="password" name="password" class="form-control @error('password') is-invalid @enderror"
                       id="yourPassword" required>
-                    {{-- <div class="invalid-feedback">Please enter your password!</div> --}}
                   </div>
-
                   <div class="col-12">
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="remember" value="true" id="rememberMe"
@@ -77,7 +71,7 @@
                   </div>
                 </form>
                 <div class="col-12 mt-2">
-                    <a href="{{ url('search') }}" class="btn btn-info w-100">Lacak Surat</a>
+                  <a href="{{ url('search') }}" class="btn btn-info w-100">Lacak Surat</a>
                 </div>
                 <div class="col-12">
                   <p class="small mb-0">Akun belum aktif?

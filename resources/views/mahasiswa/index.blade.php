@@ -62,9 +62,9 @@
                         data-placement="top" title="Edit"><i class="bi bi-pencil"></i></a>
                       <form method="POST" action="{{ route('mahasiswa.destroy', $mahasiswa->id) }}"
                         class="d-inline">
-                        @method('DELETE')
                         @csrf
-                        <button type="button" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Benar akan dihapus?')"><i class="bi bi-trash" data-toggle="tooltip"
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah {{ $mahasiswa->name }} benar akan dihapus?')"><i class="bi bi-trash" data-toggle="tooltip"
                             data-placement="top" title="Delete"></i></button>
                       </form>
                     </td>
