@@ -27,7 +27,7 @@
                   <th scope="col">#</th>
                   <th scope="col">Tujuan</th>
                   <th scope="col">Tanggal Surat</th>
-                  <th scope="col">Tanggal Pengajuan</th>
+                  <th scope="col">Waktu Pengajuan</th>
                   <th scope="col">Status</th>
                 </tr>
               </thead>
@@ -87,7 +87,7 @@
                   <th scope="col">#</th>
                   <th scope="col">Tujuan</th>
                   <th scope="col">Tanggal Surat</th>
-                  <th scope="col">Tanggal Pengajuan</th>
+                  <th scope="col">Waktu Pengajuan</th>
                   <th scope="col">Status</th>
                 </tr>
               </thead>
