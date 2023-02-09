@@ -57,6 +57,10 @@
                 <div class="col-lg-3 col-md-4 label">Tanggal Surat</div>
                 <div class="col-lg-9 col-md-8">{{ $surat->tgl_indo }}</div>
               </div>
+              <div class="row mb-2">
+                <div class="col-lg-3 col-md-4 label">Catatan</div>
+                <div class="col-lg-9 col-md-8">{!! $surat->catatan !!}</div>
+              </div>
               @if ($surat->status == 3)
                 <div class="row mb-2">
                   <div class="col-lg-3 col-md-4 label">File</div>

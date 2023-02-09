@@ -160,6 +160,9 @@ class PenelitianController extends Controller
         if ($request->status == 3) {
             $rules['file'] = ['required', 'mimes:pdf'];
         }
+        if($request->status == 4){
+            $rules['catatan'] = ['required'];
+        }
         $request->validate($rules);
         if ($request->status == 2) {
             $surat->update([
@@ -219,8 +222,9 @@ class PenelitianController extends Controller
         }
         if ($request->status == 4) {
             $surat->update([
-                'tgl_surat' => $request->tanggal,
+                'tgl_surat' => Carbon::createFromFormat('d/m/Y', $request->tglSurat),
                 'status' => $request->status,
+                'catatan' => $request->catatan,
                 'admin'  => Auth::user()->name
             ]);
             $send = [

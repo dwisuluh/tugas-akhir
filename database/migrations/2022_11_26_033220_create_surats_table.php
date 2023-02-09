@@ -28,6 +28,7 @@ return new class extends Migration
             $table->date('tgl_surat')->nullable();
             $table->string('admin',100)->nullable();
             $table->enum('status',['1','2','3','4'])->default('1');
+            $table->text('catatan')->nullable();
             $table->timestamps();
         });
     }

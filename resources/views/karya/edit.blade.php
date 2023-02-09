@@ -154,42 +154,6 @@
                     @enderror
                   </div>
                 </div>
-                @if ($title === 'Penelitian')
-                  <div class="row mb-3">
-                    <label for="Lokasi" class="col-sm-2 col-form-label">Lokasi Penelitian</label>
-                    <div class="col-sm-10">
-                      <input id="lokasi" type="hidden" name="lokasi" value="{{ old('lokasi') }}">
-                      <trix-editor input="lokasi"
-                        class="@error('lokasi')
-                      is-invalid
-                  @enderror">
-                      </trix-editor>
-                      @error('lokasi')
-                        <span class="invalid-feedback" role="alert">
-                          <strong>{{ $message }}</strong>
-                        </span>
-                      @enderror
-                    </div>
-                  </div>
-                  <div class="row mb-3">
-                    <label for="inputDate" class="col-sm-2 col-form-label">Tanggal Pelaksanaan</label>
-                    <div class="col-sm-4">
-                      <input type="date" class="form-control"
-                        @error('tgl_awal')
-                        is-invalid
-                    @enderror name="tgl_awal"
-                        value="{{ old('tgl_awal') }}" required>
-                    </div>
-                    <label for="inputDate" class="col-sm-1 col-form-label"> Sampai </label>
-                    <div class="col-sm-4">
-                      <input type="date"
-                        class="form-control @error('tgl_akhir')
-                        is-invalid
-                    @enderror"
-                        name="tgl_akhir" value="{{ old('tgl_akhir') }}" required>
-                    </div>
-                  </div>
-                @endif
                 <div class="row mb-3">
                   <div class="col-md-6 text-start">
                     <a href="{{ url()->previous() }}" type="submit" class="btn btn-danger text-start"> Cancel </a>

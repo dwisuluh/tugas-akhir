@@ -193,13 +193,31 @@
                   <div class="col-sm-6">
                     <select class="form-select" aria-label="Default select example" name="status" required>
                       <option value="2">Proses</option>
-                      @if($surat->status != 1)
-                      <option value="3" {{ $surat->status == 2 ? 'selected' : '' }}>Selesai</option>
+                      @if ($surat->status != 1)
+                        <option value="3" {{ $surat->status == 2 ? 'selected' : '' }}>Selesai</option>
                       @endif
-                      <option value="4">Tolak</option>
+                      <option value="4" {{ old('status') == 4 ? 'selected' : '' }}>Tolak</option>
                     </select>
                   </div>
                 </div>
+                @if ($surat->status == 1)
+                  <div class="row mb-3">
+                    <label for="Catatan" class="col-sm-2 col-form-label">Catatan</label>
+                    <div class="col-sm-10">
+                      <input id="catatan" type="hidden" name="catatan" value="{{ old('catatan', $surat->catatan) }}">
+                      <trix-editor input="catatan"
+                        class="@error('catatan')
+                        is-invalid
+                    @enderror">
+                      </trix-editor>
+                      @error('catatan')
+                        <span class="invalid-feedback" role="alert">
+                          <strong>{{ $message }}</strong>
+                        </span>
+                      @enderror
+                    </div>
+                  </div>
+                @endif
                 <div class="row mb-3">
                   <div class="col-md-6 text-start">
                     <a type="button" href="{{ url()->previous() }}" class="btn btn-danger text-start"> Cancel

@@ -54,6 +54,12 @@
                 <div class="col-lg-9 col-md-8">{{ $karyaIlmiah->pembimbing_2 }}</div>
               </div>
             @endif
+            @if ($karyaIlmiah->status == 4)
+              <div class="row mb-4">
+                <div class="col-lg-2 col-md-2 label">Catatan</div>
+                <div class="col-lg-9 col-md-8 alert alert-danger alert-dismissible fade show">{{ $karyaIlmiah->catatan }}</div>
+              </div>
+            @endif
             <div class="row mb-2">
               <div class="col-lg-2 col-md-2 label">File</div>
               <div class="col-lg-10 col-md-10">
@@ -68,9 +74,9 @@
               </div>
               <div class="col-6 text-end">
                 @if ($karyaIlmiah->status == 3)
-                <a href="{{ route('file-karya.show', $karyaIlmiah->filekarya->where('jenis_file', 2)->first()->id) }}"
-                    target="_blank" type="button" class="btn btn-success btn-sm"><i
-                      class="bi bi-cloud-download"></i> Download</a>
+                  <a href="{{ route('file-karya.show', $karyaIlmiah->filekarya->where('jenis_file', 2)->first()->id) }}"
+                    target="_blank" type="button" class="btn btn-success btn-sm"><i class="bi bi-cloud-download"></i>
+                    Download</a>
                 @endif
                 @can('mhs')
                   @if ($karyaIlmiah->status == 1)
@@ -80,12 +86,15 @@
                 @endcan
                 @can('admin')
                   @if ($karyaIlmiah->status == 1)
-                    <form method="POST" action="{{ route($link . '.destroy', $karyaIlmiah->id) }}" class="d-inline">
-                      @method('DELETE')
-                      @csrf
-                      <button type="submit" class="btn btn-danger"><i class="bi bi-x-circle" data-toggle="tooltip"
-                          data-placement="top" title="Reject"></i> Reject</button>
-                    </form>
+                    <!--<form method="POST" action="{{ route($link . '.destroy', $karyaIlmiah->id) }}" class="d-inline">-->
+                    <!--  @method('DELETE')-->
+                    <!--  @csrf-->
+                    <!--  <button type="submit" class="btn btn-danger"><i class="bi bi-x-circle" data-toggle="tooltip"-->
+                    <!--      data-placement="top" title="Reject"></i> Reject</button>-->
+                    <!--</form>-->
+                    <a id="isiBody" class="btn btn-danger" type="button" data-toggle="tooltip" data-placement="top"
+                      data-bs-toggle="modal" data-bs-target="#disablebackdrop" title="Reject"><i class="bi bi-x-circle"></i>
+                      Reject</a>
                     <form method="POST" action="{{ route($link . '.update', $karyaIlmiah->id) }}" class="d-inline">
                       @method('PUT')
                       @csrf
@@ -107,3 +116,38 @@
     </div>
   </section>
 @endsection
+<div class="modal fade" id="disablebackdrop" tabindex="-1" data-bs-backdrop="false">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Catatan Penolakan</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="isiBody">
+        <div>
+          <form method="POST" action="{{ route($link . '.destroy', $karyaIlmiah->id) }}" class="d-inline">
+            @method('DELETE')
+            @csrf
+
+            <div clas="row mb-3">
+              <label for="Catatan" class='form-label'>Deskripsi</label>
+
+              <textarea name="catatan" class="textarea form-control @error('catatan') is-invalid @enderror" id="catatan"
+                cols="40" rows="5" required></textarea>
+              @error('catatan')
+                <span class="invalid-feedback" role="alert">
+                  <strong>{{ $message }}</strong>
+                </span>
+              @enderror
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-danger"><i class="bi bi-x-circle" data-toggle="tooltip"
+            data-placement="top" title="Reject"></i> Reject</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>

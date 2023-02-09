@@ -141,6 +141,9 @@ class ObservasiController extends Controller
         if ($request->status == 3) {
             $rules['file'] = ['required', 'mimes:pdf'];
         }
+        if($request->status == 4){
+            $rules['catatan'] = ['required'];
+        }
         $request->validate($rules);
 
         if ($request->status == 2) {
@@ -199,8 +202,9 @@ class ObservasiController extends Controller
         }
         if ($request->status == 4) {
             $surat->update([
-                'tgl_surat' => $request->tanggal,
+                'tgl_surat' => Carbon::createFromFormat('d/m/Y', $request->tglSurat),
                 'status' => $request->status,
+                'catatan' => $request->catatan,
                 'admin'  => Auth::user()->name
             ]);
             $send = [
@@ -228,12 +232,11 @@ class ObservasiController extends Controller
     {
         $surat->update(['status' => 4]);
 
-        return redirect('surat-observasi')->with('danger','Surat pengajuan studi pendahuluan berhasil dibatalkan atau ditolak,,,!!!');
+        return redirect('surat-observasi')->with('danger','Surat pengajuan studi pendahuluan berhasil dibatalkan atau ditolak...!!!');
 
     }
     public function print(Surat $surat)
     {
-        // dd($surat);
         $surat->load(['files', 'mahasiswa']);
         $lokasi = 'pendahuluan/';
         return view('surat.print', compact(['surat', 'lokasi']));
