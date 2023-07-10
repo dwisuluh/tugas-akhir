@@ -158,7 +158,7 @@ class PenelitianController extends Controller
             $rules['lokasi'] = ['required'];
         }
         if ($request->status == 3) {
-            $rules['file'] = ['required', 'mimes:pdf'];
+            $rules['file'] = ['required', 'mimes:pdf','max:2048'];
         }
         if($request->status == 4){
             $rules['catatan'] = ['required'];

@@ -70,7 +70,7 @@ class KaryaIlmiahController extends Controller
             'judul' => 'required',
             'tgl_ujian' => 'required',
             'pembimbing1' => 'required',
-            'file'  => 'required|mimes:pdf'
+            'file'  => 'required|mimes:pdf|max:2048'
         ];
 
         $request->validate($rules);

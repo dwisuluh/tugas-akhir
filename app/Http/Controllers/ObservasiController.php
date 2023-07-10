@@ -123,6 +123,7 @@ class ObservasiController extends Controller
     public function update(Request $request, Surat $surat)
     {
         $rules = [];
+
         if ($request->status == 2) {
             $rules = [
                 'noSurat' => 'required',
@@ -139,7 +140,7 @@ class ObservasiController extends Controller
             $rules['judul'] = ['required'];
         }
         if ($request->status == 3) {
-            $rules['file'] = ['required', 'mimes:pdf'];
+            $rules['file'] = ['required', 'mimes:pdf','max:2048'];
         }
         if($request->status == 4){
             $rules['catatan'] = ['required'];
